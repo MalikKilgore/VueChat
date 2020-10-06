@@ -11,8 +11,20 @@
           placeholder="Enter your e-mail address..."
           required
         >
-        <button @click="submitEmail">
-          Submit
+        <label for="password">Password</label>
+        <input
+          id="password"
+          v-model="password"
+          type="text"
+          name="password"
+          placeholder="Enter your password..."
+          required
+        >
+        <button v-on:click="loginUser">
+          Login
+        </button>
+        <button v-on:click="createUser">
+          Create
         </button>
       </div>
     </form>
@@ -21,19 +33,42 @@
 
 <script>
 import Vue from 'vue'
-//import firebase from 'firebase'
+import firebase from 'firebase'
+import Vuefire from 'vuefire'
+import 'firebase/auth'
+// import {db, userBase} from '../firebase/db.js'
+
 
 export default {
   
   email: '',
-  id: '',
+  password: '',
     
-  /*firebase: {
-    name: ''
+  firebase: {
+    email: '',
+    password: '',
   },
-  submitEmail () {
-    users.push({ email: this.email, edit: false })
-  } */
+  components: {
+    
+  },
+
+  
+  methods: {
+    
+    loginUser () {
+      users.push({ email: this.email, edit: false })
+    },
+
+    createUser() {
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+      .then(user => {
+        alert(`Account created for ${user.email}`);
+        userBase.push({ email: this.email, password: this.password, edit: false })
+        this.$router.push('/home')
+      })
+    },
+    
+  }
 }
 </script>
 

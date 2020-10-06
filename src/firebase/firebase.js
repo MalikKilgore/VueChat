@@ -2,9 +2,11 @@ import Vue from 'vue'
 import { firestorePlugin } from 'vuefire'
 import firebase from 'firebase'
 import 'firebase/firestore'
+import 'firebase/auth'
 
 Vue.use(firestorePlugin)
 
+// firebase init - add your own config here
 const firebaseConfig = {
     apiKey: "AIzaSyCLZBoD5Pfym98sFixMTlTwxMpjykbnvBY",
     authDomain: "vuechat-80a67.firebaseapp.com",
@@ -17,3 +19,18 @@ const firebaseConfig = {
 
 //Initialize Firebase
 firebase.initializeApp(firebaseConfig)
+
+// utils
+const db = firebase.firestore()
+const auth = firebase.auth()
+
+// collection references
+const usersCollection = db.collection('users')
+const msgCollection = db.collection('messages')
+
+export {
+    db,
+    auth,
+    usersCollection,
+    msgCollection
+}

@@ -1,8 +1,8 @@
 <template>
   <div id="nav">
-    <router-link to="/home">Home</router-link> |
+    <router-link to="/">Home</router-link> |
     <router-link to="/chatrooms">Chatrooms</router-link> |
-    <router-link to="/">Join</router-link>
+    <router-link to="/join">Join</router-link>
   </div>
   <router-view/>
 </template>
