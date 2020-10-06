@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <form>
+    <form @submit.prevent>
       <div class="form-control">
         <label for="email">E-mail</label>
         <input
@@ -24,7 +24,7 @@
           Login
         </button>
         <button v-on:click="createUser">
-          Create
+          Create an account
         </button>
       </div>
     </form>
@@ -36,35 +36,44 @@ import Vue from 'vue'
 import firebase from 'firebase'
 import Vuefire from 'vuefire'
 import 'firebase/auth'
-// import {db, userBase} from '../firebase/db.js'
+import {db, usersCollection} from '../firebase/firebase.js'
 
 
 export default {
   
   email: '',
   password: '',
-    
+   
+  /* 
   firebase: {
     email: '',
     password: '',
   },
+
   components: {
     
-  },
+  }, */
 
-  
   methods: {
     
     loginUser () {
-      users.push({ email: this.email, edit: false })
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      .then(
+        alert(`Sign-in successful for ${this.email}`)
+      )
     },
 
     createUser() {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
       .then(user => {
-        alert(`Account created for ${user.email}`);
-        userBase.push({ email: this.email, password: this.password, edit: false })
-        this.$router.push('/home')
+        alert(`Account created for ${this.email}`);
+        usersCollection.doc(`${this.email}`).set({ 
+          email: this.email, 
+          password: this.password, 
+          edit: false })
+        .then(function() {
+          console.log("Document successfully written!");
+        })
       })
     },
     

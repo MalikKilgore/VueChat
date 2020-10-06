@@ -40,6 +40,7 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
 
   if (requiresAuth && !auth.currentUser) {
+    console.log('User not signed in, redirecting to Login page.')
     next('/join')
   } else {
     next()

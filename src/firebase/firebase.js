@@ -4,7 +4,7 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 import 'firebase/auth'
 
-Vue.use(firestorePlugin)
+// Vue.use(firestorePlugin)
 
 // firebase init - add your own config here
 const firebaseConfig = {
