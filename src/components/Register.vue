@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="register">
     <form @submit.prevent>
       <div class="form-control">
         <label for="email">E-mail</label>
@@ -20,8 +20,8 @@
           placeholder="Enter your password..."
           required
         >
-        <button v-on:click="loginUser">
-          Login
+        <button v-on:click="createUser">
+          Create an account
         </button>
       </div>
     </form>
@@ -42,14 +42,21 @@ export default {
   password: '',
 
   methods: {
-    
-    loginUser () {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-      .then(
-        alert(`Sign-in successful for ${this.email}`)
-      )
-      //catch "The wrong password or e-mail was entered"
+
+    createUser() {
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+      .then(user => {
+        alert(`Account created for ${this.email}`);
+        usersCollection.doc(`${this.email}`).set({ 
+          email: this.email, 
+          password: this.password, 
+          edit: false })
+        .then(function() {
+          console.log("Document successfully written!");
+        })
+      })
     },
+    
   }
 }
 </script>

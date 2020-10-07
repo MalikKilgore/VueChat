@@ -2,16 +2,21 @@
   <div class="join-container">
     <header class="join-header">
       <h1><i class="fas fa-comments"/> Chatter</h1>
+	  		<router-link to="/">Login</router-link> |
+		<router-link to="/join/register">Register</router-link>
     </header>
     <main class="join-main">
-      <Login></Login>
+
+		<router-view/>
     </main>
+	
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import Login from '../components/Login'
+import Register from '../components/Register'
 
 export default {
   name: 'Join',
@@ -19,7 +24,8 @@ export default {
 
   },
   components: {
-    Login
+	Login,
+	Register
   }
 }
 </script>
@@ -42,6 +48,11 @@ export default {
 	background: #379683;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+  	text-align: center;
+  	color: #2c3e50;
 }
 .join-main p {
 	margin-bottom: 20px;

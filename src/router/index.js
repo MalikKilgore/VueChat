@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Chatrooms from '../views/Chatrooms.vue'
 import Join from '../views/Join.vue'
+import Login from '../components/Login.vue'
+import Register from '../components/Register.vue'
 import { auth } from 'firebase'
 
 
@@ -25,7 +27,19 @@ const routes = [
   {
     path: '/join',
     name: 'Join',
-    component: Join
+    component: Join,
+    children: [
+      {
+        path: '',
+        name: 'Login',
+        component: Login,
+      },
+      {
+        path: '/join/register',
+        name: 'Register',
+        component: Register,
+      }
+    ]
   }
 ]
 
