@@ -2,6 +2,24 @@
   <div class="register">
     <form @submit.prevent>
       <div class="form-control">
+        <label for="firstName">First name</label>
+        <input
+          id="firstName"
+          v-model="firstName"
+          type="text"
+          name="firstName"
+          placeholder="Enter your first name..."
+          required
+        >
+        <label for="lastName">Last name</label>
+        <input
+          id="lastName"
+          v-model="lastName"
+          type="text"
+          name="lastName"
+          placeholder="Enter your last name..."
+          required
+        >
         <label for="email">E-mail</label>
         <input
           id="email"
@@ -21,7 +39,7 @@
           required
         >
         <button v-on:click="createUser">
-          Create an account
+          Create account
         </button>
       </div>
     </form>
@@ -32,36 +50,38 @@
 import Vue from 'vue'
 import firebase from 'firebase'
 import Vuefire from 'vuefire'
+import Vuex from 'vuex'
 import 'firebase/auth'
 import {db, usersCollection} from '../firebase/firebase.js'
 
 
 export default {
   
-  email: '',
-  password: '',
+  data() {
+      return {
+        firstName:'',
+        lastName:'',
+        email: '',
+        password: '',
+      }
+  },
 
   methods: {
 
     createUser() {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-      .then(user => {
-        alert(`Account created for ${this.email}`);
-        usersCollection.doc(`${this.email}`).set({ 
-          email: this.email, 
-          password: this.password, 
-          edit: false })
-        .then(function() {
-          console.log("Document successfully written!");
+        this.$store.dispatch('createUser', {
+        email: this.email,
+        password: this.password,
+        name: this.firstName + '  ' + this.lastName,
+        title: this.title
         })
-      })
     },
     
   }
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
  .btn {
 	padding: 5px 15px;
 	background: #5CDB95;

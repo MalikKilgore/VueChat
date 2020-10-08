@@ -33,28 +33,42 @@ import Vue from 'vue'
 import firebase from 'firebase'
 import Vuefire from 'vuefire'
 import 'firebase/auth'
+import router from '../router'
+import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'
 
 
 export default {
   
-  email: '',
-  password: '',
+  data() {
+      return {
+        email: '',
+        password: '',
+      }
+  },
 
   methods: {
-    
+    /*
     loginUser () {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       .then(
-        alert(`Sign-in successful for ${this.email}`)
+        alert(`Sign-in successful for ${this.email}`),
+        this.$router.push('/')
       )
-      //catch "The wrong password or e-mail was entered"
-    },
+    }, */
+
+    login() {
+      //Sends email and password to VueX store. Will replace previous function
+      this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password
+      })
+    }
   }
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
  .btn {
 	padding: 5px 15px;
 	background: #5CDB95;
