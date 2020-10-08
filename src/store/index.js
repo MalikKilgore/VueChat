@@ -20,7 +20,7 @@ export default createStore({
       const { user } = await auth.signInWithEmailAndPassword(form.email, form.password)
   
       // fetch user profile and set in state
-      dispatch('fetchUserProfile', user)
+      dispatch('fetchUserProfile', user).then(alert(`Sign-in successful for ${form.email}`))
     },
 
     async fetchUserProfile({ commit }, user) {
@@ -45,9 +45,10 @@ export default createStore({
         password: form.password,
         edit: false
       })
+
     
       // fetch user profile and set in state
-      dispatch('fetchUserProfile', user)
+      dispatch('fetchUserProfile', user).then(alert(`Account created for ${form.email}`))
     },
 
   },

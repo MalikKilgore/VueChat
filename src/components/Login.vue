@@ -20,7 +20,7 @@
           placeholder="Enter your password..."
           required
         >
-        <button v-on:click="loginUser">
+        <button v-on:click="login">
           Login
         </button>
       </div>
@@ -48,17 +48,8 @@ export default {
   },
 
   methods: {
-    /*
-    loginUser () {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-      .then(
-        alert(`Sign-in successful for ${this.email}`),
-        this.$router.push('/')
-      )
-    }, */
-
     login() {
-      //Sends email and password to VueX store. Will replace previous function
+      //Sends information to VueX store.
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password

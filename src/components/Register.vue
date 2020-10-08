@@ -69,6 +69,7 @@ export default {
   methods: {
 
     createUser() {
+        //Sends information to VueX store.
         this.$store.dispatch('createUser', {
         email: this.email,
         password: this.password,

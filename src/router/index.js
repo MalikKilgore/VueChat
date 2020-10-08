@@ -4,8 +4,7 @@ import Chatrooms from '../views/Chatrooms.vue'
 import Join from '../views/Join.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
-import { auth } from 'firebase'
-
+import { auth } from '../firebase/firebase.js'
 
 const routes = [
   {
