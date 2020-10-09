@@ -38,13 +38,23 @@ export default {
 .join-header {
 	text-align: center;
 	padding: 20px;
-	background: #05386B;
+	background: #7289DA;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+
+	a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    	&.router-link-exact-active {
+      	color: #e8edff;
+    	}
+  	}
 }
+
 .join-main {
 	padding: 40px 50px;
-	background: #379683;
+	background: #2C2F33;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	font-family: Avenir, Helvetica, Arial, sans-serif;

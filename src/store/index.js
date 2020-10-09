@@ -51,6 +51,14 @@ export default createStore({
       dispatch('fetchUserProfile', user).then(alert(`Account created for ${form.email}`))
     },
 
+    async logout({ commit }) {
+      await auth.signOut()
+    
+      // clear userProfile and redirect to login page
+      commit('setUserProfile', {})
+      router.push('/join')
+    },
+
   },
   modules: {
   }

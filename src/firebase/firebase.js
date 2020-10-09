@@ -3,10 +3,9 @@ import { firestorePlugin } from 'vuefire'
 import firebase from 'firebase'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/messaging'
 
-// Vue.use(firestorePlugin)
-
-// firebase init - add your own config here
+// Firebase init - project configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCLZBoD5Pfym98sFixMTlTwxMpjykbnvBY",
     authDomain: "vuechat-80a67.firebaseapp.com",
@@ -20,11 +19,22 @@ const firebaseConfig = {
 //Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
-// utils
+// Utils
 const db = firebase.firestore()
 const auth = firebase.auth()
 
-// collection references
+/* TODO: Implementing Cloud messaging after other features are finished
+
+const messaging = firebase.messaging();
+
+// Messaging permissions
+
+
+// Public messaging key
+messaging.getToken("BILCRUUcAOMn5QPUgyDhfhBc6WTHYVzkRT-DeYFhOsBefjKMRLb0GK5pEW2iyQigWLUcKR8pYOumUYaT5VAMyCE");
+*/
+
+// Collection references
 const usersCollection = db.collection('users')
 const msgCollection = db.collection('messages')
 

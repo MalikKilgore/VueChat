@@ -1,20 +1,30 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <p>
-      Shows list of friends, and current open DMs. <br>
-      "Rooms" list will be on far left, past friend navbar. Listed below "Home" section.
-    </p>
+    <HomeNav></HomeNav>
+    <Messages></Messages>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import HomeNav from '../components/HomeNav'
+import Messages from '../components/Messages'
+
 
 
 export default {
   name: 'Home',
   components: {
-
+    HomeNav,
+    Messages
   }
 }
 </script>
+
+<style lang="scss">
+.home {
+  display: grid;
+	grid-template-columns: 1fr 3fr;
+  overflow: hidden;
+}
+</style>

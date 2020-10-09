@@ -1,11 +1,20 @@
 <template>
-  <div id="nav">
-    <router-link to="/" class="homeLink">Home</router-link> |
-    <router-link to="/chatrooms" class="chatLink">Chatrooms</router-link> |
-    <router-link to="/join" class="joinLink">Join </router-link>
+  <div id="root">
+    <SiteNav></SiteNav>
   </div>
-  <router-view/>
 </template>
+
+<script>
+import Vue from 'vue'
+import SiteNav from './components/SiteNav'
+
+export default {
+  name: 'App',
+  components: {
+    SiteNav
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

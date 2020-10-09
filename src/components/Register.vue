@@ -38,7 +38,7 @@
           placeholder="Enter your password..."
           required
         >
-        <button v-on:click="createUser">
+        <button class="btn" v-on:click="createUser">
           Create account
         </button>
       </div>
@@ -83,10 +83,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+label {
+  color: #e4ece8;
+}
+
  .btn {
 	padding: 5px 15px;
-	background: #5CDB95;
-	color: #05386B;
+	background: #e4ece8;
+	color: #2c3e50;
 	border: 0;
 	border-radius: 5px;
 	font-size: 17px;
