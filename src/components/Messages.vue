@@ -1,19 +1,19 @@
 <template>
     <div class="chat-messages">
-
-    </div>
-    <div class="chat-form-container">
-      <!--TODO: This form SUBMITS a send request. Make it so the two separate buttons don't both submit.
-      chatForm is event listener. START THERE-->
-      <form id="chat-form" @submit.prevent>
-        <input
-          id="msg"
-          type="text"
-          placeholder="Enter Message"
-          autocomplete="off"
-        />
-        <button class="btn" v-on:click="sendMsg">Send</button>
-      </form>
+      <div class="chat-form-container">
+        <form id="chat-form" @submit.prevent>
+          <input
+            id="message"
+            name="message"
+            type="text"
+            placeholder="Send a message..."
+            v-model="message"
+            autocomplete="off"
+            required
+          />
+          <button class="btn" v-on:click="sendMsg">Send</button>
+        </form>
+      </div>
     </div>
 </template>
 
@@ -30,24 +30,56 @@ import {db, usersCollection} from '../firebase/firebase.js'
 
 export default {
     name: 'Messages',
+    data() {
+      return {
+        message: {
+          content: '',
+        },
+      }
+    },
     components: {
 
     },
     methods: {
-        sendMsg(){
-
-        }
+      //Send message to the database the user is currently looking at
+      sendMsg(){
+          this.$store.dispatch('sendMsg', {
+              message: this.message.content,
+          })
+          this.message.content = ''
+      },
+        
     },
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .chat-messages {
-    background-color: #2C2F33;
-    height: 100%;
-    width: 3fr;
-    padding: 30px;
+  background-color: #2C2F33;
+  height: 100%;
+  width: 3fr;
+  padding: 30px;
 	max-height: 500px;
 	overflow-y: scroll;
+}
+
+.chat-form-container form {
+  display: flex;
+}
+
+.chat-form-container input[type='text'] {
+	font-size: 16px;
+	padding: 5px;
+	height: 40px;
+	flex: 1;
+}
+
+.btn {
+	padding: 5px 15px;
+	background: #ffffff;
+	color: #2c3e50;
+	border: 0;
+	border-radius: 5px;
+	font-size: 17px;
 }
 </style>

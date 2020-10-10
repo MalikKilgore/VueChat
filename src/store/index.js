@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase'
 import router from '../router/index'
-import { usersCollection, auth } from '../firebase/firebase.js'
+import { roomCollection, dmCollection, usersCollection, auth } from '../firebase/firebase.js'
 
 export default createStore({
   state: {
@@ -39,11 +39,13 @@ export default createStore({
       const { user } = await auth.createUserWithEmailAndPassword(form.email, form.password)
     
       // create user profile object in userCollections
+      // TODO: Change document names to full username
       await usersCollection.doc(user.uid).set({
         name: form.name,
         email: form.email,
         password: form.password,
-        edit: false
+        edit: false,
+        UID: user.uid
       })
 
     
@@ -56,7 +58,18 @@ export default createStore({
     
       // clear userProfile and redirect to login page
       commit('setUserProfile', {})
+      alert('You have signed out')
       router.push('/join')
+    },
+
+    async sendMsg({ state, commit }, message) {
+      //Add message to databases. TODO: Need Switch selector based on the chatroom/database. USE .set
+      await roomCollection.add({
+        createdOn: new Date(),
+        content: message.content,
+        UID: auth.currentUser.uid,
+        userName: state.userProfile.name,
+      })
     },
 
   },

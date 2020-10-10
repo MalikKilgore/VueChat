@@ -13,7 +13,11 @@ const routes = [
     component: Home,
     meta: {
       requiresAuth: true
-    }
+    },
+    children: {
+      /* Needs to pull from usersCollection and create router links based on that. 
+        TODO: Get Chatrooms working first*/
+    },
   },
   {
     path: '/chatrooms',
@@ -21,7 +25,10 @@ const routes = [
     component: Chatrooms,
     meta: {
       requiresAuth: true
-    }
+    },
+    children: {
+      /* 6 Chatroom router links */
+    },
   },
   {
     path: '/join',

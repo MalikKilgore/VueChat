@@ -66,7 +66,7 @@ label {
 
 .btn {
 	padding: 5px 15px;
-	background: #e4ece8;
+	background: #ffffff;
 	color: #2c3e50;
 	border: 0;
 	border-radius: 5px;

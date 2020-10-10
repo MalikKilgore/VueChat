@@ -6,6 +6,7 @@
 
 <script>
 import Vue from 'vue'
+import { mapState } from 'vuex'
 import SiteNav from './components/SiteNav'
 
 export default {
@@ -25,16 +26,4 @@ export default {
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>

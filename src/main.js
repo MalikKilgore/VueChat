@@ -4,13 +4,18 @@ import 'firebase/auth'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './assets/styles.css'
 import { auth } from './firebase/firebase'
 
-const app = createApp(App).use(store).use(router).mount('#app')
+// createApp(App).use(store).use(router).mount('#app')
 
-/*
-auth.onAuthStateChanged(function(app) {
+let app
+auth.onAuthStateChanged(user => {
   if (!app) {
-    return app = createApp(app).use(store).use(router).mount('#app')
+    return app = createApp(App).use(store).use(router).mount('#app')
   }
-}) */
+
+  if (user) {
+    store.dispatch('fetchUserProfile', user)
+  }
+}) 

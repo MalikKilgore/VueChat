@@ -54,7 +54,7 @@ export default {
 
 .join-main {
 	padding: 40px 50px;
-	background: #2C2F33;
+	background: #3e4247;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	font-family: Avenir, Helvetica, Arial, sans-serif;

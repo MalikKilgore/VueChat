@@ -34,13 +34,16 @@ const messaging = firebase.messaging();
 messaging.getToken("BILCRUUcAOMn5QPUgyDhfhBc6WTHYVzkRT-DeYFhOsBefjKMRLb0GK5pEW2iyQigWLUcKR8pYOumUYaT5VAMyCE");
 */
 
-// Collection references
+// Collection references - https://firebase.google.com/docs/firestore/data-model
 const usersCollection = db.collection('users')
-const msgCollection = db.collection('messages')
+const roomCollection = db.collection('messages').doc('Chatrooms')
+// Used to create a new collection between two users
+const dmCollection = db.collection('messages').doc('Private')
 
 export {
     db,
     auth,
     usersCollection,
-    msgCollection
+    roomCollection,
+    dmCollection
 }

@@ -1,10 +1,16 @@
 <template>
   <div class="chatrooms">
-    <h1>This will have seperate chatrooms to join</h1>
+    <ChatNav></ChatNav>
+    <Messages></Messages>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import Messages from '../components/Messages'
+import ChatNav from '../components/ChatNav'
+
+
 export default {
   name: 'Chatrooms',
   components: {

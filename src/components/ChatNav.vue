@@ -1,5 +1,5 @@
 <template>
-    <div id="homeNav">
+    <div id="chatNav">
 
     </div>
 </template>
@@ -18,7 +18,7 @@ import {db, usersCollection} from '../firebase/firebase.js'
 //Get users. Display user.name.
 
 export default {
-    name: 'HomeNav',
+    name: 'ChatNav',
     components: {
 
     }
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style lang="scss">
-#homeNav {
+#chatNav {
     background-color: #23272A;
     overflow-y: scroll;
     height: 100%;
