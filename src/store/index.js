@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase'
 import router from '../router/index'
-import { roomCollection, dmCollection, usersCollection, auth } from '../firebase/firebase.js'
+import { dmCollection, usersCollection, auth } from '../firebase/firebase.js'
 
 export default createStore({
   state: {
@@ -63,12 +63,15 @@ export default createStore({
 
     async sendMsg({ state, commit }, message) {
       //Add message to databases. TODO: Need Switch selector based on the chatroom/database. USE .set
+
+      /*
       await roomCollection.add({
         createdOn: new Date(),
         content: message.content,
         UID: auth.currentUser.uid,
         userName: state.userProfile.name,
-      })
+      }) */
+
     },
 
   },

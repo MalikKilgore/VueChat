@@ -1,5 +1,8 @@
 <template>
     <div class="chat-messages">
+
+    </div>
+    <br>
       <div class="chat-form-container">
         <form id="chat-form" @submit.prevent>
           <input
@@ -13,8 +16,7 @@
           />
           <button class="btn" v-on:click="sendMsg">Send</button>
         </form>
-      </div>
-    </div>
+      </div>    
 </template>
 
 <script>
@@ -46,7 +48,7 @@ export default {
           this.$store.dispatch('sendMsg', {
               message: this.message.content,
           })
-          this.message.content = ''
+          // this.message.content = ''
       },
         
     },
@@ -56,11 +58,15 @@ export default {
 <style scoped lang="scss">
 .chat-messages {
   background-color: #2C2F33;
-  height: 100%;
+  height: 300px;
   width: 3fr;
   padding: 30px;
 	max-height: 500px;
 	overflow-y: scroll;
+}
+
+.chat-form-container {
+  width: 100%;
 }
 
 .chat-form-container form {

@@ -16,10 +16,12 @@ const routes = [
     },
     children: {
       /* Needs to pull from usersCollection and create router links based on that. 
-        Haave a listener on the collection that automatically updates for each new user account added and rmoved.
+        Haave a listener on the collection that automatically updates for each new user account added and removed.
+        Append router link to HomeNav
         TODO: Get Chatrooms working first*/
     },
   },
+
   {
     path: '/chatrooms',
     name: 'Chatrooms',
@@ -27,10 +29,26 @@ const routes = [
     meta: {
       requiresAuth: true
     },
-    children: {
-      /* 6 Chatroom router links */
-    },
+    // LOOK INTO DYNAMIC ROUTING
+    children: [
+      {
+        path: '/creative',
+        name: 'Creative',
+        component: ''
+      },
+      {
+        path: '/networking',
+        name: 'Networking',
+        component: ''
+      },
+      {
+        path: '/programming',
+        name: 'Programming',
+        component: ''
+      },
+    ]
   },
+
   {
     path: '/join',
     name: 'Join',

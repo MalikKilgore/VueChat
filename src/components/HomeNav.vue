@@ -15,11 +15,14 @@ import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'
 
 //Populate this with clickable user divs from usersCollection
-//Get users. Display user.name.
+//Get users. Display user.name. Messages should be child of HomeNav router-links
 
 export default {
     name: 'HomeNav',
     components: {
+
+    },
+    methods: {
 
     }
 }
@@ -29,7 +32,7 @@ export default {
 #homeNav {
     background-color: #23272A;
     overflow-y: scroll;
-    height: 100%;
+    height: 300px;
     width: 1fr;
     padding: 30px;
 	max-height: 500px;

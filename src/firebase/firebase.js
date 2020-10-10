@@ -1,3 +1,14 @@
+/* TODO: Implementing Cloud messaging after other features are finished
+
+const messaging = firebase.messaging();
+
+// Messaging permissions
+
+
+// Public messaging key
+messaging.getToken("BILCRUUcAOMn5QPUgyDhfhBc6WTHYVzkRT-DeYFhOsBefjKMRLb0GK5pEW2iyQigWLUcKR8pYOumUYaT5VAMyCE");
+*/
+
 import Vue from 'vue'
 import { firestorePlugin } from 'vuefire'
 import firebase from 'firebase'
@@ -23,20 +34,12 @@ firebase.initializeApp(firebaseConfig)
 const db = firebase.firestore()
 const auth = firebase.auth()
 
-/* TODO: Implementing Cloud messaging after other features are finished
-
-const messaging = firebase.messaging();
-
-// Messaging permissions
-
-
-// Public messaging key
-messaging.getToken("BILCRUUcAOMn5QPUgyDhfhBc6WTHYVzkRT-DeYFhOsBefjKMRLb0GK5pEW2iyQigWLUcKR8pYOumUYaT5VAMyCE");
-*/
-
 // Collection references - https://firebase.google.com/docs/firestore/data-model
 const usersCollection = db.collection('users')
-const roomCollection = db.collection('messages').doc('Chatrooms')
+
+const programChat = db.collection('messages').doc('Chatrooms').collection('programming')
+const networkChat = db.collection('messages').doc('Chatrooms').collection('networking')
+const creativeChat = db.collection('messages').doc('Chatrooms').collection('creative')
 // Used to create a new collection between two users
 const dmCollection = db.collection('messages').doc('Private')
 
@@ -44,6 +47,8 @@ export {
     db,
     auth,
     usersCollection,
-    roomCollection,
-    dmCollection
+    dmCollection,
+    programChat,
+    networkChat,
+    creativeChat
 }
