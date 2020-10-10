@@ -39,13 +39,12 @@ export default createStore({
       const { user } = await auth.createUserWithEmailAndPassword(form.email, form.password)
     
       // create user profile object in userCollections
-      // TODO: Change document names to full username
-      await usersCollection.doc(user.uid).set({
+      await usersCollection.doc(form.name).set({
         name: form.name,
         email: form.email,
         password: form.password,
         edit: false,
-        UID: user.uid
+        uid: user.uid
       })
 
     

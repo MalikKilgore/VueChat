@@ -25,7 +25,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 #homeNav {
     background-color: #23272A;
     overflow-y: scroll;

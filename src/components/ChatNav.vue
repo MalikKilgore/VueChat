@@ -14,7 +14,7 @@ import router from '../router'
 import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'
 
-//Populate this with clickable user divs from usersCollection
+//Populate this with clickable user divs from roomCollection
 //Get users. Display user.name.
 
 export default {
@@ -25,7 +25,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 #chatNav {
     background-color: #23272A;
     overflow-y: scroll;

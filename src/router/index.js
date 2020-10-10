@@ -16,6 +16,7 @@ const routes = [
     },
     children: {
       /* Needs to pull from usersCollection and create router links based on that. 
+        Haave a listener on the collection that automatically updates for each new user account added and rmoved.
         TODO: Get Chatrooms working first*/
     },
   },
