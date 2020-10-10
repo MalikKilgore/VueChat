@@ -35,6 +35,10 @@ export default {
     height: 300px;
     width: 1fr;
     padding: 30px;
-	max-height: 500px;
+    max-height: 500px;
+    
+    &.router-link-exact-active {
+      color: #e8edff;
+    }
 }
 </style>

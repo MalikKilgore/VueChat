@@ -34,8 +34,10 @@ export default {
     name: 'Messages',
     data() {
       return {
+        activeClass: 'active',
         message: {
           content: '',
+          currentDatabase: ''
         },
       }
     },
@@ -43,6 +45,11 @@ export default {
 
     },
     methods: {
+      //Fetch the current database Messages is being used in
+      fetchDatabase(){
+
+      },
+
       //Send message to the database the user is currently looking at
       sendMsg(){
           this.$store.dispatch('sendMsg', {
@@ -51,6 +58,12 @@ export default {
           // this.message.content = ''
       },
         
+    },
+
+    computed: {
+      currentPage(){
+        return this.$route.path;
+      }
     },
 }
 </script>
