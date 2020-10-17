@@ -57,21 +57,19 @@ export default createStore({
     },
 
     async logout({ commit }) {
-      await auth.signOut()
+      await auth.signOut().then(alert(`You've successfully signed out`))
     
       // clear userProfile and redirect to login page
       commit('setUserProfile', {})
-      alert('You have signed out')
       router.push('/join')
     },
 
-    async currentRoute({ commit }, routeID, routePath) {
-      const currentRoute = await routePath
-      const currentID = await routeID
+    //Grab and set the active Messages.vue route
+    async activeRoute({ commit }, id) {
+      const currentRoute = await id
 
       commit('setCurrentRoute', currentRoute)
       console.log(currentRoute)
-      console.log(currentID)
     },
 
     async sendMsg({ state, commit }, message) {

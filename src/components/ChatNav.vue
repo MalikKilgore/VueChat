@@ -1,7 +1,9 @@
 <template>
     <div id="chatNav">
         <router-link :to="{ name: 'Messages', params: { chatID: 'programming' }}"> Programming </router-link>
+        <br>
         <router-link :to="{ name: 'Messages', params: { chatID: 'networking' }}"> Networking </router-link>
+        <br>
         <router-link :to="{ name: 'Messages', params: { chatID: 'creative' }}"> Creative </router-link>
     </div>
     <router-view />
@@ -17,10 +19,7 @@ import router from '../router'
 import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'
 
-//Populate this with clickable divs
-//Get users. Display user.name. If router-link active, database is __
-//Might be worth using dynamic routes. Files to look at are Messages.vue, ChatNav, Chatrooms, and store
-//https://stackoverflow.com/questions/49944760/pass-dynamic-data-to-router-link
+//If router-link active, database is __
 
 export default {
   name: 'ChatNav',
@@ -34,7 +33,7 @@ export default {
 #chatNav {
     display: grid;
     grid-auto-columns: 1;
-    grid-auto-rows: 0;
+    grid-auto-rows: auto;
 
     background-color: #23272A;
     overflow-y: scroll;
@@ -43,9 +42,14 @@ export default {
     padding: 30px;
     max-height: 500px;
 
+  a {
+    font-weight: bold;
+    color: #99aab5;
+
     &.router-link-exact-active {
       color: #e8edff;
     }
+  }
 }
 
 

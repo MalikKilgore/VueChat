@@ -16,10 +16,7 @@ const routes = [
       requiresAuth: true
     },
     children: {
-      /* Needs to pull from usersCollection and create router links based on that. 
-        Haave a listener on the collection that automatically updates for each new user account added and removed.
-        Append router link to HomeNav
-        TODO: Get Chatrooms working first*/
+      //TODO: Will be added after Chatrooms are done and working.
     },
   },
 

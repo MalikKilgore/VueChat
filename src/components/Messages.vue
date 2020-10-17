@@ -34,9 +34,10 @@ export default {
     name: 'Messages',
     data() {
       return {
-        id: this.$route.params.path,
-        path: this.$route.path,
-
+        route: {
+          id: this.$route.params.chatID,
+          path: this.$route.path,
+        },
         message: {
           content: '',
           currentDatabase: ''
@@ -52,23 +53,33 @@ export default {
 
       //Send message to the database the user is currently looking at
       sendMsg(){
-          console.log(this.message.content)
+        console.log(this.message.content)
 
-          this.$store.dispatch('sendMsg', {
-              message: this.message.content,
-              database: this.message.currentDatabase
-          })
+        this.$store.dispatch('sendMsg', {
+          message: this.message.content,
+          database: this.message.currentDatabase
+        })
       },
-
-  
     },
 
     created(){
-        this.$store.dispatch('currentRoute', {
-          routeID: this.id,
-          routePath: this.path
-        })
-    },    
+      this.$store.dispatch('activeRoute', {
+        id: this.route.id,
+        path: this.route.path
+      })
+    },
+
+    //Need to watch the state of the "activeRoute" in VueX and react to it.
+    watch: {
+
+    },
+
+    
+    computed: {
+
+    }
+    
+    
 }
 </script>
 
