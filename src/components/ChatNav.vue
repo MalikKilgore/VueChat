@@ -1,48 +1,41 @@
 <template>
     <div id="chatNav">
-        <router-link id="programming" value="programming"> Programming </router-link>
+        <router-link :to="{ name: 'Messages', params: { chatID: 'programming' }}"> Programming </router-link>
+        <router-link :to="{ name: 'Messages', params: { chatID: 'networking' }}"> Networking </router-link>
+        <router-link :to="{ name: 'Messages', params: { chatID: 'creative' }}"> Creative </router-link>
     </div>
+    <router-view />
 </template>
 
 <script>
 //Left side of screen navbar
-import Vue, { onActivated } from 'vue'
+import Vue from 'vue'
 import firebase from 'firebase'
 import Vuefire from 'vuefire'
 import 'firebase/auth'
 import router from '../router'
 import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'
-import { RouterLink } from 'vue-router'
 
 //Populate this with clickable divs
 //Get users. Display user.name. If router-link active, database is __
 //Might be worth using dynamic routes. Files to look at are Messages.vue, ChatNav, Chatrooms, and store
-
-function onActivated(RouterLink){
-    switch(this.value){
-        case 'programming':
-            break
-        case 'networking':
-            break
-        case 'creative':
-            break
-    }
-};
+//https://stackoverflow.com/questions/49944760/pass-dynamic-data-to-router-link
 
 export default {
-    name: 'ChatNav',
-    components: {
+  name: 'ChatNav',
+  methods: {
 
-    },
-    methods: {
-
-    }    
+  },
 }
 </script>
 
 <style scoped lang="scss">
 #chatNav {
+    display: grid;
+    grid-auto-columns: 1;
+    grid-auto-rows: 0;
+
     background-color: #23272A;
     overflow-y: scroll;
     height: 300px;

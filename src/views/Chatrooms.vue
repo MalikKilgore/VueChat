@@ -1,7 +1,7 @@
 <template>
   <div class="chatrooms">
     <ChatNav></ChatNav>
-    <Messages></Messages>
+    
   </div>
 </template>
 
@@ -16,7 +16,8 @@ export default {
   components: {
     ChatNav,
     Messages
-  }
+  },
+
 }
 </script>
 

@@ -1,16 +1,16 @@
 <template>
-    <div class="chat-messages">
+    <div id="chat-messages">
 
     </div>
     <br>
-      <div class="chat-form-container">
+      <div id="chat-form-container">
         <form id="chat-form" @submit.prevent>
           <input
             id="message"
             name="message"
             type="text"
             placeholder="Send a message..."
-            v-model="message"
+            v-model="message.content"
             autocomplete="off"
             required
           />
@@ -34,42 +34,46 @@ export default {
     name: 'Messages',
     data() {
       return {
-        activeClass: 'active',
+        id: this.$route.params.path,
+        path: this.$route.path,
+
         message: {
           content: '',
           currentDatabase: ''
         },
       }
     },
-    components: {
 
-    },
     methods: {
       //Fetch the current database Messages is being used in
       fetchDatabase(){
-
+        //Fetch or create a database with this Route's path ID.
       },
 
       //Send message to the database the user is currently looking at
       sendMsg(){
+          console.log(this.message.content)
+
           this.$store.dispatch('sendMsg', {
               message: this.message.content,
+              database: this.message.currentDatabase
           })
-          // this.message.content = ''
       },
-        
+
+  
     },
 
-    computed: {
-      currentPage(){
-        return this.$route.path;
-      }
-    },
+    created(){
+        this.$store.dispatch('currentRoute', {
+          routeID: this.id,
+          routePath: this.path
+        })
+    },    
 }
 </script>
 
 <style scoped lang="scss">
-.chat-messages {
+#chat-messages {
   background-color: #2C2F33;
   height: 300px;
   width: 3fr;
@@ -78,22 +82,22 @@ export default {
 	overflow-y: scroll;
 }
 
-.chat-form-container {
+#chat-form-container {
   width: 100%;
 }
 
-.chat-form-container form {
+#chat-form-container form {
   display: flex;
 }
 
-.chat-form-container input[type='text'] {
+#chat-form-container input[type='text'] {
 	font-size: 16px;
 	padding: 5px;
 	height: 40px;
 	flex: 1;
 }
 
-.btn {
+#btn {
 	padding: 5px 15px;
 	background: #ffffff;
 	color: #2c3e50;

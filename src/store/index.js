@@ -7,12 +7,16 @@ import { dmCollection, usersCollection, auth } from '../firebase/firebase.js'
 
 export default createStore({
   state: {
-    userProfile: {}
+    userProfile: {},
+    currentRoute: {}
   },
   mutations: {
     setUserProfile(state, val) {
       state.userProfile = val
     },
+    setCurrentRoute(state, val) {
+      state.currentRoute = val
+    }
   },
   actions: {
     async login({ dispatch }, form) {
@@ -59,6 +63,15 @@ export default createStore({
       commit('setUserProfile', {})
       alert('You have signed out')
       router.push('/join')
+    },
+
+    async currentRoute({ commit }, routeID, routePath) {
+      const currentRoute = await routePath
+      const currentID = await routeID
+
+      commit('setCurrentRoute', currentRoute)
+      console.log(currentRoute)
+      console.log(currentID)
     },
 
     async sendMsg({ state, commit }, message) {

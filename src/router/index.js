@@ -4,6 +4,7 @@ import Chatrooms from '../views/Chatrooms.vue'
 import Join from '../views/Join.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
+import Messages from '../components/Messages.vue'
 import { auth } from '../firebase/firebase.js'
 
 const routes = [
@@ -29,23 +30,12 @@ const routes = [
     meta: {
       requiresAuth: true
     },
-    // LOOK INTO DYNAMIC ROUTING
     children: [
       {
-        path: '/creative',
-        name: 'Creative',
-        component: ''
-      },
-      {
-        path: '/networking',
-        name: 'Networking',
-        component: ''
-      },
-      {
-        path: '/programming',
-        name: 'Programming',
-        component: ''
-      },
+        path: '/chatrooms/:chatID',
+        name: 'Messages',
+        component: Messages,
+      }
     ]
   },
 
@@ -65,7 +55,8 @@ const routes = [
         component: Register,
       }
     ]
-  }
+  },
+
 ]
 
 const router = createRouter({
