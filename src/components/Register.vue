@@ -85,6 +85,17 @@ export default {
 <style scoped lang="scss">
 label {
   color: #e4ece8;
+  font-weight: bold;
+	text-align: center;
+}
+
+input {
+  display: flex;
+  font-size: 20px;
+	padding: 5px;
+	height: 40px;
+  width: 100%;
+	flex: 1;
 }
 
  .btn {

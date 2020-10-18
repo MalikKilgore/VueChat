@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import router from '../router/index'
 import { dmCollection, usersCollection, auth } from '../firebase/firebase.js'
 
+
 export default createStore({
   state: {
     userProfile: {},
@@ -17,6 +18,7 @@ export default createStore({
     setCurrentRoute(state, val) {
       state.currentRoute = val
     }
+    
   },
   actions: {
     async login({ dispatch }, form) {
@@ -69,7 +71,7 @@ export default createStore({
       const currentRoute = await id
 
       commit('setCurrentRoute', currentRoute)
-      console.log(currentRoute)
+      console.log(this.state.currentRoute)
     },
 
     async sendMsg({ state, commit }, message) {
@@ -85,7 +87,15 @@ export default createStore({
 
     },
 
+
   },
+  getters: {
+    getRouteState(){
+      return this.state.currentRoute
+    }
+  },
+
   modules: {
+    
   }
 })

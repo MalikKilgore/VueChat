@@ -22,64 +22,64 @@
 <script>
 //Left side of screen navbar
 import Vue from 'vue'
+import Vuex from 'vuex'
 import firebase from 'firebase'
 import Vuefire from 'vuefire'
 import 'firebase/auth'
 import router from '../router'
-import Vuex from 'vuex'
+import store from '../store'
 import {db, usersCollection} from '../firebase/firebase.js'
 
 
 export default {
-    name: 'Messages',
-    data() {
-      return {
-        route: {
-          id: this.$route.params.chatID,
-          path: this.$route.path,
-        },
-        message: {
-          content: '',
-          currentDatabase: ''
-        },
-      }
+  name: 'Messages',
+  data() {
+    return {
+      route: {
+        id: this.$route.params.chatID,
+        path: this.$route.path,
+      },
+      message: {
+        content: '',
+        currentDatabase: ''
+      },
+    }
+  },
+
+  methods: {
+    //Fetch the current database Messages is being used in
+    fetchDatabase(){
+      //Fetch or create a database with this Route's path ID.
     },
 
-    methods: {
-      //Fetch the current database Messages is being used in
-      fetchDatabase(){
-        //Fetch or create a database with this Route's path ID.
-      },
+    //Send message to the database the user is currently looking at
+    sendMsg(){
+      console.log(this.message.content)
 
-      //Send message to the database the user is currently looking at
-      sendMsg(){
-        console.log(this.message.content)
-
-        this.$store.dispatch('sendMsg', {
-          message: this.message.content,
-          database: this.message.currentDatabase
-        })
-      },
-    },
-
-    created(){
-      this.$store.dispatch('activeRoute', {
-        id: this.route.id,
-        path: this.route.path
+      this.$store.dispatch('sendMsg', {
+        message: this.message.content,
+        database: this.message.currentDatabase
       })
     },
+  },
 
-    //Need to watch the state of the "activeRoute" in VueX and react to it.
-    watch: {
+  mounted(){
+    this.$store.dispatch('activeRoute', {
+      id: this.route.id,
+      path: this.route.path
+    })
+  },
 
-    },
+  beforeRouteUpdate(to, from, next){
+    this.route.id = to.params.chatID
+    this.route.path = to.path
+    this.$store.dispatch('activeRoute', {
+      id: this.route.id,
+      path: this.route.path
+    })
+    next()
+  },
 
-    
-    computed: {
-
-    }
-    
-    
 }
 </script>
 
