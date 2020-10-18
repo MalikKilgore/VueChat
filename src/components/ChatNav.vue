@@ -19,13 +19,8 @@ import router from '../router'
 import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'
 
-//If router-link active, database is __
-
 export default {
-  name: 'ChatNav',
-  methods: {
-
-  },
+  name: 'ChatNav'
 }
 </script>
 
