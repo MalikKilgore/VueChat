@@ -47,37 +47,37 @@ export default {
   },
 
   methods: {
-    //Fetch the current database Messages is being used in
+    //Fetch the current database and update it in VueX state
     fetchDatabase(){
       switch(this.route.path){
         case '/chatrooms/programming':
           this.message.databaseStr = `programChat`
           this.message.databasePln = programChat
+          this.$store.dispatch('activeRoute', {
+            message: this.message.content,
+            dbStr: this.message.databaseStr,
+            dbPln: this.message.databasePln
+          })
           break
         case '/chatrooms/networking':
           this.message.databaseStr = `networkChat`
           this.message.databasePln = networkChat
+          this.$store.dispatch('activeRoute', {
+            message: this.message.content,
+            dbStr: this.message.databaseStr,
+            dbPln: this.message.databasePln
+          })          
           break
         case '/chatrooms/creative':
           this.message.databaseStr = `creativeChat`
           this.message.databasePln = creativeChat
+          this.$store.dispatch('activeRoute', {
+            message: this.message.content,
+            dbStr: this.message.databaseStr,
+            dbPln: this.message.databasePln
+          })
           break
       }      
-    },
-    //Renders messages in the database to the Virtual DOM
-    displayDatabase(){
-      //Read current Database in state. Display current Database documents in the DOM
-      this.$store.state.currentDatabase.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
-
-          const div = document.createElement('div')
-          div.classList.add('message')
-          div.innerHTML = `${doc.content}`
-          document.getElementById(`chat-messages`).appendChild(div)
-        });
-      });
     },
 
     //Send message to the database the user is currently looking at
@@ -91,24 +91,25 @@ export default {
     },
   },
 
-  firestore: {
-
-  },
-
   mounted(){
     this.$store.dispatch('activeRoute', {
       id: this.route.id,
       path: this.route.path
     }).then(this.fetchDatabase())
+    this.$store.dispatch('renderDOM')
   },
 
+//Need to clear DOM when switching routes
   beforeRouteUpdate(to, from, next){
     this.route.id = to.params.chatID
     this.route.path = to.path
+    
+    //Updates the route path in VueX state. Then it fetches the correct database and updates that as well.
     this.$store.dispatch('activeRoute', {
       id: this.route.id,
       path: this.route.path
     }).then(this.fetchDatabase())
+    this.$store.dispatch('renderDOM')
     next()
   },
 
@@ -125,6 +126,13 @@ export default {
   padding: 30px;
 	max-height: 500px;
 	overflow-y: scroll;
+}
+
+#chat-messages .message {
+	padding: 10px;
+	margin-bottom: 15px;
+	background-color: #99aab5;
+	border-radius: 5px;
 }
 
 #chat-form-container {

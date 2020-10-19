@@ -1,7 +1,6 @@
 <template>
   <div class="chatrooms">
     <ChatNav></ChatNav>
-    
   </div>
 </template>
 
@@ -9,7 +8,6 @@
 import Vue from 'vue'
 import ChatNav from '../components/ChatNav'
 import Messages from '../components/Messages'
-
 
 export default {
   name: 'Chatrooms',

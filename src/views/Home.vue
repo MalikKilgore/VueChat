@@ -9,8 +9,6 @@ import Vue from 'vue'
 import HomeNav from '../components/HomeNav'
 import Messages from '../components/Messages'
 
-
-
 export default {
   name: 'Home',
   components: {

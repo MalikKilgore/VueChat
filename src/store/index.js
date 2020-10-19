@@ -3,7 +3,8 @@ import Vue, { toDisplayString } from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase'
 import router from '../router/index'
-import { dmCollection, usersCollection, auth, programChat, networkChat, creativeChat } from '../firebase/firebase.js'
+import { dmCollection, usersCollection, auth, programChat,
+   networkChat, creativeChat } from '../firebase/firebase.js'
 
 
 export default createStore({
@@ -69,14 +70,20 @@ export default createStore({
     },
 
     // Grabs and updates the active route state
-    async activeRoute({ commit }, id) {
-      const currentRoute = await id
+    async activeRoute({ commit }, form) {
 
-      commit('setCurrentRoute', currentRoute)
-      console.log(this.state.currentRoute)
+      if (form.id){
+        commit('setCurrentRoute', form.id)
+        console.log(`Setting route to ${this.state.currentRoute}`)
+      }
+      if (form.dbPln) {
+        commit('setCurrentDatabase', form.dbPln)
+        console.log(`Setting database to ${this.state.currentDatabase}`)
+      }
+      
     },
 
-    // Adds message to the specified database.
+    // Adds message to the specified database firestore.
     async sendMsg({commit}, form) {
 
       switch(form.dbStr){
@@ -104,27 +111,23 @@ export default createStore({
       }
 
       commit('setCurrentDatabase', form.dbPln)
-      this.dispatch('renderDOM', form.dbPln)
-      /*await database.doc('message').set({
-        createdOn: new Date(),
-        content: message.content,
-        UID: auth.currentUser.uid,
-        userName: state.userProfile.name,
-      })*/
-
     },
 
+    //BUG: Function grabs snapshot of collection, adds a new message for each. messages keep stacking ONLY IN DOM
+    //Need this to all be reactive, instead of editing the DOM so frequently
     async renderDOM(){
       console.log('starting renderDOM')
       //Read current Database in state. Display current Database documents in the DOM
-      this.state.currentDatabase.get().then(function(querySnapshot) {
+      const database = this.state.currentDatabase
+      
+      database.onSnapshot(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data().toString());
+          console.log(doc.id, " => ", doc.data().content);
 
           const div = document.createElement('div')
           div.classList.add('message')
-          div.innerHTML = `${doc.data()}`
+          div.innerHTML = `${doc.data().content}`
           document.getElementById(`chat-messages`).appendChild(div)
         });
       });      
