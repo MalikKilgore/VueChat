@@ -1,6 +1,6 @@
 <template>
     <div id="chat-messages">
-
+      <span>{{display.live}}</span>
     </div>
     <br>
       <div id="chat-form-container">
@@ -43,6 +43,9 @@ export default {
         databaseStr: '',
         databasePln: null
       },
+      display: {
+        live: null
+      }
     }
   },
 
@@ -89,6 +92,7 @@ export default {
         dbPln: this.message.databasePln
       })
     },
+    
   },
 
   mounted(){
@@ -97,6 +101,7 @@ export default {
       path: this.route.path
     }).then(this.fetchDatabase())
     this.$store.dispatch('renderDOM')
+    this.display.live = store.state.messagesDOM
   },
 
 //Need to clear DOM when switching routes
@@ -112,6 +117,9 @@ export default {
     this.$store.dispatch('renderDOM')
     next()
   },
+
+  
+  
 
 }
 </script>

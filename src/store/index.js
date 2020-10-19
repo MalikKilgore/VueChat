@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import Vue, { toDisplayString } from 'vue'
+import Vue, { reactive, toDisplayString } from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase'
 import router from '../router/index'
@@ -11,7 +11,8 @@ export default createStore({
   state: {
     userProfile: {},
     currentRoute: {},
-    currentDatabase: {}
+    currentDatabase: {},
+    messagesDOM: {}
   },
   mutations: {
     setUserProfile(state, val) {
@@ -22,6 +23,9 @@ export default createStore({
     },
     setCurrentDatabase(state, val) {
       state.currentDatabase = val
+    },
+    setMessagesDOM(state, val) {
+      state.messagesDOM = val
     }
   },
   actions: {
@@ -115,22 +119,19 @@ export default createStore({
 
     //BUG: Function grabs snapshot of collection, adds a new message for each. messages keep stacking ONLY IN DOM
     //Need this to all be reactive, instead of editing the DOM so frequently
-    async renderDOM(){
+    async renderDOM({commit}){
       console.log('starting renderDOM')
       //Read current Database in state. Display current Database documents in the DOM
       const database = this.state.currentDatabase
+      const msgList = []
       
       database.onSnapshot(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-          // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, " => ", doc.data().content);
-
-          const div = document.createElement('div')
-          div.classList.add('message')
-          div.innerHTML = `${doc.data().content}`
-          document.getElementById(`chat-messages`).appendChild(div)
+          msgList.push(doc.data().content)
         });
       });      
+      commit('setMessagesDOM', msgList)
     }
 
 
