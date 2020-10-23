@@ -1,7 +1,8 @@
 import { createStore } from 'vuex'
-import Vue, { reactive, toDisplayString } from 'vue'
+import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase'
+import 'firebase/firestore'
 import router from '../router/index'
 import { dmCollection, usersCollection, auth, programChat,
    networkChat, creativeChat } from '../firebase/firebase.js'
@@ -12,7 +13,7 @@ export default createStore({
     userProfile: {},
     currentRoute: {},
     currentDatabase: {},
-    messagesDOM: {}
+    messagesDOM: []
   },
   mutations: {
     setUserProfile(state, val) {
@@ -79,8 +80,7 @@ export default createStore({
       if (form.id){
         commit('setCurrentRoute', form.id)
         console.log(`Setting route to ${this.state.currentRoute}`)
-      }
-      if (form.dbPln) {
+      } else if (form.dbPln) {
         commit('setCurrentDatabase', form.dbPln)
         console.log(`Setting database to ${this.state.currentDatabase}`)
       }
@@ -88,7 +88,7 @@ export default createStore({
     },
 
     // Adds message to the specified database firestore.
-    async sendMsg({commit}, form) {
+    async sendMsg({dispatch}, form) {
 
       switch(form.dbStr){
         case `programChat`:
@@ -113,27 +113,51 @@ export default createStore({
           })
           break
       }
-
-      commit('setCurrentDatabase', form.dbPln)
     },
 
-    //BUG: Function grabs snapshot of collection, adds a new message for each. messages keep stacking ONLY IN DOM
-    //Need this to all be reactive, instead of editing the DOM so frequently
-    async renderDOM({commit}){
+    /*async renderMsg(doc){
+      const msg = document.createElement('li')
+      msg.setAttribute('data-id', doc.id)
+      msg.textContent = doc.data().content
+      document.getElementById(`msgList`).appendChild(msg)
+    },
+
+    async removeMsg(doc){
+      const msgList = document.getElementById('msgList')
+      let msg = msgList.querySelector('[data-id=' + doc.id + ']')
+      msgList.removeChild(msg)
+    },*/
+
+    async renderDOM({dispatch}){
       console.log('starting renderDOM')
       //Read current Database in state. Display current Database documents in the DOM
       const database = this.state.currentDatabase
-      const msgList = []
-      
-      database.onSnapshot(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          console.log(doc.id, " => ", doc.data().content);
-          msgList.push(doc.data().content)
-        });
-      });      
-      commit('setMessagesDOM', msgList)
-    }
+      const msgList = document.getElementById('msgList')
 
+      database.onSnapshot(function(snapshot) {
+        snapshot.docChanges().forEach(function(change) {
+
+        if (change.type === "added") {
+          console.log("New message: ", change.doc.data());
+          const msg = document.createElement('li')
+          msg.setAttribute('data-id', change.doc.id)
+          msg.textContent = change.doc.data().content
+          document.getElementById(`msgList`).appendChild(msg)
+          //dispatch('renderMsg', change.doc)
+        }
+        if (change.type === "modified") {
+          console.log("Modified message: ", change.doc.data());
+        }
+        if (change.type === "removed") {
+          console.log("Removed message: ", change.doc.data());
+          let rmMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
+          msgList.removeChild(rmMsg)
+        }
+
+        });
+      });
+
+    }
 
   },
 

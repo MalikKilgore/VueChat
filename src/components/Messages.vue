@@ -1,6 +1,8 @@
 <template>
-    <div id="chat-messages">
-      <span>{{display.live}}</span>
+    <div id="chat-messages">  
+      <ol id="msgList">
+
+      </ol>
     </div>
     <br>
       <div id="chat-form-container">
@@ -20,7 +22,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue, { watch, computed } from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase'
 import Vuefire from 'vuefire'
@@ -28,7 +30,6 @@ import 'firebase/auth'
 import router from '../router'
 import store from '../store'
 import {db, usersCollection, programChat, networkChat, creativeChat} from '../firebase/firebase.js'
-
 
 export default {
   name: 'Messages',
@@ -43,9 +44,6 @@ export default {
         databaseStr: '',
         databasePln: null
       },
-      display: {
-        live: null
-      }
     }
   },
 
@@ -90,36 +88,19 @@ export default {
         message: this.message.content,
         dbStr: this.message.databaseStr,
         dbPln: this.message.databasePln
-      })
+      })     
     },
     
   },
 
   mounted(){
+    console.log('MOUNTED')
     this.$store.dispatch('activeRoute', {
       id: this.route.id,
       path: this.route.path
     }).then(this.fetchDatabase())
-    this.$store.dispatch('renderDOM')
-    this.display.live = store.state.messagesDOM
+   this.$store.dispatch('renderDOM')
   },
-
-//Need to clear DOM when switching routes
-  beforeRouteUpdate(to, from, next){
-    this.route.id = to.params.chatID
-    this.route.path = to.path
-    
-    //Updates the route path in VueX state. Then it fetches the correct database and updates that as well.
-    this.$store.dispatch('activeRoute', {
-      id: this.route.id,
-      path: this.route.path
-    }).then(this.fetchDatabase())
-    this.$store.dispatch('renderDOM')
-    next()
-  },
-
-  
-  
 
 }
 </script>
