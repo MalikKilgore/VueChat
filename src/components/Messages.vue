@@ -83,6 +83,7 @@ export default {
 
     //Send message to the database the user is currently looking at
     sendMsg(){
+      document.getElementById('chat-form').reset()
       //Dispatches String and plain text of current Database
       this.$store.dispatch('sendMsg', {
         message: this.message.content,
@@ -90,16 +91,21 @@ export default {
         dbPln: this.message.databasePln
       })     
     },
-    
   },
 
+  //Updates active route and database when current path changes
   mounted(){
-    console.log('MOUNTED')
     this.$store.dispatch('activeRoute', {
       id: this.route.id,
       path: this.route.path
     }).then(this.fetchDatabase())
    this.$store.dispatch('renderDOM')
+  },
+
+  //Dispatch unsubscribe() function
+  beforeUnmount(){
+    console.log('UNSUBBED')
+
   },
 
 }

@@ -13,7 +13,6 @@ export default createStore({
     userProfile: {},
     currentRoute: {},
     currentDatabase: {},
-    messagesDOM: []
   },
   mutations: {
     setUserProfile(state, val) {
@@ -25,9 +24,6 @@ export default createStore({
     setCurrentDatabase(state, val) {
       state.currentDatabase = val
     },
-    setMessagesDOM(state, val) {
-      state.messagesDOM = val
-    }
   },
   actions: {
     async login({ dispatch }, form) {
@@ -115,26 +111,14 @@ export default createStore({
       }
     },
 
-    /*async renderMsg(doc){
-      const msg = document.createElement('li')
-      msg.setAttribute('data-id', doc.id)
-      msg.textContent = doc.data().content
-      document.getElementById(`msgList`).appendChild(msg)
-    },
-
-    async removeMsg(doc){
-      const msgList = document.getElementById('msgList')
-      let msg = msgList.querySelector('[data-id=' + doc.id + ']')
-      msgList.removeChild(msg)
-    },*/
-
-    async renderDOM({dispatch}){
+    async renderDOM(){
       console.log('starting renderDOM')
       //Read current Database in state. Display current Database documents in the DOM
       const database = this.state.currentDatabase
       const msgList = document.getElementById('msgList')
-
-      database.onSnapshot(function(snapshot) {
+      let unsubscribe
+      
+      return unsubscribe = database.onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
 
         if (change.type === "added") {
@@ -143,10 +127,11 @@ export default createStore({
           msg.setAttribute('data-id', change.doc.id)
           msg.textContent = change.doc.data().content
           document.getElementById(`msgList`).appendChild(msg)
-          //dispatch('renderMsg', change.doc)
         }
         if (change.type === "modified") {
           console.log("Modified message: ", change.doc.data());
+          let editMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
+          editMsg.textContent = change.doc.data().content
         }
         if (change.type === "removed") {
           console.log("Removed message: ", change.doc.data());
