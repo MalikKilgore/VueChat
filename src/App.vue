@@ -6,7 +6,6 @@
 
 <script>
 import Vue from 'vue'
-import { mapState } from 'vuex'
 import SiteNav from './components/SiteNav'
 
 export default {
@@ -23,7 +22,5 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
-
 </style>

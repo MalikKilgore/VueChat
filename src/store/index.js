@@ -111,39 +111,6 @@ export default createStore({
       }
     },
 
-    /*async renderDOM(){
-      console.log('starting renderDOM')
-      //Read current Database in state. Display current Database documents in the DOM
-      const database = this.state.currentDatabase
-      const msgList = document.getElementById('msgList')
-      let unsubscribe
-      
-      return unsubscribe = database.onSnapshot(function(snapshot) {
-        snapshot.docChanges().forEach(function(change) {
-
-        if (change.type === "added") {
-          console.log("New message: ", change.doc.data());
-          const msg = document.createElement('li')
-          msg.setAttribute('data-id', change.doc.id)
-          msg.textContent = change.doc.data().content
-          document.getElementById(`msgList`).appendChild(msg)
-        }
-        if (change.type === "modified") {
-          console.log("Modified message: ", change.doc.data());
-          let editMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
-          editMsg.textContent = change.doc.data().content
-        }
-        if (change.type === "removed") {
-          console.log("Removed message: ", change.doc.data());
-          let rmMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
-          msgList.removeChild(rmMsg)
-        }
-
-        });
-      });
-
-    }*/
-
   },
 
   modules: {

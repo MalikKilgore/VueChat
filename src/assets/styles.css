@@ -1,5 +1,22 @@
+:root { 
+ 
+    /* 🏷️1 Group */
+    /* 🎨Chetwode Blue */
+   --chetwode-blue-800: #0f1a2a; /* 800 */
+   --chetwode-blue-700: #18243a; /* 700 */
+   --chetwode-blue-500: #33436a; /* 500 */
+   --chetwode-blue-300: #4e609a; /* 300 */
+   --chetwode-blue-90: #7289DA; /* 90 */
+   --chetwode-blue-70: #92a2e2; /* 70 */
+   --chetwode-blue-60: #a9b1e8; /* 60 */
+   --chetwode-blue-40: #c9ccf0; /* 40 */
+   --chetwode-blue-30: #dfdff6; /* 30 */
+   --chetwode-blue-1000: #000000; /* 1000 */
+      
+}
+
 html, body {
     height: auto;
     width: auto;
-    background-color: #99aab5;
+    background-color: #18243a;
 }

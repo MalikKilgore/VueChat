@@ -30,16 +30,19 @@ export default {
     grid-auto-columns: 1;
     grid-auto-rows: auto;
 
-    background-color: #23272A;
-    overflow-y: scroll;
-    height: 300px;
+    background-color: #33436a;
+    overflow-y: hidden;
+    height: 100%;
     width: 1fr;
     padding: 30px;
-    max-height: 500px;
 
   a {
     font-weight: bold;
-    color: #99aab5;
+    font-size: 40px;
+    color: #18243a;
+    background-color:  #92a2e2;
+    border-radius: 5px;
+    max-height: 100px;
 
     &.router-link-exact-active {
       color: #e8edff;

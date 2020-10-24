@@ -1,8 +1,6 @@
-<template>
-    <div id="chat-messages">  
-      <ol id="msgList">
+<template>  
+    <div id="msgList">
 
-      </ol>
     </div>
     <br>
       <div id="chat-form-container">
@@ -93,15 +91,24 @@ export default {
 
         if (change.type === "added") {
           console.log("New message: ", change.doc.data());
-          let msg = document.createElement('li')
+          let msg = document.createElement('div')
           msg.setAttribute('data-id', change.doc.id)
-          msg.textContent = change.doc.data().content
+          msg.classList = 'message'
+
+          msg.style.backgroundColor = '#4e609a'
+          msg.style.color = '#ffffff'
+          msg.style.fontWeight = 'bold'
+          msg.style.padding = '7px'
+          msg.style.marginBottom = '10px'
+          msg.style.borderRadius = '5px'
+
+          msg.innerText = change.doc.data().content
           document.getElementById(`msgList`).appendChild(msg)
         }
         if (change.type === "modified") {
           console.log("Modified message: ", change.doc.data());
           let editMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
-          editMsg.textContent = change.doc.data().content
+          editMsg.innerText = change.doc.data().content
         }
         if (change.type === "removed") {
           console.log("Removed message: ", change.doc.data());
@@ -145,22 +152,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#chat-messages {
-  background-color: #2C2F33;
-  color: #ffffff;
-  font-weight: bold;
-  height: 300px;
+#msgList {
+  background-color: #23272A;
+  height: 900px;
   width: 3fr;
   padding: 30px;
-	max-height: 500px;
-	overflow-y: scroll;
-}
-
-#chat-messages .message {
-	padding: 10px;
-	margin-bottom: 15px;
-	background-color: #99aab5;
-	border-radius: 5px;
+  overflow-y: scroll;
 }
 
 #chat-form-container {

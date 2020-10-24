@@ -23,6 +23,5 @@ export default {
 .chatrooms {
   display: grid;
 	grid-template-columns: 1fr 3fr;
-  overflow: hidden;
 }
 </style>
