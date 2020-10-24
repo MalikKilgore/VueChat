@@ -44,6 +44,7 @@ export default {
         databaseStr: '',
         databasePln: null
       },
+      unsubscribe: null
     }
   },
 
@@ -81,6 +82,38 @@ export default {
       }      
     },
 
+    renderDOM(){
+      console.log('starting renderDOM')
+      //Read current Database in state. Display current Database documents in the DOM
+      const database = store.state.currentDatabase
+      const msgList = document.getElementById('msgList')
+      
+      this.unsubscribe = database.onSnapshot(function(snapshot) {
+        snapshot.docChanges().forEach(function(change) {
+
+        if (change.type === "added") {
+          console.log("New message: ", change.doc.data());
+          let msg = document.createElement('li')
+          msg.setAttribute('data-id', change.doc.id)
+          msg.textContent = change.doc.data().content
+          document.getElementById(`msgList`).appendChild(msg)
+        }
+        if (change.type === "modified") {
+          console.log("Modified message: ", change.doc.data());
+          let editMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
+          editMsg.textContent = change.doc.data().content
+        }
+        if (change.type === "removed") {
+          console.log("Removed message: ", change.doc.data());
+          let rmMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
+          msgList.removeChild(rmMsg)
+        }
+
+        });
+      });
+
+    },
+
     //Send message to the database the user is currently looking at
     sendMsg(){
       document.getElementById('chat-form').reset()
@@ -99,13 +132,13 @@ export default {
       id: this.route.id,
       path: this.route.path
     }).then(this.fetchDatabase())
-   this.$store.dispatch('renderDOM')
+   this.renderDOM()
   },
 
-  //Dispatch unsubscribe() function
+  //Unsubscribes from current Database listener.
   beforeUnmount(){
     console.log('UNSUBBED')
-
+    this.unsubscribe()
   },
 
 }

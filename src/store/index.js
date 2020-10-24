@@ -111,7 +111,7 @@ export default createStore({
       }
     },
 
-    async renderDOM(){
+    /*async renderDOM(){
       console.log('starting renderDOM')
       //Read current Database in state. Display current Database documents in the DOM
       const database = this.state.currentDatabase
@@ -142,7 +142,7 @@ export default createStore({
         });
       });
 
-    }
+    }*/
 
   },
 
