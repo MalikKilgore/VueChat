@@ -10,12 +10,12 @@
 <script>
 
 export default {
-    methods: {
-        //Log user out of application
-        logout() {
-            this.$store.dispatch('logout')
-        }
-    }
+  methods: {
+    //Log user out of application
+    logout() {
+        this.$store.dispatch('logout')
+    },
+  }
 }
 </script>
 

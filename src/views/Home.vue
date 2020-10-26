@@ -22,6 +22,5 @@ export default {
 .home {
   display: grid;
 	grid-template-columns: 1fr 3fr;
-  overflow: hidden;
 }
 </style>

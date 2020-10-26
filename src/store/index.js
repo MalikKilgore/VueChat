@@ -78,7 +78,7 @@ export default createStore({
         console.log(`Setting route to ${this.state.currentRoute}`)
       } else if (form.dbPln) {
         commit('setCurrentDatabase', form.dbPln)
-        console.log(`Setting database to ${this.state.currentDatabase}`)
+        console.log(`Setting database to ${form.dbPln}`)
       }
       
     },

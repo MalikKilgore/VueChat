@@ -38,6 +38,7 @@ export default {
         path: this.$route.path,
       },
       message: {
+        //from: TBA,
         content: '',
         databaseStr: '',
         databasePln: null
@@ -47,7 +48,7 @@ export default {
   },
 
   methods: {
-    //Fetch the current database and update it in VueX state
+    //Fetches the current database and updates it in VueX state
     fetchDatabase(){
       switch(this.route.path){
         case '/chatrooms/programming':
@@ -77,12 +78,21 @@ export default {
             dbPln: this.message.databasePln
           })
           break
+        case `/home/:${chatID}`:
+          //THIS needs edited
+          this.message.databaseStr = `creativeChat`
+          this.message.databasePln = creativeChat
+          this.$store.dispatch('activeRoute', {
+            message: this.message.content,
+            dbStr: this.message.databaseStr,
+            dbPln: this.message.databasePln
+          })
+          break
       }      
     },
-
+    //Reads the current Database in VueX state. Adds a firebase listener and displays active Database documents in the DOM
     renderDOM(){
       console.log('starting renderDOM')
-      //Read current Database in state. Display current Database documents in the DOM
       const database = store.state.currentDatabase
       const msgList = document.getElementById('msgList')
       
@@ -121,7 +131,7 @@ export default {
 
     },
 
-    //Send message to the database the user is currently looking at
+    //Sends message to the firestore the user is currently using
     sendMsg(){
       document.getElementById('chat-form').reset()
       //Dispatches String and plain text of current Database
@@ -142,7 +152,7 @@ export default {
    this.renderDOM()
   },
 
-  //Unsubscribes from current Database listener.
+  //Unsubscribes from current firestore listener. Prevents duplicate listeners from being active at once.
   beforeUnmount(){
     console.log('UNSUBBED')
     this.unsubscribe()

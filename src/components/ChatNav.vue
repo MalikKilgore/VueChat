@@ -6,7 +6,7 @@
         <br>
         <router-link :to="{ name: 'Messages', params: { chatID: 'creative' }}"> Creative </router-link>
     </div>
-    <router-view :key="$route.fullPath"/>
+    <router-view/>
 </template>
 
 <script>
@@ -42,7 +42,6 @@ export default {
     color: #18243a;
     background-color:  #92a2e2;
     border-radius: 5px;
-    max-height: 100px;
 
     &.router-link-exact-active {
       color: #e8edff;

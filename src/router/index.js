@@ -15,9 +15,13 @@ const routes = [
     meta: {
       requiresAuth: true
     },
-    children: {
-      //TODO: Will be added after Chatrooms are done and working.
-    },
+    children: [
+      {
+        path: '/home/:chatID',
+        name: 'Messages',
+        component: Messages,
+      }
+    ]
   },
 
   {
