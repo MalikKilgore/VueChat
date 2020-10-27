@@ -123,9 +123,15 @@ export default createStore({
     },
 
     async dltMsg({dispatch}, id){
+      const user = this.state.currentUser
       const database = this.state.currentDatabase
-      //database.doc(id).get(sentBy)
-      database.doc(id).delete()     
+      const doc = await database.doc(id).get()
+
+      if(doc.data().sentBy != user.uid){
+        console.log('You cannot delete this message')
+      } else {
+        database.doc(id).delete()
+      }
     }
 
   },

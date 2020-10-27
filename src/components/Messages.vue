@@ -110,8 +110,6 @@ export default {
           dlt.addEventListener('click', function(e){
             let parentNode = this.parentElement
             let thisMsg = parentNode.getAttribute('data-id')
-
-
             store.dispatch('dltMsg', thisMsg);
           });
 
