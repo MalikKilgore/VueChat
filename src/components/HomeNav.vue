@@ -2,7 +2,6 @@
     <div id="homeNav">
 
     </div>
-    <router-view/>
 </template>
 
 <script>
@@ -18,52 +17,6 @@ import {db, usersCollection} from '../firebase/firebase.js'
 
 export default {
   name: 'HomeNav',
-  data() {
-    return {
-      dynamicParams: null,
-      dynamicTo: null,
-      unsubscribe: null
-    }
-  },
-  methods: {
-    fetchUserCollection(){
-      this.unsubscribe = usersCollection.onSnapshot(function(snapshot) {
-        snapshot.docChanges().forEach(function(change) {
-
-        if (change.type === "added") {
-          console.log("New user: ", change.doc.data());
-          let user = document.createElement('router-link')
-          user.innerHTML = change.doc.data().name
-
-          document.getElementById(`homeNav`).appendChild(user)
-        }
-        if (change.type === "modified") {
-          console.log("Modified user: ", change.doc.data());
-
-        }
-        if (change.type === "removed") {
-          console.log("Deleted user account: ", change.doc.data());
-
-        }
-
-        });
-      });
-    }
-  },
-  mounted(){
-    console.log('MOUNTED')
-    /*this.$store.dispatch('activeRoute', {
-      id: this.route.id,
-      path: this.route.path
-    }).then(this.fetchDatabase())
-   this.renderDOM()*/
-   this.fetchUserCollection()
-  },
-
-  beforeUnmount(){
-    console.log('UNSUBBED')
-    this.unsubscribe()
-  },
 }
 </script>
 

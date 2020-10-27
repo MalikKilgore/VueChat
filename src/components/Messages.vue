@@ -25,6 +25,7 @@ import Vuex from 'vuex'
 import firebase from 'firebase'
 import Vuefire from 'vuefire'
 import 'firebase/auth'
+import 'firebase/firestore'
 import router from '../router'
 import store from '../store'
 import {db, usersCollection, programChat, networkChat, creativeChat} from '../firebase/firebase.js'
@@ -78,16 +79,6 @@ export default {
             dbPln: this.message.databasePln
           })
           break
-        case `/home/:${chatID}`:
-          //THIS needs edited
-          this.message.databaseStr = `creativeChat`
-          this.message.databasePln = creativeChat
-          this.$store.dispatch('activeRoute', {
-            message: this.message.content,
-            dbStr: this.message.databaseStr,
-            dbPln: this.message.databasePln
-          })
-          break
       }      
     },
     //Reads the current Database in VueX state. Adds a firebase listener and displays active Database documents in the DOM
@@ -111,8 +102,22 @@ export default {
           msg.style.padding = '7px'
           msg.style.marginBottom = '10px'
           msg.style.borderRadius = '5px'
-
           msg.innerText = change.doc.data().content
+
+          let dlt = document.createElement('button')
+          dlt.innerText = 'Delete'
+          dlt.classList = 'dlt'
+          dlt.addEventListener('click', function(e){
+            let parentNode = this.parentElement
+            store.dispatch('dltMsg', 
+              parentNode.getAttribute('data-id'),
+              /*dbStr: store.state.currentDatabase,
+              dbPln: store.state.currentDatabase*/
+            )
+            
+          })
+
+          msg.appendChild(dlt)
           document.getElementById(`msgList`).appendChild(msg)
         }
         if (change.type === "modified") {
@@ -145,6 +150,7 @@ export default {
 
   //Updates active route and database when current path changes
   mounted(){
+    console.log('MOUNTED')
     this.$store.dispatch('activeRoute', {
       id: this.route.id,
       path: this.route.path

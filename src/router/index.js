@@ -15,13 +15,6 @@ const routes = [
     meta: {
       requiresAuth: true
     },
-    children: [
-      {
-        path: '/home/:chatID',
-        name: 'Messages',
-        component: Messages,
-      }
-    ]
   },
 
   {

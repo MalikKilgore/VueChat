@@ -6,7 +6,7 @@
         <br>
         <router-link :to="{ name: 'Messages', params: { chatID: 'creative' }}"> Creative </router-link>
     </div>
-    <router-view/>
+    <router-view :key="$route.fullPath"/>
 </template>
 
 <script>

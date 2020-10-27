@@ -111,6 +111,11 @@ export default createStore({
       }
     },
 
+    async dltMsg({dispatch}, id){
+      const database = this.state.currentDatabase
+      database.doc(id).delete()     
+    }
+
   },
 
   modules: {
