@@ -105,17 +105,15 @@ export default {
           msg.innerText = change.doc.data().content
 
           let dlt = document.createElement('button')
-          dlt.innerText = 'Delete'
+          dlt.innerText = 'X'
           dlt.classList = 'dlt'
           dlt.addEventListener('click', function(e){
             let parentNode = this.parentElement
-            store.dispatch('dltMsg', 
-              parentNode.getAttribute('data-id'),
-              /*dbStr: store.state.currentDatabase,
-              dbPln: store.state.currentDatabase*/
-            )
-            
-          })
+            let thisMsg = parentNode.getAttribute('data-id')
+
+
+            store.dispatch('dltMsg', thisMsg);
+          });
 
           msg.appendChild(dlt)
           document.getElementById(`msgList`).appendChild(msg)
@@ -139,7 +137,7 @@ export default {
     //Sends message to the firestore the user is currently using
     sendMsg(){
       document.getElementById('chat-form').reset()
-      //Dispatches String and plain text of current Database
+      //Dispatches String name and Ref of current Database
       this.$store.dispatch('sendMsg', {
         message: this.message.content,
         dbStr: this.message.databaseStr,

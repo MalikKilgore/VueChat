@@ -13,6 +13,7 @@ export default createStore({
     userProfile: {},
     currentRoute: {},
     currentDatabase: {},
+    currentUser: {}
   },
   mutations: {
     setUserProfile(state, val) {
@@ -24,6 +25,9 @@ export default createStore({
     setCurrentDatabase(state, val) {
       state.currentDatabase = val
     },
+    setCurrentUser(state, val) {
+      state.currentUser = val
+    }
   },
   actions: {
     async login({ dispatch }, form) {
@@ -40,6 +44,9 @@ export default createStore({
   
       // Sets user profile in state
       commit('setUserProfile', userProfile.data())
+
+      //Sets active user in state
+      commit('setCurrentUser', user)
       
       // Reroutes to dashboard/home
       router.push('/')
@@ -85,6 +92,7 @@ export default createStore({
 
     // Adds message to the specified database firestore.
     async sendMsg({dispatch}, form) {
+      const user = this.state.currentUser
 
       switch(form.dbStr){
         case `programChat`:
@@ -92,6 +100,7 @@ export default createStore({
           await programChat.doc().set({
             createdOn: new Date(),
             content: form.message,
+            sentBy: user.uid,
           })
           break
         case `networkChat`:
@@ -99,6 +108,7 @@ export default createStore({
           await networkChat.doc().set({
             createdOn: new Date(),
             content: form.message,
+            sentBy: user.uid,
           })
           break
         case `creativeChat`:
@@ -106,6 +116,7 @@ export default createStore({
           await creativeChat.doc().set({
             createdOn: new Date(),
             content: form.message,
+            sentBy: user.uid,
           })
           break
       }
@@ -113,6 +124,7 @@ export default createStore({
 
     async dltMsg({dispatch}, id){
       const database = this.state.currentDatabase
+      //database.doc(id).get(sentBy)
       database.doc(id).delete()     
     }
 
