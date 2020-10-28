@@ -132,6 +132,25 @@ export default createStore({
       } else {
         database.doc(id).delete()
       }
+    },
+
+    async editMsg({dispatch}, form){
+      const user = this.state.currentUser
+      const database = this.state.currentDatabase
+      const doc = await database.doc(form.id).get()
+      console.log('EDIT SUBMITTED')
+
+      if(doc.data().sentBy != user.uid){
+        console.log('You cannot edit this message')
+      } else {
+        database.doc(form.id).set({
+          createdOn: doc.data().createdOn,
+          editedOn: new Date(),
+          content: form.content,
+          sentBy: doc.data().sentBy,
+        })
+      }
+
     }
 
   },

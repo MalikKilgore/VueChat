@@ -47,7 +47,9 @@ export default {
       unsubscribe: null
     }
   },
+  components: {
 
+  },
   methods: {
     //Fetches the current database and updates it in VueX state
     fetchDatabase(){
@@ -113,13 +115,46 @@ export default {
             store.dispatch('dltMsg', thisMsg);
           });
 
+          let edit = document.createElement('button')
+          edit.innerText = 'Edit'
+          edit.classList = 'edit'
+          //Will later change this to just show/hide the form, instead of creating new ones.
+          edit.addEventListener('click', function(e){
+            let parentNode = this.parentElement
+            let thisMsg = parentNode.getAttribute('data-id')
+            let form = document.createElement('form')
+            let input = document.createElement('input')
+            let input2 = document.createElement('input')
+            
+            input.setAttribute('type', 'text')
+            input.placeholder = 'Edit message...'
+            input2.setAttribute('type', 'submit')
+            input2.setAttribute('style', 'display: none')
+
+            form.addEventListener('submit', function(e){
+              e.preventDefault()
+              store.dispatch('editMsg', {
+                id: thisMsg,
+                content: input.value
+              })
+
+            })
+          
+            form.appendChild(input2)
+            form.appendChild(input)
+            msg.appendChild(form)
+          })
+          
           msg.appendChild(dlt)
+          msg.appendChild(edit)
           document.getElementById(`msgList`).appendChild(msg)
         }
         if (change.type === "modified") {
           console.log("Modified message: ", change.doc.data());
           let editMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
           editMsg.innerText = change.doc.data().content
+          editMsg.appendChild(dlt)
+          editMsg.appendChild(edit)
         }
         if (change.type === "removed") {
           console.log("Removed message: ", change.doc.data());
