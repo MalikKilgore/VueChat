@@ -57,7 +57,7 @@ export default createStore({
       const { user } = await auth.createUserWithEmailAndPassword(form.email, form.password)
     
       // Creates user profile in usersCollections
-      await usersCollection.doc(form.name).set({
+      await usersCollection.doc(user.uid).set({
         name: form.name,
         email: form.email,
         password: form.password,
@@ -138,7 +138,6 @@ export default createStore({
       const user = this.state.currentUser
       const database = this.state.currentDatabase
       const doc = await database.doc(form.id).get()
-      console.log('EDIT SUBMITTED')
 
       if(doc.data().sentBy != user.uid){
         console.log('You cannot edit this message')

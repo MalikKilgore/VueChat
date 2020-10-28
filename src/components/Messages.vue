@@ -94,10 +94,10 @@ export default {
 
         if (change.type === "added") {
           console.log("New message: ", change.doc.data());
+          //Creates Msg div and sets styling/attributes for reference in DOM and Firebase
           let msg = document.createElement('div')
           msg.setAttribute('data-id', change.doc.id)
           msg.classList = 'message'
-
           msg.style.backgroundColor = '#4e609a'
           msg.style.color = '#ffffff'
           msg.style.fontWeight = 'bold'
@@ -106,6 +106,7 @@ export default {
           msg.style.borderRadius = '5px'
           msg.innerText = change.doc.data().content
 
+          //Deletes Message from Firebase when clicked
           let dlt = document.createElement('button')
           dlt.innerText = 'X'
           dlt.classList = 'dlt'
@@ -115,44 +116,96 @@ export default {
             store.dispatch('dltMsg', thisMsg);
           });
 
+          //Shows Edit form when clicked
           let edit = document.createElement('button')
           edit.innerText = 'Edit'
           edit.classList = 'edit'
-          //Will later change this to just show/hide the form, instead of creating new ones.
-          edit.addEventListener('click', function(e){
-            let parentNode = this.parentElement
-            let thisMsg = parentNode.getAttribute('data-id')
-            let form = document.createElement('form')
-            let input = document.createElement('input')
-            let input2 = document.createElement('input')
-            
-            input.setAttribute('type', 'text')
-            input.placeholder = 'Edit message...'
-            input2.setAttribute('type', 'submit')
-            input2.setAttribute('style', 'display: none')
 
+          // Form/Input Creation.
+          let thisDoc = change.doc.id
+          let form = document.createElement('form')
+          let input = document.createElement('input')
+          let input2 = document.createElement('input')
+          input.setAttribute('type', 'text')
+          input.placeholder = 'Edit message...'
+          input2.setAttribute('type', 'submit')
+          input2.setAttribute('style', 'display: none')
             form.addEventListener('submit', function(e){
               e.preventDefault()
               store.dispatch('editMsg', {
-                id: thisMsg,
+                id: thisDoc,
                 content: input.value
               })
-
             })
-          
-            form.appendChild(input2)
-            form.appendChild(input)
-            msg.appendChild(form)
-          })
+          form.appendChild(input2)
+          form.appendChild(input)
+          form.style.display = "none"
           
           msg.appendChild(dlt)
           msg.appendChild(edit)
+          msg.appendChild(form)
+
+          // Shows/Hides the form
+          edit.addEventListener('click', function(e){
+              if (form.style.display === "none") {
+                form.style.display = "block";
+              } else {
+               form.style.display = "none";
+               }
+          })
           document.getElementById(`msgList`).appendChild(msg)
         }
         if (change.type === "modified") {
           console.log("Modified message: ", change.doc.data());
           let editMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
           editMsg.innerText = change.doc.data().content
+          
+          let dlt = document.createElement('button')
+          dlt.innerText = 'X'
+          dlt.classList = 'dlt'
+          dlt.addEventListener('click', function(e){
+            let parentNode = this.parentElement
+            let thisMsg = parentNode.getAttribute('data-id')
+            store.dispatch('dltMsg', thisMsg);
+          });
+
+          //Shows Edit form when clicked
+          let edit = document.createElement('button')
+          edit.innerText = 'Edit'
+          edit.classList = 'edit'
+
+          // Form/Input Creation.
+          let thisDoc = editMsg.getAttribute('data-id')
+          let form = document.createElement('form')
+          let input = document.createElement('input')
+          let input2 = document.createElement('input')
+          input.setAttribute('type', 'text')
+          input.placeholder = 'Edit message...'
+          input2.setAttribute('type', 'submit')
+          input2.setAttribute('style', 'display: none')
+            form.addEventListener('submit', function(e){
+              e.preventDefault()
+              store.dispatch('editMsg', {
+                id: thisDoc,
+                content: input.value,
+              })
+            })
+          form.appendChild(input2)
+          form.appendChild(input)
+          form.style.display = "none"
+          
+          editMsg.appendChild(dlt)
+          editMsg.appendChild(edit)
+          editMsg.appendChild(form)
+
+          // Shows/Hides the form
+          edit.addEventListener('click', function(e){
+              if (form.style.display === "none") {
+                form.style.display = "block";
+              } else {
+               form.style.display = "none";
+               }
+          })
           editMsg.appendChild(dlt)
           editMsg.appendChild(edit)
         }
