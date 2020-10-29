@@ -77,17 +77,13 @@ export default createStore({
       router.push('/join')
     },
 
-    // Grabs and updates the active route state
+    // Grabs and updates the active route/database state
     async activeRoute({ commit }, form) {
-
       if (form.id){
         commit('setCurrentRoute', form.id)
-        console.log(`Setting route to ${this.state.currentRoute}`)
       } else if (form.dbPln) {
         commit('setCurrentDatabase', form.dbPln)
-        console.log(`Setting database to ${form.dbPln}`)
       }
-      
     },
 
     // Adds message to the specified database firestore.
@@ -121,7 +117,7 @@ export default createStore({
           break
       }
     },
-
+    //Deletes message in Firestore
     async dltMsg({dispatch}, id){
       const user = this.state.currentUser
       const database = this.state.currentDatabase
@@ -133,7 +129,7 @@ export default createStore({
         database.doc(id).delete()
       }
     },
-
+    //Edits message content in Firebase
     async editMsg({dispatch}, form){
       const user = this.state.currentUser
       const database = this.state.currentDatabase

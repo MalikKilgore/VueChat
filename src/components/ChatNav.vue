@@ -13,7 +13,6 @@
 //Left side of screen navbar
 import Vue from 'vue'
 import firebase from 'firebase'
-import Vuefire from 'vuefire'
 import 'firebase/auth'
 import router from '../router'
 import Vuex from 'vuex'

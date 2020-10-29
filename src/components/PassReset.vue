@@ -27,12 +27,12 @@ import 'firebase/auth'
 
 
 export default {
-    data() {
-        return {
-            email: '',
-            showSuccess: false
-        }
-    },
+  data() {
+    return {
+      email: '',
+      showSuccess: false
+    }
+  },
   methods: {
     async resetPassword() {
       // reset logic

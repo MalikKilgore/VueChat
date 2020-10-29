@@ -39,16 +39,12 @@ export default {
         path: this.$route.path,
       },
       message: {
-        //from: TBA,
         content: '',
         databaseStr: '',
         databasePln: null
       },
       unsubscribe: null
     }
-  },
-  components: {
-
   },
   methods: {
     //Fetches the current database and updates it in VueX state
@@ -89,7 +85,7 @@ export default {
       const database = store.state.currentDatabase
       const msgList = document.getElementById('msgList')
       
-      this.unsubscribe = database.onSnapshot(function(snapshot) {
+      this.unsubscribe = database.orderBy('createdOn').onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
 
         if (change.type === "added") {
@@ -234,7 +230,6 @@ export default {
 
   //Updates active route and database when current path changes
   mounted(){
-    console.log('MOUNTED')
     this.$store.dispatch('activeRoute', {
       id: this.route.id,
       path: this.route.path
@@ -244,7 +239,6 @@ export default {
 
   //Unsubscribes from current firestore listener. Prevents duplicate listeners from being active at once.
   beforeUnmount(){
-    console.log('UNSUBBED')
     this.unsubscribe()
   },
 
