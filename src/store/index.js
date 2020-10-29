@@ -1,18 +1,19 @@
 import { createStore } from 'vuex'
-import Vue from 'vue'
-import Vuex from 'vuex'
-import firebase from 'firebase'
 import 'firebase/firestore'
 import router from '../router/index'
-import { dmCollection, usersCollection, auth, programChat,
+import { usersCollection, auth, programChat,
    networkChat, creativeChat } from '../firebase/firebase.js'
 
 
 export default createStore({
   state: {
+    //Stores current user profile
     userProfile: {},
+    //Stores current route associated with the chatroom you're viewing
     currentRoute: {},
+    //Stores current database associated with the chatroom you're viewing
     currentDatabase: {},
+    //Stores current signed in user reference
     currentUser: {}
   },
   mutations: {
@@ -56,7 +57,7 @@ export default createStore({
       // Registers user account in Firebase
       const { user } = await auth.createUserWithEmailAndPassword(form.email, form.password)
     
-      // Creates user profile in usersCollections
+      // Creates user profile in usersCollections database/firestore
       await usersCollection.doc(user.uid).set({
         name: form.name,
         email: form.email,
@@ -86,7 +87,7 @@ export default createStore({
       }
     },
 
-    // Adds message to the specified database firestore.
+    // Adds message to the specified database/firestore.
     async sendMsg({dispatch}, form) {
       const user = this.state.currentUser
 
@@ -117,7 +118,7 @@ export default createStore({
           break
       }
     },
-    //Deletes message in Firestore
+    //Deletes message in database/firestore
     async dltMsg({dispatch}, id){
       const user = this.state.currentUser
       const database = this.state.currentDatabase
@@ -129,7 +130,7 @@ export default createStore({
         database.doc(id).delete()
       }
     },
-    //Edits message content in Firebase
+    //Edits message content in database/firestore
     async editMsg({dispatch}, form){
       const user = this.state.currentUser
       const database = this.state.currentDatabase
@@ -150,7 +151,5 @@ export default createStore({
 
   },
 
-  modules: {
-    
-  }
+  modules: {}
 })

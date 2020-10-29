@@ -1,4 +1,3 @@
-import firebase from 'firebase'
 import { createApp } from 'vue'
 import 'firebase/auth'
 import App from './App.vue'
@@ -7,7 +6,6 @@ import store from './store'
 import './assets/styles.css'
 import { auth } from './firebase/firebase'
 
-// createApp(App).use(store).use(router).mount('#app')
 
 let app
 auth.onAuthStateChanged(user => {

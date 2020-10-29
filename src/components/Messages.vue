@@ -20,10 +20,9 @@
 </template>
 
 <script>
-import Vue, { watch, computed } from 'vue'
+import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase'
-import Vuefire from 'vuefire'
 import 'firebase/auth'
 import 'firebase/firestore'
 import router from '../router'

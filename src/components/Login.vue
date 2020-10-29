@@ -36,9 +36,7 @@ import router from '../router'
 import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'
 
-
 export default {
-  
   data() {
       return {
         email: '',

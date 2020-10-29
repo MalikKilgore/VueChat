@@ -49,7 +49,6 @@
 <script>
 import Vue from 'vue'
 import firebase from 'firebase'
-import Vuefire from 'vuefire'
 import Vuex from 'vuex'
 import 'firebase/auth'
 import {db, usersCollection} from '../firebase/firebase.js'
