@@ -1,6 +1,5 @@
 <template>  
     <div id="msgList">
-
     </div>
     <br>
       <div id="chat-form-container">
@@ -96,6 +95,7 @@ export default {
           msg.style.backgroundColor = '#4e609a'
           msg.style.color = '#ffffff'
           msg.style.fontWeight = 'bold'
+          msg.style.fontSize = '20px'
           msg.style.padding = '7px'
           msg.style.marginBottom = '10px'
           msg.style.borderRadius = '5px'
@@ -105,6 +105,13 @@ export default {
           let dlt = document.createElement('button')
           dlt.innerText = 'X'
           dlt.classList = 'dlt'
+          dlt.style.backgroundColor = '#7289DA'
+          dlt.style.color = '#ffffff'
+          dlt.style.border = '0'
+          dlt.style.borderRadius = '5px'
+          dlt.style.float = 'right'
+          dlt.style.top = '0'
+
           dlt.addEventListener('click', function(e){
             let parentNode = this.parentElement
             let thisMsg = parentNode.getAttribute('data-id')
@@ -115,6 +122,12 @@ export default {
           let edit = document.createElement('button')
           edit.innerText = 'Edit'
           edit.classList = 'edit'
+          edit.style.backgroundColor = '#7289DA'
+          edit.style.color = '#ffffff'
+          edit.style.border = '0'
+          edit.style.borderRadius = '5px'
+          edit.style.float = 'right'
+          edit.style.top = '0'
 
           // Form/Input Creation.
           let thisDoc = change.doc.id
@@ -158,6 +171,11 @@ export default {
           let dlt = document.createElement('button')
           dlt.innerText = 'X'
           dlt.classList = 'dlt'
+          dlt.style.backgroundColor = '#7289DA'
+          dlt.style.color = '#ffffff'
+          dlt.style.border = '0'
+          dlt.style.borderRadius = '5px'
+          dlt.style.float = 'right'
           dlt.addEventListener('click', function(e){
             let parentNode = this.parentElement
             let thisMsg = parentNode.getAttribute('data-id')
@@ -168,6 +186,11 @@ export default {
           let edit = document.createElement('button')
           edit.innerText = 'Edit'
           edit.classList = 'edit'
+          edit.style.backgroundColor = '#7289DA'
+          edit.style.color = '#ffffff'
+          edit.style.border = '0'
+          edit.style.borderRadius = '5px'
+          edit.style.float = 'right'
 
           // Form/Input Creation.
           let thisDoc = editMsg.getAttribute('data-id')
@@ -262,13 +285,16 @@ export default {
 }
 
 #chat-form-container input[type='text'] {
-	font-size: 16px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #3a3c3f;
+  color: #ffffff;
 	padding: 5px;
 	height: 40px;
 	flex: 1;
 }
 
-#btn {
+.btn {
 	padding: 5px 15px;
 	background: #ffffff;
 	color: #2c3e50;

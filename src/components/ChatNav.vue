@@ -38,12 +38,18 @@ export default {
   a {
     font-weight: bold;
     font-size: 40px;
+    max-height: 50px;
     color: #18243a;
     background-color:  #92a2e2;
     border-radius: 5px;
+    vertical-align: middle;
+    text-decoration: none;
 
     &.router-link-exact-active {
       color: #e8edff;
+    }
+    &:hover {
+      color: #c9ccf0;
     }
   }
 }

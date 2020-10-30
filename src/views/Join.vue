@@ -1,7 +1,7 @@
 <template>
   <div class="join-container">
     <header class="join-header">
-    	<h1>Chatter</h1>
+		<h1>VueChat</h1>
 		<router-link to="/">Login</router-link> |
 		<router-link to="/join/register">Register</router-link>
     </header>
@@ -19,12 +19,9 @@ import Register from '../components/Register'
 
 export default {
   name: 'Join',
-  props: {
-
-  },
   components: {
 	Login,
-	Register
+	Register,
   }
 }
 </script>
@@ -44,11 +41,16 @@ export default {
 
 	a {
     font-weight: bold;
-    color: #2c3e50;
+	color: #2c3e50;
+	font-size: 16px;
+	text-decoration: none;
 
     	&.router-link-exact-active {
-      	color: #e8edff;
-    	}
+      		color: #e8edff;
+		}
+    	&:hover {
+      		color: #c9ccf0;
+    	}	
   	}
 }
 

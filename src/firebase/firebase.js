@@ -22,9 +22,12 @@ const auth = firebase.auth()
 
 // Collection references
 const usersCollection = db.collection('users')
+
 const programChat = db.collection('messages').doc('Chatrooms').collection('programming')
 const networkChat = db.collection('messages').doc('Chatrooms').collection('networking')
 const creativeChat = db.collection('messages').doc('Chatrooms').collection('creative')
+const generalChat = db.collection('messages').doc('Chatrooms').collection('general')
+const bugChat = db.collection('messages').doc('Chatrooms').collection('bug-report')
 
 export {
     db,
@@ -32,5 +35,7 @@ export {
     usersCollection,
     programChat,
     networkChat,
-    creativeChat
+    creativeChat,
+    generalChat,
+    bugChat
 }

@@ -11,14 +11,14 @@ import SiteNav from './components/SiteNav'
 export default {
   name: 'App',
   components: {
-    SiteNav
-  }
+    SiteNav,
+  },
 }
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, 'Roboto Slab', Arial, sans-serif; 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

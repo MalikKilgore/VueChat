@@ -1,8 +1,7 @@
 :root { 
- 
     /* 🏷️1 Group */
     /* 🎨Chetwode Blue */
-   --chetwode-blue-800: #0f1a2a; /* 800 */
+    --chetwode-blue-800: #0f1a2a; /* 800 */
    --chetwode-blue-700: #18243a; /* 700 */
    --chetwode-blue-500: #33436a; /* 500 */
    --chetwode-blue-300: #4e609a; /* 300 */
@@ -12,8 +11,28 @@
    --chetwode-blue-40: #c9ccf0; /* 40 */
    --chetwode-blue-30: #dfdff6; /* 30 */
    --chetwode-blue-1000: #000000; /* 1000 */
-      
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #3a3c3f;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #56595d;
+    border-radius: 10px;
+  }
+
+* {
+    box-sizing: border-box;
+  }
 
 html, body {
     height: auto;

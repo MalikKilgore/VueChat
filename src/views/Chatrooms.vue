@@ -22,6 +22,9 @@ export default {
 <style scoped lang="scss">
 .chatrooms {
   display: grid;
-	grid-template-columns: 1fr 3fr;
+  align-items: center;
+  //grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 1;
 }
 </style>
