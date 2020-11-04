@@ -29,9 +29,10 @@ export default {
 #siteNav {
   padding: 30px;
   background-color: #7289DA;
-  top: 0; 
-  width: 100%;
+  //top: 0; 
+  //width: 100%;
   text-align: center;
+  grid-area: siteNav;
 
   a {
     font-weight: bold;

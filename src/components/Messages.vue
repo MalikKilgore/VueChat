@@ -270,18 +270,20 @@ export default {
 <style scoped lang="scss">
 #msgList {
   background-color: #23272A;
-  height: 900px;
-  width: 3fr;
+  //height: 900px;
+  //width: 3fr;
   padding: 30px;
   overflow-y: scroll;
+  grid-area: msgList;
 }
 
 #chat-form-container {
-  width: 100%;
+  grid-area: chat-form-container;
 }
 
 #chat-form-container form {
   display: flex;
+  height: 100%;
 }
 
 #chat-form-container input[type='text'] {
@@ -290,7 +292,7 @@ export default {
   background-color: #3a3c3f;
   color: #ffffff;
 	padding: 5px;
-	height: 40px;
+	//height: 100%;
 	flex: 1;
 }
 

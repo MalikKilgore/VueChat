@@ -26,14 +26,15 @@ export default {
 <style scoped lang="scss">
 #chatNav {
     display: grid;
-    grid-auto-columns: 1;
-    grid-auto-rows: auto;
+    //grid-auto-columns: 1;
+    //grid-auto-rows: auto;
 
     background-color: #33436a;
     overflow-y: hidden;
-    height: 100%;
-    width: 1fr;
+    //height: 100%;
+    //width: 1fr;
     padding: 30px;
+    grid-area: chatNav;
 
   a {
     font-weight: bold;

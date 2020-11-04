@@ -39,6 +39,10 @@ export default {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 
+	h1 {
+		font-size: 24px;
+	}
+
 	a {
     font-weight: bold;
 	color: #2c3e50;

@@ -1,5 +1,5 @@
 <template>
-  <div class="chatrooms">
+  <div id="chatrooms">
     <ChatNav></ChatNav>
   </div>
 </template>
@@ -20,11 +20,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.chatrooms {
+#chatrooms {
+  text-align: center;
   display: grid;
-  align-items: center;
-  //grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  grid-template-columns: 1fr 3fr;
-  grid-template-rows: 1;
+  height: 100vh;
+  //align-items: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1.2fr 1.0fr 0.2fr;
+  grid-template-areas:
+  "chatNav msgList msgList msgList"
+  "chatNav msgList msgList msgList"
+  "chatNav chat-form-container chat-form-container chat-form-container";
+  grid-area: div;
+}
+#chatNav {
+  grid-area: chatNav;
 }
 </style>
