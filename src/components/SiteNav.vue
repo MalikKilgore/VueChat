@@ -56,8 +56,9 @@ export default {
 	color: #2c3e50;
 	border: 0;
 	border-radius: 5px;
-	font-size: 25px;
-  float: right;
+  font-size: 25px;
+  position: fixed;
+  right: 20px;
   
   &:hover {
     background: #a4a7c3;

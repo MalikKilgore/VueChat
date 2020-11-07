@@ -117,6 +117,10 @@ export default {
           msg.style.padding = '7px'
           msg.style.marginBottom = '10px'
           msg.style.borderRadius = '5px'
+          msg.style.width = 'fit-content'
+          msg.style.maxWidth = '100%'
+          msg.style.height = 'fit-content'
+          msg.style.wordWrap = 'break-word'
           msg.innerText = change.doc.data().content
 
           //Deletes Message from Firebase when clicked
@@ -125,6 +129,9 @@ export default {
           dlt.classList = 'dlt'
           dlt.style.backgroundColor = '#7289DA'
           dlt.style.color = '#ffffff'
+          dlt.style.fontWeight = 'bold'
+          dlt.style.fontSize = '16px'
+          dlt.style.padding = '4px'
           dlt.style.border = '0'
           dlt.style.borderRadius = '5px'
           dlt.style.float = 'right'
@@ -142,8 +149,11 @@ export default {
           edit.classList = 'edit'
           edit.style.backgroundColor = '#7289DA'
           edit.style.color = '#ffffff'
+          edit.style.fontWeight = 'bold'
+          edit.style.fontSize = '16px'
           edit.style.border = '0'
           edit.style.borderRadius = '5px'
+          edit.style.padding = '4px'
           edit.style.float = 'right'
           edit.style.top = '0'
 
@@ -151,6 +161,13 @@ export default {
           let thisDoc = change.doc.id
           let form = document.createElement('form')
           let input = document.createElement('input')
+
+          input.style.fontSize = '20px'
+          input.style.borderRadius = '5px'
+          input.style.backgroundColor = '#33436a'
+          input.style.color = '#ffffff'
+          input.style.padding = '5px'
+
           let input2 = document.createElement('input')
           input.setAttribute('type', 'text')
           input.placeholder = 'Edit message...'
@@ -191,9 +208,13 @@ export default {
           dlt.classList = 'dlt'
           dlt.style.backgroundColor = '#7289DA'
           dlt.style.color = '#ffffff'
+          dlt.style.fontWeight = 'bold'
+          dlt.style.fontSize = '16px'
+          dlt.style.padding = '4px'
           dlt.style.border = '0'
           dlt.style.borderRadius = '5px'
           dlt.style.float = 'right'
+          dlt.style.top = '0'
           dlt.addEventListener('click', function(e){
             let parentNode = this.parentElement
             let thisMsg = parentNode.getAttribute('data-id')
@@ -206,9 +227,13 @@ export default {
           edit.classList = 'edit'
           edit.style.backgroundColor = '#7289DA'
           edit.style.color = '#ffffff'
+          edit.style.fontWeight = 'bold'
+          edit.style.fontSize = '16px'
           edit.style.border = '0'
           edit.style.borderRadius = '5px'
+          edit.style.padding = '4px'
           edit.style.float = 'right'
+          edit.style.top = '0'
 
           // Form/Input Creation.
           let thisDoc = editMsg.getAttribute('data-id')
