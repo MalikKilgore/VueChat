@@ -1,6 +1,5 @@
 <template>  
-    <div id="msgList">
-    </div>
+    <div id="msgList"></div>
     <br>
       <div id="chat-form-container">
         <form id="chat-form" novalidate @submit.prevent>
@@ -26,7 +25,8 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import router from '../router'
 import store from '../store'
-import {db, usersCollection, programChat, networkChat, creativeChat} from '../firebase/firebase.js'
+import {db, usersCollection, programChat, networkChat, 
+creativeChat, generalChat, bugChat} from '../firebase/firebase.js'
 
 export default {
   name: 'Messages',
@@ -69,6 +69,24 @@ export default {
         case '/chatrooms/creative':
           this.message.databaseStr = `creativeChat`
           this.message.databasePln = creativeChat
+          this.$store.dispatch('activeRoute', {
+            message: this.message.content,
+            dbStr: this.message.databaseStr,
+            dbPln: this.message.databasePln
+          })
+          break
+        case '/chatrooms/general':
+          this.message.databaseStr = `generalChat`
+          this.message.databasePln = generalChat
+          this.$store.dispatch('activeRoute', {
+            message: this.message.content,
+            dbStr: this.message.databaseStr,
+            dbPln: this.message.databasePln
+          })
+          break
+        case '/chatrooms/bugReport':
+          this.message.databaseStr = `bugChat`
+          this.message.databasePln = bugChat
           this.$store.dispatch('activeRoute', {
             message: this.message.content,
             dbStr: this.message.databaseStr,

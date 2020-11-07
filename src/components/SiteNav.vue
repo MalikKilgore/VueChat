@@ -16,6 +16,7 @@ import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'
 
 export default {
+  name: 'SiteNav',
   methods: {
     //Log user out of application
     logout() {
@@ -38,7 +39,7 @@ export default {
     color: #18243a;
     text-decoration: none;
     vertical-align: middle;
-    padding: 10px;
+    padding: 7px;
 
     &.router-link-exact-active {
       color: #e8edff;

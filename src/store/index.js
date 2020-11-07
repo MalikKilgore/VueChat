@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import 'firebase/firestore'
 import router from '../router/index'
 import { usersCollection, auth, programChat,
-   networkChat, creativeChat } from '../firebase/firebase.js'
+   networkChat, creativeChat, generalChat, bugChat } from '../firebase/firebase.js'
 
 
 export default createStore({
@@ -116,6 +116,21 @@ export default createStore({
             sentBy: user.uid,
           })
           break
+        case `generalChat`:
+          console.log('Using generalChat database')
+          await generalChat.doc().set({
+            createdOn: new Date(),
+            content: form.message,
+            sentBy: user.uid,
+          })
+          break
+        case `bugChat`:
+          console.log('Using bugChat database')
+          await bugChat.doc().set({
+            createdOn: new Date(),
+            content: form.message,
+            sentBy: user.uid,
+          })
       }
     },
     //Deletes message in database/firestore

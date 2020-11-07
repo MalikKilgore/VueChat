@@ -72,15 +72,4 @@ input {
 	flex: 1;
 }
 
-.btn {
-	padding: 5px 15px;
-	background: #ffffff;
-	color: #2c3e50;
-	border: 0;
-	border-radius: 5px;
-  font-size: 17px;
-  &:hover {
-    background: #a4a7c3;
-  }
-}
 </style>

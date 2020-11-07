@@ -1,15 +1,16 @@
 <template>
     <div id="chatNav">
       <h1>Topics:</h1>
+        <router-link :to="{ name: 'Messages', params: { chatID: 'general' }}"> #General </router-link>
         <router-link :to="{ name: 'Messages', params: { chatID: 'programming' }}"> #Programming </router-link>
         <router-link :to="{ name: 'Messages', params: { chatID: 'networking' }}"> #Networking </router-link>
         <router-link :to="{ name: 'Messages', params: { chatID: 'creative' }}"> #Creative </router-link>
+        <router-link :to="{ name: 'Messages', params: { chatID: 'bugReport' }}"> #Bug Reports </router-link>
     </div>
     <router-view :key="$route.fullPath"/>
 </template>
 
 <script>
-//Left side of screen navbar
 import Vue from 'vue'
 import firebase from 'firebase'
 import 'firebase/auth'

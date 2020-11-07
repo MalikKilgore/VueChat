@@ -40,13 +40,14 @@ export default {
 	border-top-right-radius: 5px;
 
 	h1 {
-		font-size: 24px;
+		font-size: 30px;
+		margin: 2px;
 	}
 
 	a {
     font-weight: bold;
 	color: #2c3e50;
-	font-size: 16px;
+	font-size: 24px;
 	text-decoration: none;
 
     	&.router-link-exact-active {
@@ -77,22 +78,31 @@ export default {
 }
 .join-main label {
 	display: block;
-	margin-bottom: 5px;
+	margin-bottom: 2px;
+	margin-top: 2px;
+	font-size: 20px;
 }
 .join-main input [type='text'] {
-	font-size: 16px;
-	padding: 5px;
 	height: 40px;
 	width: 100%;
-}
-.join-main select {
-	font-size: 16px;
+	font-size: 20px;
+  	border-radius: 5px;
+  	background-color: #3a3c3f;
+  	color: #ffffff;
 	padding: 5px;
-	height: 40px;
-	width: 100%;
 }
+
 .join-main .btn {
-	margin-top: 20px;
-	width: 100%;
+	padding: 5px 15px;
+	margin-top: 30px;
+	background: #ffffff;
+	color: #2c3e50;
+	border: 0;
+	border-radius: 5px;
+	font-size: 25px;
+  
+  &:hover {
+    background: #a4a7c3;
+  }
 }
 </style>
