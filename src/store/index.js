@@ -97,7 +97,8 @@ export default createStore({
           await programChat.doc().set({
             createdOn: new Date(),
             content: form.message,
-            sentBy: user.uid,
+            sentByUID: user.uid,
+            sentByEmail: user.email
           })
           break
         case `networkChat`:
@@ -105,7 +106,8 @@ export default createStore({
           await networkChat.doc().set({
             createdOn: new Date(),
             content: form.message,
-            sentBy: user.uid,
+            sentByUID: user.uid,
+            sentByEmail: user.email
           })
           break
         case `creativeChat`:
@@ -113,7 +115,8 @@ export default createStore({
           await creativeChat.doc().set({
             createdOn: new Date(),
             content: form.message,
-            sentBy: user.uid,
+            sentByUID: user.uid,
+            sentByEmail: user.email
           })
           break
         case `generalChat`:
@@ -121,7 +124,8 @@ export default createStore({
           await generalChat.doc().set({
             createdOn: new Date(),
             content: form.message,
-            sentBy: user.uid,
+            sentByUID: user.uid,
+            sentByEmail: user.email
           })
           break
         case `bugChat`:
@@ -129,7 +133,8 @@ export default createStore({
           await bugChat.doc().set({
             createdOn: new Date(),
             content: form.message,
-            sentBy: user.uid,
+            sentByUID: user.uid,
+            sentByEmail: user.email
           })
       }
     },
@@ -139,7 +144,7 @@ export default createStore({
       const database = this.state.currentDatabase
       const doc = await database.doc(id).get()
 
-      if(doc.data().sentBy != user.uid){
+      if(doc.data().sentByUID != user.uid){
         console.log('You cannot delete this message')
       } else {
         database.doc(id).delete()
@@ -151,14 +156,15 @@ export default createStore({
       const database = this.state.currentDatabase
       const doc = await database.doc(form.id).get()
 
-      if(doc.data().sentBy != user.uid){
+      if(doc.data().sentByUID != user.uid){
         console.log('You cannot edit this message')
       } else {
         database.doc(form.id).set({
           createdOn: doc.data().createdOn,
           editedOn: new Date(),
           content: form.content,
-          sentBy: doc.data().sentBy,
+          sentByUID: doc.data().sentByUID,
+          sentByEmail: doc.data().sentByEmail
         })
       }
 

@@ -20,7 +20,7 @@
 <script>
 import Vue from 'vue'
 import Vuex from 'vuex'
-import firebase from 'firebase'
+import firebase, {toDate, toDateString, toLocaleTimeString} from 'firebase'
 import 'firebase/auth'
 import 'firebase/firestore'
 import router from '../router'
@@ -41,7 +41,7 @@ export default {
         databaseStr: '',
         databasePln: null
       },
-      unsubscribe: null
+      unsubscribe: null,
     }
   },
   methods: {
@@ -99,13 +99,24 @@ export default {
     renderDOM(){
       console.log('starting renderDOM')
       const database = store.state.currentDatabase
+      const user = store.state.currentUser
       const msgList = document.getElementById('msgList')
       
       this.unsubscribe = database.orderBy('createdOn').onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
-
+        
         if (change.type === "added") {
           console.log("New message: ", change.doc.data());
+          const time = change.doc.data().createdOn
+
+          let sentFrom = document.createElement('div')
+          sentFrom.setAttribute('sentBy-id', change.doc.id)
+          sentFrom.innerText = `Sent by: ${change.doc.data().sentByEmail} on ${time.toDate().toDateString()}, ${time.toDate().toLocaleTimeString()}`
+          sentFrom.style.fontSize = '15px'
+          sentFrom.style.color = '#ffffff'
+          sentFrom.style.width = 'fit-content'
+          sentFrom.style.height = 'fit-content'
+
           //Creates Msg div and sets styling/attributes for reference in DOM and Firebase
           let msg = document.createElement('div')
           msg.setAttribute('data-id', change.doc.id)
@@ -187,7 +198,7 @@ export default {
           msg.appendChild(dlt)
           msg.appendChild(edit)
           msg.appendChild(form)
-
+          
           // Shows/Hides the form
           edit.addEventListener('click', function(e){
               if (form.style.display === "none") {
@@ -196,7 +207,9 @@ export default {
                form.style.display = "none";
                }
           })
+
           document.getElementById(`msgList`).appendChild(msg)
+          msg.insertAdjacentElement('beforebegin', sentFrom)
         }
         if (change.type === "modified") {
           console.log("Modified message: ", change.doc.data());
@@ -241,7 +254,14 @@ export default {
           let input = document.createElement('input')
           let input2 = document.createElement('input')
           input.setAttribute('type', 'text')
+
           input.placeholder = 'Edit message...'
+          input.style.fontSize = '20px'
+          input.style.borderRadius = '5px'
+          input.style.backgroundColor = '#33436a'
+          input.style.color = '#ffffff'
+          input.style.padding = '5px'
+
           input2.setAttribute('type', 'submit')
           input2.setAttribute('style', 'display: none')
             form.addEventListener('submit', function(e){
@@ -272,7 +292,9 @@ export default {
         }
         if (change.type === "removed") {
           console.log("Removed message: ", change.doc.data());
+          let rmFrom = msgList.querySelector('[sentBy-id=' + change.doc.id + ']')
           let rmMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
+          msgList.removeChild(rmFrom)
           msgList.removeChild(rmMsg)
         }
 
@@ -317,6 +339,8 @@ export default {
   overflow-y: scroll;
   grid-area: msgList;
 }
+
+
 
 #chat-form-container {
   grid-area: chat-form-container;
