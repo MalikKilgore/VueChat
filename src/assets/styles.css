@@ -38,4 +38,12 @@ html, body {
     height: auto;
     width: auto;
     background-color: #18243a;
+    font-family: Helvetica, 'Roboto Slab', Arial, sans-serif; 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: block;
+  margin: 0px;
 }

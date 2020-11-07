@@ -1,10 +1,9 @@
 <template>
     <div id="chatNav">
-        <router-link :to="{ name: 'Messages', params: { chatID: 'programming' }}"> Programming </router-link>
-        <br>
-        <router-link :to="{ name: 'Messages', params: { chatID: 'networking' }}"> Networking </router-link>
-        <br>
-        <router-link :to="{ name: 'Messages', params: { chatID: 'creative' }}"> Creative </router-link>
+      <h1>Topics:</h1>
+        <router-link :to="{ name: 'Messages', params: { chatID: 'programming' }}"> #Programming </router-link>
+        <router-link :to="{ name: 'Messages', params: { chatID: 'networking' }}"> #Networking </router-link>
+        <router-link :to="{ name: 'Messages', params: { chatID: 'creative' }}"> #Creative </router-link>
     </div>
     <router-view :key="$route.fullPath"/>
 </template>
@@ -26,14 +25,11 @@ export default {
 <style scoped lang="scss">
 #chatNav {
     display: grid;
-    //grid-auto-columns: 1;
-    //grid-auto-rows: auto;
-
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     background-color: #33436a;
     overflow-y: hidden;
-    //height: 100%;
-    //width: 1fr;
-    padding: 30px;
+    padding: 20px;
     grid-area: chatNav;
 
   a {
@@ -51,6 +47,33 @@ export default {
     }
     &:hover {
       color: #c9ccf0;
+    }
+  }
+  h1 {
+    font-weight: bold;
+    font-size: 50px;
+    max-height: 50px;
+    color: #e8edff;
+    vertical-align: middle;
+    margin: 0;
+  }
+}
+@media only screen and (max-width:680px){
+  #chatNav{
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    a {
+      font-weight: bold;
+      font-size: 23.5px;
+      max-height: max-content;
+      margin: 2px;
+      vertical-align: middle;
+    }
+    h1 {
+      font-weight: bold;
+      font-size: 25px;
+      max-height: 30px;
+      margin: 0;
     }
   }
 }

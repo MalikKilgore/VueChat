@@ -23,17 +23,27 @@ export default {
 #chatrooms {
   text-align: center;
   display: grid;
-  height: 100vh;
-  //align-items: center;
+  height: 91vh;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1.2fr 1.0fr 0.2fr;
+  grid-template-rows: 1.2fr 1.0fr 0.1fr;
   grid-template-areas:
   "chatNav msgList msgList msgList"
   "chatNav msgList msgList msgList"
   "chatNav chat-form-container chat-form-container chat-form-container";
-  grid-area: div;
+  grid-area: chatrooms;
 }
 #chatNav {
   grid-area: chatNav;
+}
+
+@media only screen and (max-width:680px){
+  #chatrooms{
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.3fr 2.2fr 0.2fr;
+    grid-template-areas:   
+    "chatNav"
+    "msgList"
+    "chat-form-container";
+  }
 }
 </style>

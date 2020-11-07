@@ -29,8 +29,6 @@ export default {
 #siteNav {
   padding: 30px;
   background-color: #7289DA;
-  //top: 0; 
-  //width: 100%;
   text-align: center;
   grid-area: siteNav;
 
@@ -59,5 +57,9 @@ export default {
 	border-radius: 5px;
 	font-size: 25px;
   float: right;
+  
+  &:hover {
+    background: #a4a7c3;
+  }
 }
 </style>

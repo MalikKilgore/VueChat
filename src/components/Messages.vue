@@ -3,7 +3,7 @@
     </div>
     <br>
       <div id="chat-form-container">
-        <form id="chat-form" @submit.prevent>
+        <form id="chat-form" novalidate @submit.prevent>
           <input
             id="message"
             name="message"
@@ -270,8 +270,6 @@ export default {
 <style scoped lang="scss">
 #msgList {
   background-color: #23272A;
-  //height: 900px;
-  //width: 3fr;
   padding: 30px;
   overflow-y: scroll;
   grid-area: msgList;
@@ -287,12 +285,11 @@ export default {
 }
 
 #chat-form-container input[type='text'] {
-  font-size: 16px;
+  font-size: 20px;
   border-radius: 5px;
   background-color: #3a3c3f;
   color: #ffffff;
 	padding: 5px;
-	//height: 100%;
 	flex: 1;
 }
 
@@ -302,6 +299,9 @@ export default {
 	color: #2c3e50;
 	border: 0;
 	border-radius: 5px;
-	font-size: 17px;
+  font-size: 17px;
+  &:hover {
+    background: #a4a7c3;
+  }
 }
 </style>
