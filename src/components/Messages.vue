@@ -340,8 +340,6 @@ export default {
   grid-area: msgList;
 }
 
-
-
 #chat-form-container {
   grid-area: chat-form-container;
 }
