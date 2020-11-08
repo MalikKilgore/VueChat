@@ -2,22 +2,13 @@
   <div class="register">
     <form @submit.prevent>
       <div class="form-control">
-        <label for="firstName">First name</label>
+        <label for="userName">Username</label>
         <input
-          id="firstName"
-          v-model="firstName"
+          id="userName"
+          v-model="userName"
           type="text"
-          name="firstName"
-          placeholder="Enter your first name..."
-          required
-        >
-        <label for="lastName">Last name</label>
-        <input
-          id="lastName"
-          v-model="lastName"
-          type="text"
-          name="lastName"
-          placeholder="Enter your last name..."
+          name="userName"
+          placeholder="Enter your username..."
           required
         >
         <label for="email">E-mail</label>
@@ -58,8 +49,7 @@ export default {
   
   data() {
       return {
-        firstName:'',
-        lastName:'',
+        userName: '',
         email: '',
         password: '',
       }
@@ -71,7 +61,7 @@ export default {
         this.$store.dispatch('createUser', {
         email: this.email,
         password: this.password,
-        name: this.firstName + '  ' + this.lastName,
+        name: this.userName,
         title: this.title
         })
     },

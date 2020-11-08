@@ -98,7 +98,7 @@ export default createStore({
             createdOn: new Date(),
             content: form.message,
             sentByUID: user.uid,
-            sentByEmail: user.email
+            sentByEmail: user.email,
           })
           break
         case `networkChat`:

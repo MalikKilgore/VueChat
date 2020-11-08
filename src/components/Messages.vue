@@ -97,7 +97,6 @@ export default {
     },
     //Reads the current Database in VueX state. Adds a firebase listener and displays active Database documents in the DOM
     renderDOM(){
-      console.log('starting renderDOM')
       const database = store.state.currentDatabase
       const user = store.state.currentUser
       const msgList = document.getElementById('msgList')
@@ -106,12 +105,11 @@ export default {
         snapshot.docChanges().forEach(function(change) {
         
         if (change.type === "added") {
-          console.log("New message: ", change.doc.data());
           const time = change.doc.data().createdOn
-
           let sentFrom = document.createElement('div')
           sentFrom.setAttribute('sentBy-id', change.doc.id)
-          sentFrom.innerText = `Sent by: ${change.doc.data().sentByEmail} on ${time.toDate().toDateString()}, ${time.toDate().toLocaleTimeString()}`
+          sentFrom.classList = 'msgLabel'
+          sentFrom.innerText = `Sent by ${change.doc.data().sentByEmail} on ${time.toDate().toDateString()} at ${time.toDate().toLocaleTimeString()}`
           sentFrom.style.fontSize = '15px'
           sentFrom.style.color = '#ffffff'
           sentFrom.style.width = 'fit-content'
@@ -135,50 +133,41 @@ export default {
           msg.style.wordWrap = 'break-word'
           msg.innerText = change.doc.data().content
 
-          //Deletes Message from Firebase when clicked
-          let dlt = document.createElement('button')
-          dlt.innerText = 'X'
-          dlt.classList = 'dlt'
-          dlt.style.backgroundColor = '#7289DA'
-          dlt.style.color = '#ffffff'
-          dlt.style.fontWeight = 'bold'
-          dlt.style.fontSize = '16px'
-          dlt.style.padding = '4px'
-          dlt.style.border = '0'
-          dlt.style.borderRadius = '5px'
-          dlt.style.float = 'right'
-          dlt.style.top = '0'
-
-          dlt.addEventListener('click', function(e){
-            let parentNode = this.parentElement
-            let thisMsg = parentNode.getAttribute('data-id')
-            store.dispatch('dltMsg', thisMsg);
-          });
-
-          //Shows Edit form when clicked
-          let edit = document.createElement('button')
-          edit.innerText = 'Edit'
-          edit.classList = 'edit'
-          edit.style.backgroundColor = '#7289DA'
-          edit.style.color = '#ffffff'
-          edit.style.fontWeight = 'bold'
-          edit.style.fontSize = '16px'
-          edit.style.border = '0'
-          edit.style.borderRadius = '5px'
-          edit.style.padding = '4px'
-          edit.style.float = 'right'
-          edit.style.top = '0'
-
           //Changes message position and color if doc was created by the same user set in the currentUser state store 
           if (change.doc.data().sentByEmail == user.email){
-            sentFrom.style.marginLeft = 'auto'
-            msg.style.marginLeft = 'auto'
-            msg.style.backgroundColor = '#33436a'
-            edit.style.backgroundColor = '#4e609a'
-            dlt.style.backgroundColor = '#4e609a'
-          }
+            //Deletes Message from Firebase when clicked
+            let dlt = document.createElement('button')
+            dlt.innerText = 'X'
+            dlt.classList = 'dlt'
+            dlt.style.color = '#ffffff'
+            dlt.style.fontWeight = 'bold'
+            dlt.style.fontSize = '16px'
+            dlt.style.padding = '4px'
+            dlt.style.border = '0'
+            dlt.style.borderRadius = '5px'
+            dlt.style.float = 'right'
+            dlt.style.top = '0'
 
-          // Form/Input Creation.
+            dlt.addEventListener('click', function(e){
+              let parentNode = this.parentElement
+              let thisMsg = parentNode.getAttribute('data-id')
+              store.dispatch('dltMsg', thisMsg);
+            });
+
+            //Shows Edit form when clicked
+            let edit = document.createElement('button')
+            edit.innerText = 'Edit'
+            edit.classList = 'edit'
+            edit.style.color = '#ffffff'
+            edit.style.fontWeight = 'bold'
+            edit.style.fontSize = '16px'
+            edit.style.border = '0'
+            edit.style.borderRadius = '5px'
+            edit.style.padding = '4px'
+            edit.style.float = 'right'
+            edit.style.top = '0'
+
+                      // Form/Input Creation.
           let thisDoc = change.doc.id
           let form = document.createElement('form')
           let input = document.createElement('input')
@@ -205,10 +194,6 @@ export default {
           form.appendChild(input)
           form.style.display = "none"
           
-          msg.appendChild(dlt)
-          msg.appendChild(edit)
-          msg.appendChild(form)
-          
           // Shows/Hides the form
           edit.addEventListener('click', function(e){
               if (form.style.display === "none") {
@@ -218,18 +203,30 @@ export default {
                }
           })
 
+            sentFrom.style.marginLeft = 'auto'
+            sentFrom.innerText = `${time.toDate().toDateString()} at ${time.toDate().toLocaleTimeString()}`
+            msg.style.marginLeft = 'auto'
+            msg.style.backgroundColor = '#33436a'
+            edit.style.backgroundColor = '#4e609a'
+            dlt.style.backgroundColor = '#4e609a'
+
+          msg.appendChild(dlt)
+          msg.appendChild(edit)
+          msg.appendChild(form)
+          }
+
           document.getElementById(`msgList`).appendChild(msg)
           msg.insertAdjacentElement('beforebegin', sentFrom)
         }
         if (change.type === "modified") {
-          console.log("Modified message: ", change.doc.data());
+          
           let editMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
           editMsg.innerText = change.doc.data().content
-          
-          let dlt = document.createElement('button')
+          if (change.doc.data().sentByEmail == user.email){          
+            let dlt = document.createElement('button')
           dlt.innerText = 'X'
           dlt.classList = 'dlt'
-          dlt.style.backgroundColor = '#7289DA'
+          dlt.style.backgroundColor = '#4e609a'
           dlt.style.color = '#ffffff'
           dlt.style.fontWeight = 'bold'
           dlt.style.fontSize = '16px'
@@ -248,7 +245,7 @@ export default {
           let edit = document.createElement('button')
           edit.innerText = 'Edit'
           edit.classList = 'edit'
-          edit.style.backgroundColor = '#7289DA'
+          edit.style.backgroundColor = '#4e609a'
           edit.style.color = '#ffffff'
           edit.style.fontWeight = 'bold'
           edit.style.fontSize = '16px'
@@ -284,10 +281,6 @@ export default {
           form.appendChild(input2)
           form.appendChild(input)
           form.style.display = "none"
-          
-          editMsg.appendChild(dlt)
-          editMsg.appendChild(edit)
-          editMsg.appendChild(form)
 
           // Shows/Hides the form
           edit.addEventListener('click', function(e){
@@ -299,9 +292,11 @@ export default {
           })
           editMsg.appendChild(dlt)
           editMsg.appendChild(edit)
+          editMsg.appendChild(form)
+          }
+        
         }
         if (change.type === "removed") {
-          console.log("Removed message: ", change.doc.data());
           let rmFrom = msgList.querySelector('[sentBy-id=' + change.doc.id + ']')
           let rmMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
           msgList.removeChild(rmFrom)

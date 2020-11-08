@@ -25,13 +25,14 @@ export default {
   display: grid;
   height: 91vh;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1.2fr 1.0fr 0.1fr;
+  grid-template-rows: 1.2fr 1.0fr 0.13fr;
   grid-template-areas:
   "chatNav msgList msgList msgList"
   "chatNav msgList msgList msgList"
   "chatNav chat-form-container chat-form-container chat-form-container";
   grid-area: chatrooms;
 }
+
 #chatNav {
   grid-area: chatNav;
 }
