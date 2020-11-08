@@ -23,6 +23,7 @@ export default {
   width: 100vw;
   align-items: center;
   display: grid;
+  overflow: hidden;
   
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 0.2fr 2.2fr;
@@ -34,7 +35,7 @@ export default {
 @media only screen and (max-width:680px){
   #app{
     grid-template-columns: 1fr;
-    grid-template-rows: 0.2fr 2.2fr;
+    grid-template-rows: 0.2fr 0.8fr;
     grid-template-areas:   
     "siteNav"
     "chatrooms";

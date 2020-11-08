@@ -115,6 +115,7 @@ export default {
           sentFrom.style.fontSize = '15px'
           sentFrom.style.color = '#ffffff'
           sentFrom.style.width = 'fit-content'
+          sentFrom.style.maxWidth = '50%'
           sentFrom.style.height = 'fit-content'
 
           //Creates Msg div and sets styling/attributes for reference in DOM and Firebase
@@ -129,7 +130,7 @@ export default {
           msg.style.marginBottom = '10px'
           msg.style.borderRadius = '5px'
           msg.style.width = 'fit-content'
-          msg.style.maxWidth = '100%'
+          msg.style.maxWidth = '50%'
           msg.style.height = 'fit-content'
           msg.style.wordWrap = 'break-word'
           msg.innerText = change.doc.data().content
@@ -167,6 +168,15 @@ export default {
           edit.style.padding = '4px'
           edit.style.float = 'right'
           edit.style.top = '0'
+
+          //Changes message position and color if doc was created by the same user set in the currentUser state store 
+          if (change.doc.data().sentByEmail == user.email){
+            sentFrom.style.marginLeft = 'auto'
+            msg.style.marginLeft = 'auto'
+            msg.style.backgroundColor = '#33436a'
+            edit.style.backgroundColor = '#4e609a'
+            dlt.style.backgroundColor = '#4e609a'
+          }
 
           // Form/Input Creation.
           let thisDoc = change.doc.id
