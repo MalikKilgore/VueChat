@@ -93,7 +93,6 @@ export default createStore({
 
       switch(form.dbStr){
         case `programChat`:
-          console.log('Using programChat database')
           await programChat.doc().set({
             createdOn: new Date(),
             content: form.message,
@@ -102,7 +101,6 @@ export default createStore({
           })
           break
         case `networkChat`:
-          console.log('Using networkChat database')
           await networkChat.doc().set({
             createdOn: new Date(),
             content: form.message,
@@ -111,7 +109,6 @@ export default createStore({
           })
           break
         case `creativeChat`:
-          console.log('Using creativeChat database')
           await creativeChat.doc().set({
             createdOn: new Date(),
             content: form.message,
@@ -120,7 +117,6 @@ export default createStore({
           })
           break
         case `generalChat`:
-          console.log('Using generalChat database')
           await generalChat.doc().set({
             createdOn: new Date(),
             content: form.message,
@@ -129,7 +125,6 @@ export default createStore({
           })
           break
         case `bugChat`:
-          console.log('Using bugChat database')
           await bugChat.doc().set({
             createdOn: new Date(),
             content: form.message,
