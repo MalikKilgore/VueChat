@@ -2,7 +2,7 @@
   <div class="join-container">
     <header class="join-header">
 		<h1>VueChat</h1>
-		<router-link to="/">Login</router-link> |
+		<router-link to="/join">Login</router-link> |
 		<router-link to="/join/register">Register</router-link>
     </header>
     <main class="join-main">

@@ -167,7 +167,7 @@ export default {
             edit.style.float = 'right'
             edit.style.top = '0'
 
-                      // Form/Input Creation.
+          // Form/Input Creation.
           let thisDoc = change.doc.id
           let form = document.createElement('form')
           let input = document.createElement('input')

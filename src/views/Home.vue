@@ -44,7 +44,6 @@ export default {
 
 <style scoped lang="scss">
 #home {
-  display: grid;
   text-align: center;
   display: grid;
   height: 91vh;
