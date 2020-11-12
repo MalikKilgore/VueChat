@@ -1,7 +1,7 @@
 <template>
     <div id="siteNav">
         <router-link to="/">Home</router-link> 
-        <router-link :to="{ name: 'Messages', params: { chatID: 'general' }}"> Chatrooms </router-link>
+        <router-link to="/chatrooms"> Chatrooms </router-link>
         <button class="btn" v-on:click="logout">Logout</button>
     </div>
   <router-view :key="$route.fullPath"/>
@@ -9,8 +9,6 @@
 
 <script>
 import Vue from 'vue'
-import firebase from 'firebase'
-import 'firebase/auth'
 import router from '../router'
 import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'

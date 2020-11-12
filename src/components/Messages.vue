@@ -20,9 +20,7 @@
 <script>
 import Vue from 'vue'
 import Vuex from 'vuex'
-import firebase, {toDate, toDateString, toLocaleTimeString} from 'firebase'
-import 'firebase/auth'
-import 'firebase/firestore'
+import firebase, {toDate, toDateString, toLocaleTimeString} from 'firebase/app'
 import router from '../router'
 import store from '../store'
 import {db, usersCollection, programChat, networkChat, 
@@ -331,6 +329,14 @@ export default {
 
   //Unsubscribes from current firestore listener. Prevents duplicate listeners from being active at once.
   beforeUnmount(){
+    //TIE MSGLIST TO VUE DATA???
+    const msgList = document.getElementById('msgList')
+    msgList.innerHTML = '';
+    msgList.textContent = '';
+    while (msgList.lastElementChild) {
+      msgList.removeChild(msgList.lastElementChild)
+    };
+    console.log('ERASING EVERYTHING')
     this.unsubscribe()
   },
 

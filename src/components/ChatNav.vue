@@ -12,8 +12,6 @@
 
 <script>
 import Vue from 'vue'
-import firebase from 'firebase'
-import 'firebase/auth'
 import router from '../router'
 import Vuex from 'vuex'
 import {db, usersCollection} from '../firebase/firebase.js'

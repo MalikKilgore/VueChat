@@ -1,5 +1,4 @@
 import { createStore } from 'vuex'
-import 'firebase/firestore'
 import router from '../router/index'
 import { usersCollection, auth, programChat,
    networkChat, creativeChat, generalChat, bugChat } from '../firebase/firebase.js'
