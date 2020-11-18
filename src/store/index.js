@@ -49,7 +49,7 @@ export default createStore({
       commit('setCurrentUser', user)
       
       // Reroutes to dashboard/home
-      router.push('/')
+      router.push('/chatrooms')
     },
 
     async createUser({ dispatch }, form) {

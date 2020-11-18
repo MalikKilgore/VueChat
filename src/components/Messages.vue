@@ -101,7 +101,7 @@ export default {
       
       this.unsubscribe = database.orderBy('createdOn').onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
-        
+        //ADDED MESSAGES
         if (change.type === "added") {
           const time = change.doc.data().createdOn
           let sentFrom = document.createElement('div')
@@ -215,7 +215,9 @@ export default {
 
           document.getElementById(`msgList`).appendChild(msg)
           msg.insertAdjacentElement('beforebegin', sentFrom)
+          msg.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
         }
+        //MODIFIED MESSAGES
         if (change.type === "modified") {
           
           let editMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
@@ -294,6 +296,7 @@ export default {
           }
         
         }
+        //DELETED MESSAGES
         if (change.type === "removed") {
           let rmFrom = msgList.querySelector('[sentBy-id=' + change.doc.id + ']')
           let rmMsg = msgList.querySelector('[data-id=' + change.doc.id + ']')
