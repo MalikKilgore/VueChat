@@ -9,23 +9,17 @@
         It was built primarily using Vue.js, Firebase, and SCSS. For more information on the technical aspects and challenges, there is a video below.
       </p>
       <h1>Getting Started</h1>
-      <p>To try out the app, just click the login/register button below to be taken to the login page. E-mail verification is not required,
-        so you do not have to enter your real e-mail or sign up for anything when creating an account.
-      </p>
-      <router-link to="/join">Login/Register</router-link>
-      <br>
-      <h1>How to use</h1>
       <ul>
-        <li>To use this application, you must register an account using any e-mail/username combination you want. Or you can use the provided Demo credentials below.<br>
+        <li>To use this application, you can register an account using any e-mail/username combination you want. Or you can use the provided Demo credentials below.<br>
         <i>email: "me@home.com" | password: "Password1234"</i></li>
           <br>
-        <li><b>You do not need to use a real e-mail on account creation.</b> For now, VueChat does not verify e-mail access, 
-      since this is just to display the work done on the project.</li>
+        <li><b>You do not need to use a real e-mail on account creation.</b> For now, VueChat does not verify e-mail accounts entered, 
+      since this is just to display a working demo of the project.</li>
           <br>
-        <li>After that, you can navigate to Chatrooms, join any chatroom you want, and start sending, editing, or deleting your messages.</li>
+        <li>After login, you can navigate to Chatrooms, join any chatroom you want, and start sending, editing, or deleting your messages.</li>
           <br>
-        <li>You can watch the video below if you'd like a demonstration of the project and the technological details behind it!</li>
       </ul>
+      <router-link to="/join">Login/Register</router-link> <br> <br>
       <embed src="https://www.youtube.com/embed/M-R5B_HT-lQ" width="840" height="473" title="VueChat Demonstration">
     </div>
     <div>
