@@ -55,7 +55,7 @@ export default {
 	border: 0;
 	border-radius: 5px;
   font-size: 25px;
-  position: fixed;
+  position: absolute;
   right: 20px;
   
   &:hover {

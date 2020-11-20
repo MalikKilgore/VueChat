@@ -15,16 +15,18 @@
       <router-link to="/join">Login/Register</router-link>
       <br>
       <h1>How to use</h1>
-      <p>To use this application, you must register an account using any e-mail/username combination you want.<br>
-      <b>You do not need to use a real e-mail or account name.</b> VueChat does not verify e-mail access, since this is just to display the work done on the project. <br>
-        After that, you can navigate to Chatrooms, join any chatroom you want, and start sending messages. <br>
-        To edit or delete a message, you can click the respective buttons on your message to do so.
-      </p>
-      <!--
-        <a href="https://youtu.be/M-R5B_HT-lQ">
-          <img src="../assets/VueChatVideo.png">
-        </a>
-      -->
+      <ul>
+        <li>To use this application, you must register an account using any e-mail/username combination you want. Or you can use the provided Demo credentials below.<br>
+        <i>email: "me@home.com" | password: "Password1234"</i></li>
+          <br>
+        <li><b>You do not need to use a real e-mail on account creation.</b> For now, VueChat does not verify e-mail access, 
+      since this is just to display the work done on the project.</li>
+          <br>
+        <li>After that, you can navigate to Chatrooms, join any chatroom you want, and start sending, editing, or deleting your messages.</li>
+          <br>
+        <li>You can watch the video below if you'd like a demonstration of the project and the technological details behind it!</li>
+      </ul>
+      <embed src="https://www.youtube.com/embed/M-R5B_HT-lQ" width="840" height="473" title="VueChat Demonstration">
     </div>
     <div>
 
@@ -91,6 +93,11 @@ export default {
     height: auto;
     max-width: 800px;
     max-height: 800px;
+    text-decoration: none;
+  }
+  li {
+    font-size: 20px;
+    color: #ffffff;
     text-decoration: none;
   }
 }
