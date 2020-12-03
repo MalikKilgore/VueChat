@@ -26,8 +26,8 @@ export default {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1.2fr 1.0fr 0.13fr;
   grid-template-areas:
-  "directNav msgList msgList msgList"
-  "directNav msgList msgList msgList"
+  "directNav dmList dmList dmList"
+  "directNav dmList dmList dmList"
   "directNav chat-form-container chat-form-container chat-form-container";
   grid-area: direct;
 }

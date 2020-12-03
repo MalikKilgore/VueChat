@@ -1,9 +1,10 @@
 <template>
   <div id="directNav">
     <h1>Users:</h1>
-    <router-link :to="{ name: 'directMessages', params: { directID: 'facebook' } }">
+    <!--<router-link :to="{ name: 'directMessages', params: { directID: 'facebook' } }">
       #Facebook
-    </router-link>
+    </router-link> -->
+
   </div>
   <router-view :key="$route.fullPath" />
 </template>
@@ -40,12 +41,12 @@ export default {
       this.unsubscribe = database.orderBy("name")
       .onSnapshot(function(snapshot) {
           snapshot.docChanges().forEach(function(change) {
-            //ADDED MESSAGES
+            //ADDED USERS
             if (change.type === "added") {
               let userLink = document.createElement("a");
               userLink.setAttribute('user-id', change.doc.id)
               //userLink.setAttribute(`:to`, `"{ name: 'Messages', params: { chatID: ${change.doc.id} }}"`)
-              //userLink.setAttribute('href', `/direct/${change.doc.id}`)
+              userLink.setAttribute('href', `/direct/${change.doc.id}`)
               userLink.addEventListener('click', function(e){
                   e.preventDefault()
                   router.push(`/direct/${change.doc.id}`)
@@ -56,10 +57,10 @@ export default {
 
               directNav.appendChild(userLink)
             }
-            //MODIFIED MESSAGES
+            //MODIFIED USERS
             if (change.type === "modified") {
             }
-            //DELETED MESSAGES
+            //DELETED USERS
             if (change.type === "removed") {
             }
           });
@@ -70,7 +71,7 @@ export default {
     this.renderDOM()
   },
   beforeUnmount(){
-    this.unsubscribe()
+    //this.unsubscribe()
   },
 };
 </script>

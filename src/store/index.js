@@ -65,6 +65,14 @@ export default createStore({
         uid: user.uid
       })
 
+      //Creates direct message collection for user profile upon account creation.
+      await usersCollection.doc(user.uid).collection('direct').doc('first').set({
+        createdOn: new Date(),
+        sentByUID: 'SYSTEM',
+        sentByEmail: 'SYSTEM',
+        content: `Welcome to the beginning of your chat history with ${form.name}!`
+      })
+
       // Fetches the current user profile and updates it in state
       dispatch('fetchUserProfile', user).then(alert(`Account created for ${form.email}`))
     },
@@ -89,7 +97,7 @@ export default createStore({
     // Adds message to the specified database/firestore.
     async sendMsg({dispatch}, form) {
       const user = this.state.currentUser
-      const dmChat = this
+      const dmChat = form.dbPln
 
       switch(form.dbStr){
         case `programChat`:
@@ -133,6 +141,12 @@ export default createStore({
           })
           break
         default:
+          await dmChat.doc().set({
+            createdOn: new Date(),
+            content: form.message,
+            sentByUID: user.uid,
+            sentByEmail: user.email
+          })
           break
       }
 
