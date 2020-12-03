@@ -33,7 +33,7 @@ export default {
     }
   },
   methods: {
-    renderDOM() {
+    renderList() {
       const database = usersCollection;
       const user = store.state.currentUser;
       const directNav = document.getElementById("directNav");
@@ -45,7 +45,6 @@ export default {
             if (change.type === "added") {
               let userLink = document.createElement("a");
               userLink.setAttribute('user-id', change.doc.id)
-              //userLink.setAttribute(`:to`, `"{ name: 'Messages', params: { chatID: ${change.doc.id} }}"`)
               userLink.setAttribute('href', `/direct/${change.doc.id}`)
               userLink.addEventListener('click', function(e){
                   e.preventDefault()
@@ -54,8 +53,11 @@ export default {
  
               userLink.innerText = change.doc.data().name
 
-
-              directNav.appendChild(userLink)
+                if(change.doc.data().uid == user.uid){
+                    return
+                } else if (change.doc.data().uid != user.uid){
+                    directNav.appendChild(userLink)
+                }
             }
             //MODIFIED USERS
             if (change.type === "modified") {
@@ -68,10 +70,11 @@ export default {
     },
   },
   mounted(){
-    this.renderDOM()
+    this.renderList()
   },
   beforeUnmount(){
-    //this.unsubscribe()
+    console.log('UNSUBBED DMs')
+    this.unsubscribe()
   },
 };
 </script>

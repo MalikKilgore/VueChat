@@ -83,6 +83,7 @@ export default {
           msg.innerText = change.doc.data().content
 
           //Changes message position and color if doc was created by the same user set in the currentUser state store 
+          //Also controls permissions for editing/deleting messages.
           if (change.doc.data().sentByEmail == user.email){
             //Deletes Message from Firebase when clicked
             let dlt = document.createElement('button')
@@ -164,9 +165,15 @@ export default {
           msg.appendChild(form)
           }
 
-          document.getElementById(`dmList`).appendChild(msg)
-          msg.insertAdjacentElement('beforebegin', sentFrom)
-          msg.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
+          //Controls whether the message displays or not. Message can't be seen if it wasn't sent TO you or BY you.
+            if (change.doc.data().sentTo == user.uid || change.doc.data().sentByEmail == user.email){
+                 document.getElementById(`dmList`).appendChild(msg)
+                msg.insertAdjacentElement('beforebegin', sentFrom)
+                msg.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
+            } else {
+                return 
+            }
+
         }
         //MODIFIED MESSAGES
         if (change.type === "modified") {

@@ -98,6 +98,8 @@ export default createStore({
     async sendMsg({dispatch}, form) {
       const user = this.state.currentUser
       const dmChat = form.dbPln
+      const dmID = form.dbStr
+      const personalChat = usersCollection.doc(user.uid).collection('direct')
 
       switch(form.dbStr){
         case `programChat`:
@@ -145,10 +147,18 @@ export default createStore({
             createdOn: new Date(),
             content: form.message,
             sentByUID: user.uid,
-            sentByEmail: user.email
+            sentByEmail: user.email,
+            sentTo: dmID,
+          })
+          await personalChat.doc().set({
+            createdOn: new Date(),
+            content: form.message,
+            sentByUID: user.uid,
+            sentByEmail: user.email,
+            sentTo: dmID,
           })
           break
-      }
+        }
 
     },
     //Deletes message in database/firestore
