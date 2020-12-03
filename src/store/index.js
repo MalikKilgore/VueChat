@@ -89,6 +89,7 @@ export default createStore({
     // Adds message to the specified database/firestore.
     async sendMsg({dispatch}, form) {
       const user = this.state.currentUser
+      const dmChat = this
 
       switch(form.dbStr){
         case `programChat`:
@@ -130,7 +131,11 @@ export default createStore({
             sentByUID: user.uid,
             sentByEmail: user.email
           })
+          break
+        default:
+          break
       }
+
     },
     //Deletes message in database/firestore
     async dltMsg({dispatch}, id){

@@ -2,6 +2,7 @@
     <div id="siteNav">
         <router-link to="/">Home</router-link> 
         <router-link to="/chatrooms"> Chatrooms </router-link>
+        <router-link to="/direct"> Direct </router-link>
         <button class="btn" v-on:click="logout">Logout</button>
     </div>
   <router-view :key="$route.fullPath"/>

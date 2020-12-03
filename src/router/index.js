@@ -1,10 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Chatrooms from '../views/Chatrooms.vue'
+import Direct from '../views/Direct.vue'
 import Join from '../views/Join.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import Messages from '../components/Messages.vue'
+import DirectMessages from '../components/DirectMessages.vue'
 import { auth } from '../firebase/firebase.js'
 
 const routes = [
@@ -13,7 +15,21 @@ const routes = [
     name: 'Home',
     component: Home,
   },
-
+  {
+    path: '/direct',
+    name: 'Direct',
+    component: Direct,
+    meta: {
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: '/direct/:directID',
+        name: 'directMessages',
+        component: DirectMessages,
+      }
+    ]
+  },
   {
     path: '/chatrooms',
     name: 'Chatrooms',
