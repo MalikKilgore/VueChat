@@ -50,9 +50,17 @@ export default {
                   e.preventDefault()
                   router.push(`/direct/${change.doc.id}`)
               })
+              userLink.style.fontSize = '40px'
+              userLink.style.fontWeight = 'bold'
+              userLink.style.maxHeight = '50px'
+              userLink.style.color = '#18243a'
+              userLink.style.backgroundColor = '#92a2e2'
+              userLink.style.borderRadius = '5px'
+              userLink.style.verticalAlign = 'middle'
+              userLink.style.textDecoration = 'none'
  
               userLink.innerText = change.doc.data().name
-
+                //Hides user database if it matches logged in user.
                 if(change.doc.data().uid == user.uid){
                     return
                 } else if (change.doc.data().uid != user.uid){
@@ -61,9 +69,13 @@ export default {
             }
             //MODIFIED USERS
             if (change.type === "modified") {
+              let userEdited = directNav.querySelector('[user-id=' + change.doc.id + ']');
+              userEdited.innerText = change.doc.data().name
             }
             //DELETED USERS
             if (change.type === "removed") {
+              let userDeleted = directNav.querySelector('[user-id=' + change.doc.id + ']');
+              directNav.removeChild(userDeleted)
             }
           });
         });
@@ -73,7 +85,6 @@ export default {
     this.renderList()
   },
   beforeUnmount(){
-    console.log('UNSUBBED DMs')
     this.unsubscribe()
   },
 };
@@ -85,7 +96,7 @@ export default {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   background-color: #33436a;
-  overflow-y: hidden;
+  overflow-y: scroll;
   padding: 20px;
   grid-area: directNav;
 

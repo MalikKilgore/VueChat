@@ -42,7 +42,7 @@ export default {
     grid-template-rows: 0.3fr 2.2fr 0.2fr;
     grid-template-areas:   
     "directNav"
-    "msgList"
+    "dmList"
     "chat-form-container";
   }
 }

@@ -1,6 +1,5 @@
 <template>
     <div id="chatNav">
-      <h1>Topics:</h1>
         <router-link :to="{ name: 'Messages', params: { chatID: 'general' }}"> #General </router-link>
         <router-link :to="{ name: 'Messages', params: { chatID: 'programming' }}"> #Programming </router-link>
         <router-link :to="{ name: 'Messages', params: { chatID: 'networking' }}"> #Networking </router-link>
@@ -76,6 +75,4 @@ export default {
     }
   }
 }
-
-
 </style>

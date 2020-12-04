@@ -45,7 +45,6 @@ export default {
   methods: {
     //Reads the current Database in VueX state. Adds a firebase listener and displays active Database documents in the DOM
     renderDOM(){
-        //TODO: UPDATE TO PROPER DATABASE.
       const database = store.state.currentDatabase
       const user = store.state.currentUser
       const dmList = document.getElementById('dmList')
@@ -268,21 +267,18 @@ export default {
     },
     //Fetches the current database and updates it in VueX state
     fetchDatabase(){
-        let userIDslice = this.route.path.substr(8)
+      let userIDslice = this.route.path.substr(8)
+      let dmDatabase = usersCollection.doc(userIDslice).collection('direct')
 
-        let dmDatabase = usersCollection.doc(userIDslice).collection('direct')
+      this.message.databaseStr = `${userIDslice}`
+      this.message.databasePln = dmDatabase
 
-          this.message.databaseStr = `${userIDslice}`
-          this.message.databasePln = dmDatabase
-          console.log(this.message.databaseStr)
-
-          this.$store.dispatch('activeRoute', {
-            message: this.message.content,
-            dbStr: this.message.databaseStr,
-            dbPln: this.message.databasePln
-          })
+      this.$store.dispatch('activeRoute', {
+        message: this.message.content,
+        dbStr: this.message.databaseStr,
+        dbPln: this.message.databasePln
+      })
     },
-
     //Sends message to the firestore the user is currently using
     sendMsg(){
       document.getElementById('chat-form').reset()
@@ -291,7 +287,7 @@ export default {
         
         this.message.databaseStr = `${userIDslice}`
         this.message.databasePln = dmDatabase
-      //Dispatches String name and Ref of current Database
+      //Dispatches String UID and reference of user's Database
       this.$store.dispatch('sendMsg', {
         message: this.message.content,
         dbStr: this.message.databaseStr,
