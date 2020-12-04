@@ -29,6 +29,8 @@ const creativeChat = db.collection('messages').doc('Chatrooms').collection('crea
 const generalChat = db.collection('messages').doc('Chatrooms').collection('general')
 const bugChat = db.collection('messages').doc('Chatrooms').collection('bug-report')
 
+const videoRooms = db.collection('video-rooms')
+
 export {
     db,
     auth,
@@ -37,5 +39,6 @@ export {
     networkChat,
     creativeChat,
     generalChat,
-    bugChat
+    bugChat,
+    videoRooms
 }

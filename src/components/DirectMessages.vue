@@ -23,8 +23,9 @@ import Vuex from 'vuex'
 import firebase, {toDate, toDateString, toLocaleTimeString} from 'firebase/app'
 import router from '../router'
 import store from '../store'
+import Video from '../components/Video'
 import {db, usersCollection, programChat, networkChat, 
-creativeChat, generalChat, bugChat} from '../firebase/firebase.js'
+creativeChat, generalChat, bugChat, videoRooms} from '../firebase/firebase.js'
 
 export default {
   name: 'directMessages',
@@ -41,6 +42,9 @@ export default {
       },
       unsubscribe: null,
     }
+  },
+  components: {
+    Video
   },
   methods: {
     //Reads the current Database in VueX state. Adds a firebase listener and displays active Database documents in the DOM
