@@ -74,8 +74,6 @@ export default {
             this.localVideo.srcObject = stream;
             this.localStream = stream;
             this.buttons.callButton.disabled = false;
-            console.log('attempting to load video...')
-            vid.load()
         } catch (e) {
             alert(`getUserMedia() error: ${e.name}`);
         }
@@ -93,43 +91,43 @@ export default {
         if (audioTracks.length > 0) {
             console.log(`Using audio device: ${audioTracks[0].label}`);
         }
-        const configuration = getSelectedSdpSemantics();
+        const configuration = this.getSelectedSdpSemantics();
         console.log('RTCPeerConnection configuration:', configuration);
-        pc1 = new RTCPeerConnection(configuration);
+        this.pc1 = new RTCPeerConnection(configuration);
         console.log('Created local peer connection object pc1');
-        pc1.addEventListener('icecandidate', e => onIceCandidate(pc1, e));
-        pc2 = new RTCPeerConnection(configuration);
+        this.pc1.addEventListener('icecandidate', e => this.onIceCandidate(this.pc1, e));
+        this.pc2 = new RTCPeerConnection(configuration);
         console.log('Created remote peer connection object pc2');
-        pc2.addEventListener('icecandidate', e => onIceCandidate(pc2, e));
-        pc1.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc1, e));
-        pc2.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc2, e));
-        pc2.addEventListener('track', gotRemoteStream);
+        this.pc2.addEventListener('icecandidate', e => this.onIceCandidate(this.pc2, e));
+        this.pc1.addEventListener('iceconnectionstatechange', e => this.onIceStateChange(this.pc1, e));
+        this.pc2.addEventListener('iceconnectionstatechange', e => this.onIceStateChange(this.pc2, e));
+        this.pc2.addEventListener('track', this.gotRemoteStream);
 
-        this.localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
+        this.localStream.getTracks().forEach(track => this.pc1.addTrack(track, this.localStream));
         console.log('Added local stream to pc1');
 
         try {
             console.log('pc1 createOffer start');
-            const offer = await pc1.createOffer(offerOptions);
-            await onCreateOfferSuccess(offer);
+            const offer = await this.pc1.createOffer(this.offerOptions);
+            await this.onCreateOfferSuccess(offer);
         } catch (e) {
-            onCreateSessionDescriptionError(e);
+            this.onCreateSessionDescriptionError(e);
         }
     },
     hangup() {
         console.log('Ending call');
-        pc1.close();
-        pc2.close();
-        pc1 = null;
-        pc2 = null;
+        this.pc1.close();
+        this.pc2.close();
+        this.pc1 = null;
+        this.pc2 = null;
         this.buttons.hangupButton.disabled = true;
         this.buttons.callButton.disabled = false;
     },
     getName(pc) {
-      return (pc === pc1) ? 'pc1' : 'pc2';
+      return (pc === this.pc1) ? 'pc1' : 'pc2';
     },
     getOtherPc(pc) {
-      return (pc === pc1) ? pc2 : pc1;
+      return (pc === this.pc1) ? this.pc2 : this.pc1;
     },
     getSelectedSdpSemantics() {
       const sdpSemanticsSelect = document.querySelector('#sdpSemantics');
@@ -140,18 +138,18 @@ export default {
       console.log(`Offer from pc1\n${desc.sdp}`);
       console.log('pc1 setLocalDescription start');
       try {
-        await pc1.setLocalDescription(desc);
-        onSetLocalSuccess(pc1);
+        await this.pc1.setLocalDescription(desc);
+        this.onSetLocalSuccess(this.pc1);
       } catch (e) {
-        onSetSessionDescriptionError();
+        this.onSetSessionDescriptionError();
       }
 
       console.log('pc2 setRemoteDescription start');
       try {
-        await pc2.setRemoteDescription(desc);
-        onSetRemoteSuccess(pc2);
+        await this.pc2.setRemoteDescription(desc);
+        this.onSetRemoteSuccess(this.pc2);
       } catch (e) {
-        onSetSessionDescriptionError();
+        this.onSetSessionDescriptionError();
       }
 
       console.log('pc2 createAnswer start');
@@ -159,14 +157,15 @@ export default {
       // to pass in the right constraints in order for it to
       // accept the incoming offer of audio and video.
       try {
-        const answer = await pc2.createAnswer();
-        await onCreateAnswerSuccess(answer);
+        const answer = await this.pc2.createAnswer();
+        await this.onCreateAnswerSuccess(answer);
       } catch (e) {
-        onCreateSessionDescriptionError(e);
+        this.onCreateSessionDescriptionError(e);
       }
     },
     gotRemoteStream(e) {
       if (this.remoteVideo.srcObject !== e.streams[0]) {
+        document.getElementById('remoteVideo').srcObject = e.streams[0]
         this.remoteVideo.srcObject = e.streams[0];
         console.log('pc2 received remote stream');
       }
@@ -175,27 +174,50 @@ export default {
       console.log(`Answer from pc2:\n${desc.sdp}`);
       console.log('pc2 setLocalDescription start');
       try {
-        await pc2.setLocalDescription(desc);
-        onSetLocalSuccess(pc2);
+        await this.pc2.setLocalDescription(desc);
+        this.onSetLocalSuccess(this.pc2);
       } catch (e) {
-        onSetSessionDescriptionError(e);
+        this.onSetSessionDescriptionError(e);
       }
       console.log('pc1 setRemoteDescription start');
       try {
-        await pc1.setRemoteDescription(desc);
-        onSetRemoteSuccess(pc1);
+        await this.pc1.setRemoteDescription(desc);
+        this.onSetRemoteSuccess(this.pc1);
       } catch (e) {
-        onSetSessionDescriptionError(e);
+        this.onSetSessionDescriptionError(e);
       }
     },
     async onIceCandidate(pc, event) {
       try {
-        await (getOtherPc(pc).addIceCandidate(event.candidate));
-        onAddIceCandidateSuccess(pc);
+        await (this.getOtherPc(pc).addIceCandidate(event.candidate));
+        this.onAddIceCandidateSuccess(pc);
       } catch (e) {
-        onAddIceCandidateError(pc, e);
+        this.onAddIceCandidateError(pc, e);
       }
-      console.log(`${getName(pc)} ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
+      console.log(`${this.getName(pc)} ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
+    },
+
+    //Error Handlers
+    onIceStateChange(pc, event) {
+      if (pc) {
+        console.log(`${this.getName(pc)} ICE state: ${pc.iceConnectionState}`);
+        console.log('ICE state change event: ', event);
+      }
+    },
+    onAddIceCandidateError(pc, error) {
+      console.log(`${this.getName(pc)} failed to add ICE Candidate: ${error.toString()}`);
+    },
+    onCreateSessionDescriptionError(error) {
+      console.log(`Failed to create session description: ${error.toString()}`);
+    },
+    onSetSessionDescriptionError(error) {
+      console.log(`Failed to set session description: ${error.toString()}`);
+    },
+    onSetRemoteSuccess(pc) {
+      console.log(`${this.getName(pc)} setRemoteDescription complete`);
+    },
+    onSetLocalSuccess(pc) {
+      console.log(`${this.getName(pc)} setLocalDescription complete`);
     },
 
   },
@@ -214,12 +236,9 @@ export default {
   position: fixed;
   z-index: 20;
 }
-.videoCall {
-    
-}
 
 video {
-  background: #222;
+  background: rgb(97, 97, 97);
 }
 
 label {
