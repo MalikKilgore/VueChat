@@ -13,7 +13,9 @@ export default createStore({
     //Stores current database associated with the chatroom you're viewing
     currentDatabase: {},
     //Stores current signed in user reference
-    currentUser: {}
+    currentUser: {},
+    //Toggles Video div on or off.
+    displayVid: false,
   },
   mutations: {
     setUserProfile(state, val) {
@@ -27,7 +29,10 @@ export default createStore({
     },
     setCurrentUser(state, val) {
       state.currentUser = val
-    }
+    },
+    setDisplayVid(state, val){
+      state.displayVid = val
+    },
   },
   actions: {
     async login({ dispatch }, form) {
@@ -190,9 +195,18 @@ export default createStore({
           sentByEmail: doc.data().sentByEmail
         })
       }
-
-    }
-
+    },
+    async toggleVid({commit}){
+      const val = this.state.displayVid
+      switch(val){
+        case true:
+          commit('setDisplayVid', false)
+          break
+        case false:
+          commit('setDisplayVid', true)
+          break
+      }
+    },
   },
 
   modules: {}

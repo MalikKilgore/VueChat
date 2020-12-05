@@ -1,9 +1,6 @@
 <template>
   <div id="directNav">
     <h1>Users:</h1>
-    <!--<router-link :to="{ name: 'directMessages', params: { directID: 'facebook' } }">
-      #Facebook
-    </router-link> -->
 
   </div>
   <router-view :key="$route.fullPath" />
@@ -50,6 +47,8 @@ export default {
                   e.preventDefault()
                   router.push(`/direct/${change.doc.id}`)
               })
+
+
               userLink.style.fontSize = '40px'
               userLink.style.fontWeight = 'bold'
               userLink.style.maxHeight = '50px'
@@ -58,6 +57,12 @@ export default {
               userLink.style.borderRadius = '5px'
               userLink.style.verticalAlign = 'middle'
               userLink.style.textDecoration = 'none'
+              userLink.addEventListener('mouseover', function(e){
+                userLink.style.color = '#c9ccf0'
+              })
+              userLink.addEventListener('mouseleave', function(e){
+                userLink.style.color = '#18243a'
+              })
  
               userLink.innerText = change.doc.data().name
                 //Hides user database if it matches logged in user.

@@ -1,5 +1,7 @@
 <template>  
-    <div id="dmList"></div>
+    <div id="dmList">
+      <Video v-show="displayVid" />
+    </div>
     <br>
       <div id="chat-form-container">
         <form id="chat-form" novalidate @submit.prevent>
@@ -12,6 +14,7 @@
             autocomplete="off"
             required
           />
+          <button class="btn" v-on:click="toggleVid">Display</button>
           <button class="btn" v-on:click="sendMsg">Send</button>
         </form>
       </div>    
@@ -28,7 +31,7 @@ import {db, usersCollection, programChat, networkChat,
 creativeChat, generalChat, bugChat, videoRooms} from '../firebase/firebase.js'
 
 export default {
-  name: 'directMessages',
+  name: 'DirectMessages',
   data() {
     return {
       route: {
@@ -298,6 +301,15 @@ export default {
         dbPln: this.message.databasePln
       })     
     },
+    toggleVid(){
+      this.$store.dispatch('toggleVid')
+    },
+
+  },
+  computed:{
+    displayVid(){
+      return store.state.displayVid
+    }
   },
 
   //Updates active route and database when current path changes
@@ -317,7 +329,6 @@ export default {
     while (dmList.lastElementChild) {
       dmList.removeChild(dmList.lastElementChild)
     };
-    console.log('ERASING EVERYTHING')
     this.unsubscribe()
   },
 
