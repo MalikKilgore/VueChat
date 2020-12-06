@@ -1,10 +1,7 @@
 <template>
   <div class="videoRoot">
+    <h1>This section is in development.</h1>
     <div class="videoCall">
-      <!-- 
-:src="localVideo.srcObject"
-:src="remoteVideo.srcObject"
-      -->
       <video id="localVideo" width="450" height="300" playsinline autoplay muted></video>
       <video id="remoteVideo" width="450" height="300" playsinline autoplay></video>
     </div>
@@ -43,6 +40,7 @@ export default {
           srcObject: null,
         },
         localStream: null,
+        remoteStream: null,
         pc1: null,
         pc2: null,
         offerOptions: {

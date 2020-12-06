@@ -47,8 +47,6 @@ export default {
                   e.preventDefault()
                   router.push(`/direct/${change.doc.id}`)
               })
-
-
               userLink.style.fontSize = '40px'
               userLink.style.fontWeight = 'bold'
               userLink.style.maxHeight = '50px'
@@ -90,6 +88,12 @@ export default {
     this.renderList()
   },
   beforeUnmount(){
+    const directNav = document.getElementById('directNav')
+    directNav.innerHTML = '';
+    directNav.textContent = '';
+    while (directNav.lastElementChild) {
+      directNav.removeChild(directNav.lastElementChild)
+    };
     this.unsubscribe()
   },
 };
