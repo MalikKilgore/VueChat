@@ -141,9 +141,10 @@ export default {
       // Listening for remote session description below
       roomRef.onSnapshot(async (snapshot) => {
         const data = snapshot.data();
+        //console.log(data.offer.sdp)
         if (!this.peerConnection || !this.peerConnection.remoteDescription) {
-          console.log("Got remote description: ", data.answer);
-          const rtcSessionDescription = new RTCSessionDescription(data.answer);
+          console.log("Got remote description: ", data);
+          const rtcSessionDescription = new RTCSessionDescription(data.offer);
           await this.peerConnection.setRemoteDescription(rtcSessionDescription);
         }
       });
@@ -174,7 +175,7 @@ export default {
           document.querySelector(
             "#currentRoom"
           ).innerText = `Current room is ${this.roomId} - You are the callee!`;
-          await joinRoomById(this.roomId);
+          await this.joinRoomById(this.roomId);
         
         { once: true }
       
@@ -188,12 +189,12 @@ export default {
       if (roomSnapshot.exists) {
         console.log(
           "Create PeerConnection with configuration: ",
-          configuration
+          this.configuration
         );
-        this.peerConnection = new RTCPeerConnection(configuration);
+        this.peerConnection = new RTCPeerConnection(this.configuration);
         this.registerPeerConnectionListeners();
         this.localStream.getTracks().forEach((track) => {
-          this.peerConnection.addTrack(track, localStream);
+          this.peerConnection.addTrack(track, this.localStream);
         });
 
         // Code for collecting ICE candidates below
@@ -278,8 +279,8 @@ export default {
         track.stop();
       });
 
-      if (remoteStream) {
-        remoteStream.getTracks().forEach((track) => track.stop());
+      if (this.remoteStream) {
+        this.remoteStream.getTracks().forEach((track) => track.stop());
       }
 
       if (this.peerConnection) {
