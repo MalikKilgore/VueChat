@@ -10,6 +10,7 @@
         height="300"
         playsinline
         autoplay
+        muted
       ></video>
       <video
         id="remoteVideo"
@@ -139,10 +140,10 @@ export default {
       // Listening for remote session description below
       roomRef.onSnapshot(async (snapshot) => {
         const data = snapshot.data();
-        //console.log(data.offer.sdp)
+        //!peerConnection.currentRemoteDescription && data && data.answer
         if (!this.peerConnection || !this.peerConnection.remoteDescription) {
-          console.log("Got remote description: ", data);
-          const rtcSessionDescription = new RTCSessionDescription(data.offer);
+          console.log("Got remote description: ", data.answer);
+          const rtcSessionDescription = new RTCSessionDescription(data.answer);
           await this.peerConnection.setRemoteDescription(rtcSessionDescription);
         }
       });
@@ -171,7 +172,7 @@ export default {
           console.log("Join room: ", this.roomId);
           document.querySelector(
             "#currentRoom"
-          ).innerText = `Current room is ${this.roomId} - You are the callee!`;
+          ).innerText = `Current room is ${this.roomId} - You are the receiver!`;
           await this.joinRoomById(this.roomId);
         
         { once: true }
