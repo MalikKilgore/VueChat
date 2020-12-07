@@ -10,7 +10,6 @@
         height="300"
         playsinline
         autoplay
-        muted
       ></video>
       <video
         id="remoteVideo"
@@ -63,9 +62,6 @@ export default {
       peerConnection: null,
       localStream: null,
       remoteStream: null,
-      /*roomDialog: new mdc.dialog.MDCDialog(
-        document.querySelector("#room-dialog")
-      ),*/
       roomId: null,
       configuration: {
         iceServers: [
@@ -78,7 +74,7 @@ export default {
           }
         ]
       },
-        iceCandidatePoolSize: 2,
+        iceCandidatePoolSize: 10,
     };
   },
   methods: {
@@ -130,12 +126,14 @@ export default {
       ).innerText = `Current room is ${roomRef.id} - You are the caller!`;
       // Code for creating a room above
 
+      //Listens for and adds remote tracks
       this.peerConnection.addEventListener("track", (event) => {
         console.log("Got remote track:", event.streams[0]);
         event.streams[0].getTracks().forEach((track) => {
           console.log("Add a track to the remoteStream:", track);
           this.remoteStream.addTrack(track);
         });
+        //document.getElementById("remoteVideo").srcObject = this.remoteStream;
       });
 
       // Listening for remote session description below
@@ -150,14 +148,13 @@ export default {
       });
 
       // Listen for remote ICE candidates below
-      roomRef.collection("callerCandidates").onSnapshot((snapshot) => {
+      roomRef.collection("receiverCandidates").onSnapshot((snapshot) => {
         snapshot.docChanges().forEach(async (change) => {
           if (change.type === "added") {
             let data = change.doc.data();
             console.log(
               `Got new remote ICE candidate: ${JSON.stringify(data)}`
             );
-            //THIS IS THROWING ERROR
             await this.peerConnection.addIceCandidate(
               new RTCIceCandidate(data)
             );
@@ -178,8 +175,6 @@ export default {
           await this.joinRoomById(this.roomId);
         
         { once: true }
-      
-      //roomDialog.open();
     },
     async joinRoomById(roomId) {
       const roomRef = videoRooms.doc(`${this.roomId}`);
@@ -198,8 +193,8 @@ export default {
         });
 
         // Code for collecting ICE candidates below
-        const callerCandidatesCollection = roomRef.collection(
-          "callerCandidates"
+        const receiverCandidatesCollection = roomRef.collection(
+          "receiverCandidates"
         );
         this.peerConnection.addEventListener("icecandidate", (event) => {
           if (!event.candidate) {
@@ -207,9 +202,11 @@ export default {
             return;
           }
           console.log("Got candidate: ", event.candidate);
-          callerCandidatesCollection.add(event.candidate.toJSON());
+          receiverCandidatesCollection.add(event.candidate.toJSON());
         });
         // Code for collecting ICE candidates above
+
+        //Listens for Video/Audio tracks and adds them to the DOM
         this.peerConnection.addEventListener("track", (event) => {
           console.log("Got remote track:", event.streams[0]);
           event.streams[0].getTracks().forEach((track) => {
@@ -236,6 +233,7 @@ export default {
         };
         await roomRef.update(roomWithAnswer);
         // Code for creating SDP answer above
+        
         // Listening for remote ICE candidates below
         roomRef.collection("callerCandidates").onSnapshot((snapshot) => {
           snapshot.docChanges().forEach(async (change) => {
@@ -296,14 +294,14 @@ export default {
 
       // Delete room on hangup
       if (this.roomId) {
-        const roomRef = videoRooms.doc(this.roomId);
-        const callerCandidates = await roomRef
-          .collection("callerCandidates")
+        const roomRef = videoRooms.doc(`${this.roomId}`);
+        const receiverCandidates = await roomRef
+          .collection("receiverCandidates")
           .get();
-        callerCandidates.forEach(async (candidate) => {
+        receiverCandidates.forEach(async (candidate) => {
           await candidate.ref.delete();
         });
-        callerCandidates = await roomRef
+        const callerCandidates = await roomRef
           .collection("callerCandidates")
           .get();
         callerCandidates.forEach(async (candidate) => {
@@ -336,6 +334,9 @@ export default {
         );
       });
     },
+  },
+  computed: {
+
   },
 };
 </script>
