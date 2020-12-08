@@ -7,13 +7,13 @@
 <script>
 import Vue from 'vue'
 import ChatNav from '../components/ChatNav'
-import Messages from '../components/Messages'
+import ChatMessages from '../components/ChatMessages'
 
 export default {
   name: 'Chatrooms',
   components: {
     ChatNav,
-    Messages
+    ChatMessages
   },
 
 }

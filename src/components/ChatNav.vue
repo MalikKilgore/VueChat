@@ -1,10 +1,10 @@
 <template>
     <div id="chatNav">
-        <router-link :to="{ name: 'Messages', params: { chatID: 'general' }}"> #General </router-link>
-        <router-link :to="{ name: 'Messages', params: { chatID: 'programming' }}"> #Programming </router-link>
-        <router-link :to="{ name: 'Messages', params: { chatID: 'networking' }}"> #Networking </router-link>
-        <router-link :to="{ name: 'Messages', params: { chatID: 'creative' }}"> #Creative </router-link>
-        <router-link :to="{ name: 'Messages', params: { chatID: 'bugReport' }}"> #Bug Reports </router-link>
+        <router-link :to="{ name: 'ChatMessages', params: { chatID: 'general' }}"> #General </router-link>
+        <router-link :to="{ name: 'ChatMessages', params: { chatID: 'programming' }}"> #Programming </router-link>
+        <router-link :to="{ name: 'ChatMessages', params: { chatID: 'networking' }}"> #Networking </router-link>
+        <router-link :to="{ name: 'ChatMessages', params: { chatID: 'creative' }}"> #Creative </router-link>
+        <router-link :to="{ name: 'ChatMessages', params: { chatID: 'bugReport' }}"> #Bug Reports </router-link>
     </div>
     <router-view :key="$route.fullPath"/>
 </template>

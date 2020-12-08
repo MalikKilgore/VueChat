@@ -24,7 +24,7 @@
     <div class="box">
       <button id="cameraBtn" v-on:click="openUserMedia">Start</button>
       <button id="createBtn" v-on:click="createRoom">Call</button>
-      <button id="hangupBtn" v-on:click="hangup">Hang Up</button>
+      <button id="hangupBtn" v-on:click="hangUp">Hang Up</button>
     </div>
     <br />
     <div id="room-dialog">
@@ -54,7 +54,7 @@ import {
 } from "../firebase/firebase.js";
 
 export default {
-  name: "Video",
+  name: "DirectVideo",
   data() {
     return {
       localVideo: null,
@@ -134,14 +134,12 @@ export default {
           console.log("Add a track to the remoteStream:", track);
           this.remoteStream.addTrack(track);
         });
-        //document.getElementById("remoteVideo").srcObject = this.remoteStream;
       });
 
       // Listening for remote session description below
       roomRef.onSnapshot(async (snapshot) => {
         const data = snapshot.data();
-        //!peerConnection.currentRemoteDescription && data && data.answer
-        if (!this.peerConnection || !this.peerConnection.remoteDescription) {
+        if (!this.peerConnection.currentRemoteDescription && data && data.answer) {
           console.log("Got remote description: ", data.answer);
           const rtcSessionDescription = new RTCSessionDescription(data.answer);
           await this.peerConnection.setRemoteDescription(rtcSessionDescription);
@@ -270,10 +268,8 @@ export default {
       document.querySelector("#hangupBtn").disabled = false;
     },
 
-    async hangUp(e) {
-      const tracks = document
-        .querySelector("#localVideo")
-        .srcObject.getTracks();
+    async hangUp() {
+      const tracks = document.querySelector("#localVideo").srcObject.getTracks();
       tracks.forEach((track) => {
         track.stop();
       });
@@ -311,7 +307,7 @@ export default {
         await roomRef.delete();
       }
 
-      document.location.reload(true);
+      //document.location.reload(true);
     },
 
     registerPeerConnectionListeners() {

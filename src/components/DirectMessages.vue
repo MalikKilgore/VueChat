@@ -1,6 +1,6 @@
 <template>  
     <div id="dmList">
-      <Video v-show="displayVid" />
+      <DirectVideo v-show="displayVid" />
     </div>
     <br>
       <div id="chat-form-container">
@@ -26,7 +26,7 @@ import Vuex from 'vuex'
 import firebase, {toDate, toDateString, toLocaleTimeString} from 'firebase/app'
 import router from '../router'
 import store from '../store'
-import Video from '../components/Video'
+import DirectVideo from '../components/DirectVideo'
 import {db, usersCollection, programChat, networkChat, 
 creativeChat, generalChat, bugChat, videoRooms} from '../firebase/firebase.js'
 
@@ -47,7 +47,7 @@ export default {
     }
   },
   components: {
-    Video
+    DirectVideo
   },
   methods: {
     //Reads the current Database in VueX state. Adds a firebase listener and displays active Database documents in the DOM
@@ -330,6 +330,9 @@ export default {
       dmList.removeChild(dmList.lastElementChild)
     };
     this.unsubscribe()
+    if(store.state.displayVid == true){
+      this.toggleVid()
+    }
   },
 
 }

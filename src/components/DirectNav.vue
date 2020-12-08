@@ -1,6 +1,5 @@
 <template>
   <div id="directNav">
-    <h1>Users:</h1>
 
   </div>
   <router-view :key="$route.fullPath" />

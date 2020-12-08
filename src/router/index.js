@@ -5,7 +5,7 @@ import Direct from '../views/Direct.vue'
 import Join from '../views/Join.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
-import Messages from '../components/Messages.vue'
+import ChatMessages from '../components/ChatMessages.vue'
 import DirectMessages from '../components/DirectMessages.vue'
 import { auth } from '../firebase/firebase.js'
 
@@ -25,7 +25,7 @@ const routes = [
     children: [
       {
         path: '/direct/:directID',
-        name: 'directMessages',
+        name: 'DirectMessages',
         component: DirectMessages,
       }
     ]
@@ -40,8 +40,8 @@ const routes = [
     children: [
       {
         path: '/chatrooms/:chatID',
-        name: 'Messages',
-        component: Messages,
+        name: 'ChatMessages',
+        component: ChatMessages,
       }
     ]
   },

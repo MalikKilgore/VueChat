@@ -1,5 +1,7 @@
 <template>  
-    <div id="msgList"></div>
+    <div id="msgList">
+      <ChatVideo v-show="displayVid" />
+    </div>
     <br>
       <div id="chat-form-container">
         <form id="chat-form" novalidate @submit.prevent>
@@ -12,6 +14,7 @@
             autocomplete="off"
             required
           />
+          <button class="btn" v-on:click="toggleVid">Display</button>
           <button class="btn" v-on:click="sendMsg">Send</button>
         </form>
       </div>    
@@ -23,11 +26,12 @@ import Vuex from 'vuex'
 import firebase, {toDate, toDateString, toLocaleTimeString} from 'firebase/app'
 import router from '../router'
 import store from '../store'
+import ChatVideo from './ChatVideo'
 import {db, usersCollection, programChat, networkChat, 
 creativeChat, generalChat, bugChat} from '../firebase/firebase.js'
 
 export default {
-  name: 'Messages',
+  name: 'ChatMessages',
   data() {
     return {
       route: {
@@ -41,6 +45,9 @@ export default {
       },
       unsubscribe: null,
     }
+  },
+  components: {
+    ChatVideo
   },
   methods: {
     //Fetches the current database and updates it in VueX state
@@ -308,7 +315,6 @@ export default {
       });
 
     },
-
     //Sends message to the firestore the user is currently using
     sendMsg(){
       document.getElementById('chat-form').reset()
@@ -319,6 +325,14 @@ export default {
         dbPln: this.message.databasePln
       })     
     },
+    toggleVid(){
+      this.$store.dispatch('toggleVid')
+    },
+  },
+  computed:{
+    displayVid(){
+      return store.state.displayVid
+    }
   },
 
   //Updates active route and database when current path changes
@@ -332,15 +346,16 @@ export default {
 
   //Unsubscribes from current firestore listener. Prevents duplicate listeners from being active at once.
   beforeUnmount(){
-    //TIE MSGLIST TO VUE DATA???
     const msgList = document.getElementById('msgList')
     msgList.innerHTML = '';
     msgList.textContent = '';
     while (msgList.lastElementChild) {
       msgList.removeChild(msgList.lastElementChild)
     };
-    console.log('ERASING EVERYTHING')
     this.unsubscribe()
+    if(store.state.displayVid == true){
+      this.toggleVid()
+    }
   },
 
 }
