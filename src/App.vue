@@ -17,12 +17,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#app {
+#root {
   text-align: center;
   height: 100vh;
   width: 100vw;
   align-items: center;
-  display: grid;
   overflow: hidden;
 
   #chatrooms {

@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/analytics'
 
 // Firebase init - project configuration
 const firebaseConfig = {
@@ -16,9 +17,11 @@ const firebaseConfig = {
 //Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
+
 // Utils
 const db = firebase.firestore()
 const auth = firebase.auth()
+const analytics = firebase.analytics();
 
 // Collection references
 const usersCollection = db.collection('users')
@@ -34,6 +37,7 @@ const videoRooms = db.collection('video-rooms')
 export {
     db,
     auth,
+    analytics,
     usersCollection,
     programChat,
     networkChat,
