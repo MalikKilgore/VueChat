@@ -1,6 +1,6 @@
 <template>  
     <div id="msgList">
-      <ChatVideo v-show="displayVid" />
+      <ChatVideo v-if="displayVid == true" />
     </div>
     <br>
       <div id="chat-form-container">
@@ -14,7 +14,7 @@
             autocomplete="off"
             required
           />
-          <button class="btn" v-on:click="toggleVid">Display</button>
+          <button class="btn" v-on:click="toggleVid">Create Video <br> Chatroom</button>
           <button class="btn" v-on:click="sendMsg">Send</button>
         </form>
       </div>    
@@ -26,7 +26,7 @@ import Vuex from 'vuex'
 import firebase, {toDate, toDateString, toLocaleTimeString} from 'firebase/app'
 import router from '../router'
 import store from '../store'
-import ChatVideo from './ChatVideo'
+import ChatVideo from '../components/ChatVideo'
 import {db, usersCollection, programChat, networkChat, 
 creativeChat, generalChat, bugChat} from '../firebase/firebase.js'
 
@@ -367,6 +367,10 @@ export default {
   padding: 30px;
   overflow-y: scroll;
   grid-area: msgList;
+  min-width: fit-content;
+  max-width: stretch;
+  width: auto;
+  resize: horizontal;
 }
 
 #chat-form-container {

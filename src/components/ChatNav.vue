@@ -1,7 +1,7 @@
 <template>
   <div id="chatNav">
     <img
-      src="../assets/arrow-right-duotone.svg"
+      src="../assets/images/arrow-right-duotone.svg"
       class="expandNav"
       v-on:click="expand"
     />
@@ -10,7 +10,7 @@
         <router-link
           :to="{ name: 'ChatMessages', params: { chatID: 'general' } }"
         >
-          <!-- img -->
+          <img src="../assets/images/newspaper-duotone.svg"/>
           <p>General</p>
         </router-link>
       </li>
@@ -19,7 +19,7 @@
         <router-link
           :to="{ name: 'ChatMessages', params: { chatID: 'programming' } }"
         >
-          <!-- img -->
+          <img src="../assets/images/desktop-tower-duotone.svg"/>
           <p>Programming</p>
         </router-link>
       </li>
@@ -28,7 +28,7 @@
         <router-link
           :to="{ name: 'ChatMessages', params: { chatID: 'networking' } }"
         >
-          <!-- img -->
+          <img src="../assets/images/handshake-duotone.svg"/>
           <p>Networking</p>
         </router-link>
       </li>
@@ -37,7 +37,7 @@
         <router-link
           :to="{ name: 'ChatMessages', params: { chatID: 'creative' } }"
         >
-          <!-- img -->
+          <img src="../assets/images/lightbulb-duotone.svg"/>
           <p>Creative</p>
         </router-link>
       </li>
@@ -46,7 +46,7 @@
         <router-link
           :to="{ name: 'ChatMessages', params: { chatID: 'bugReport' } }"
         >
-          <!-- img -->
+          <img src="../assets/images/note-pencil-duotone.svg"/>
           <p>Bug Reports</p>
         </router-link>
       </li>
@@ -91,6 +91,8 @@ export default {
   background-color: #33436a;
   overflow: hidden;
   padding: 20px;
+  min-width: fit-content;
+  max-width: fit-content;
   grid-area: chatNav;
   .expandNav {
     width: 2.4rem;
@@ -99,10 +101,8 @@ export default {
     fill: grey;
     background-color: #e0e0e0;
     padding: 3px;
-    left: 0;
-    top: 1rem;
     z-index: 99;
-    position: absolute;
+    position: relative;
     cursor: pointer;
     transform: rotatez(-180deg);
     transition: transform 200ms ease-in-out;
@@ -157,7 +157,7 @@ export default {
   display: none;
 }
 
-@media only screen and (max-width: 680px) {
+@media only screen and (max-width: 480px) {
   #chatNav {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;

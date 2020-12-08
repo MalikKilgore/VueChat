@@ -1,11 +1,15 @@
 <template>
   <div id="chatrooms">
     <ChatNav></ChatNav>
+    
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import Vuex from 'vuex'
+import router from '../router'
+import store from '../store'
 import ChatNav from '../components/ChatNav'
 import ChatMessages from '../components/ChatMessages'
 
@@ -13,9 +17,13 @@ export default {
   name: 'Chatrooms',
   components: {
     ChatNav,
-    ChatMessages
+    ChatMessages,
   },
-
+  methods: {
+    toggleVid(){
+      this.$store.dispatch('toggleVid')
+    },
+  },
 }
 </script>
 
@@ -23,8 +31,9 @@ export default {
 #chatrooms {
   text-align: center;
   display: grid;
-  height: 91vh;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  height: 92vh;
+  resize: horizontal;
+  grid-template-columns: auto 1fr 1fr 1fr;
   grid-template-rows: 1.2fr 1.0fr 0.13fr;
   grid-template-areas:
   "chatNav msgList msgList msgList"

@@ -21,18 +21,13 @@
       ></video>
     </div>
     <br />
-    <div class="box">
+    <div class="videoOptions">
       <button id="cameraBtn" v-on:click="openUserMedia">Start</button>
       <button id="createBtn" v-on:click="createRoom">Call</button>
       <button id="hangupBtn" v-on:click="hangUp">Hang Up</button>
-    </div>
-    <br />
-    <div id="room-dialog">
-      <h2>Enter ID for room to join:</h2>
-      <div class="text-field">
-        <input type="text" id="room-id" placeholder="Enter room ID here...">
-        <button id="joinBtn" v-on:click="joinRoom">Join Room</button>
-      </div>
+      <br>
+      <input type="text" id="room-id" placeholder="Enter room ID here...">
+      <button id="joinBtn" v-on:click="joinRoom">Join Room</button>
     </div>
   </div>
 </template>
@@ -340,19 +335,35 @@ export default {
 <style scoped lang="scss">
 .videoRoot {
   display: flex;
-  align-items: flex-start;
-  background-color: rgb(77, 77, 77);
-  height: 80%;
-  width: 60%;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  background-color: #0f1a2a;
+  min-width: fit-content;
+  max-width: stretch;
+  width: auto;
+  resize: horizontal;
+  border-radius: 5px;
   margin: auto;
   overflow-y: auto;
-  position: fixed;
-  z-index: 20;
+  position: absolute;
+  grid-area: videoRoot;
 }
 
 video {
-  background: rgb(97, 97, 97);
+  background: #18243a;
+  border-radius: 5px;
+}
+
+h2 {
+  color: #ffffff;
+}
+#room-id {
+	font-size: 20px;
+  border-radius: 5px;
+  background-color: #222222;
+  color: #ffffff;
+	padding: 5px;
 }
 
 label {

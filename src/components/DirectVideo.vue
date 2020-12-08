@@ -342,12 +342,15 @@ export default {
   display: flex;
   align-items: flex-start;
   background-color: rgb(77, 77, 77);
-  height: 80%;
-  width: 60%;
+  height: 70%;
+  width: 105%;
   justify-content: center;
-  margin: auto;
+  padding: 0;
+  margin: 0;
   overflow-y: auto;
-  position: fixed;
+  position: relative;
+  left: -2rem;
+  top: -2rem;
   z-index: 20;
 }
 

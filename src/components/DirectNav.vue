@@ -102,7 +102,7 @@ export default {
 #directNav {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: repeat(auto-fit, 1fr);
   background-color: #33436a;
   overflow-y: scroll;
   padding: 20px;

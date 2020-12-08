@@ -13,43 +13,18 @@ export default {
   components: {
     SiteNav,
   },
+  //CODE FOR LISTENING FOR CALL GOES HERE
 }
 </script>
 
 <style scoped lang="scss">
-#root {
+#app {
+  margin: 0;
+  padding: 0;
   text-align: center;
   height: 100vh;
   width: 100vw;
   align-items: center;
   overflow: hidden;
-
-  #chatrooms {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 0.2fr 2.2fr;
-    grid-template-areas: 
-    "siteNav siteNav siteNav siteNav"
-    "chatrooms chatrooms chatrooms chatrooms";
-  }
-
-  #direct {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 0.2fr 2.2fr;
-    grid-template-areas: 
-    "siteNav siteNav siteNav siteNav"
-    "direct direct direct direct";
-  }
-  
-
-}
-
-@media only screen and (max-width:680px){
-  #app{
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.2fr 0.8fr;
-    grid-template-areas:   
-    "siteNav"
-    "chatrooms";
-  }
 }
 </style>
