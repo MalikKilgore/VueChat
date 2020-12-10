@@ -1,8 +1,11 @@
 <template>  
-    <div id="msgList">
-      <ChatVideo v-if="displayVid == true" />
+<div id="msgRoot">
+  <ChatVideo v-if="displayVid == true" />
+   <div id="msgList">
+      
     </div>
-    <br>
+  <br>   
+</div>
       <div id="chat-form-container">
         <form id="chat-form" novalidate @submit.prevent>
           <input
@@ -17,7 +20,8 @@
           <button class="btn" v-on:click="toggleVid">Create Video <br> Chatroom</button>
           <button class="btn" v-on:click="sendMsg">Send</button>
         </form>
-      </div>    
+      </div> 
+    
 </template>
 
 <script>
@@ -362,15 +366,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#msgRoot {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-template-areas:
+  "videoRoot"
+  "msgList";
+  grid-area: msgRoot;
+}
+
 #msgList {
   background-color: #23272A;
   padding: 30px;
   overflow-y: scroll;
   grid-area: msgList;
+  height: auto;
+  max-height: stretch;
   min-width: fit-content;
   max-width: stretch;
   width: auto;
-  resize: horizontal;
+  resize: horizontal vertical; 
 }
 
 #chat-form-container {

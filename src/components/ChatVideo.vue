@@ -344,15 +344,17 @@ export default {
   width: auto;
   resize: horizontal;
   border-radius: 5px;
-  margin: auto;
-  overflow-y: auto;
-  position: absolute;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  position: static;
   grid-area: videoRoot;
 }
 
 video {
   background: #18243a;
   border-radius: 5px;
+  margin: 1rem;
 }
 
 h2 {

@@ -20,7 +20,7 @@
           <br>
       </ul>
       <router-link to="/join">Login/Register</router-link> <br> <br>
-      <embed src="https://www.youtube.com/embed/M-R5B_HT-lQ" width="840" height="473" title="VueChat Demonstration">
+      <!-- <embed src="https://www.youtube.com/embed/M-R5B_HT-lQ" width="840" height="473" title="VueChat Demonstration"> -->
     </div>
     <div>
 

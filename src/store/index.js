@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 import router from '../router/index'
 import { usersCollection, auth, programChat,
-   networkChat, creativeChat, generalChat, bugChat } from '../firebase/firebase.js'
+   networkChat, creativeChat, generalChat, bugChat, videoRooms } from '../firebase/firebase.js'
 
 
 export default createStore({
@@ -16,6 +16,24 @@ export default createStore({
     currentUser: {},
     //Toggles Video div on or off.
     displayVid: false,
+
+    //State properties for accepting a call from listener
+    peerConnection: null,
+    localStream: null,
+    remoteStream: null,
+    roomId: null,
+    configuration: {
+      iceServers: [
+        {
+          urls: [
+            "stun:stun1.l.google.com:19302", 
+            "stun:stun2.l.google.com:19302",
+            "stun:stun.services.mozilla.com"
+          ]
+        }
+      ]
+    },
+    iceCandidatePoolSize: 2,
   },
   mutations: {
     setUserProfile(state, val) {
@@ -35,6 +53,16 @@ export default createStore({
     },
   },
   actions: {
+    async makeid(length) {
+      var result           = '';
+      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    },
+
     async login({ dispatch }, form) {
       // Signs the user in
       const { user } = await auth.signInWithEmailAndPassword(form.email, form.password)
@@ -67,7 +95,8 @@ export default createStore({
         email: form.email,
         password: form.password,
         edit: false,
-        uid: user.uid
+        uid: user.uid,
+        callerID: this.makeid(16)
       })
 
       //Creates direct message collection for user profile upon account creation.
@@ -196,6 +225,8 @@ export default createStore({
         })
       }
     },
+
+    //VIDEO CALL FUNCTIONS
     async toggleVid({commit}){
       const val = this.state.displayVid
       switch(val){
@@ -207,6 +238,130 @@ export default createStore({
           break
       }
     },
+    async registerPeerConnectionListeners() {
+      console.log('registerPeerConnectionListeners() FUNCTION JUST FIRED')
+      this.state.peerConnection.addEventListener("icegatheringstatechange", () => {
+        console.log(
+          `ICE gathering state changed: ${this.state.peerConnection.iceGatheringState}`
+        );
+      });
+      this.state.peerConnection.addEventListener("connectionstatechange", () => {
+        console.log(
+          `Connection state change: ${this.state.peerConnection.connectionState}`
+        );
+      });
+      this.state.peerConnection.addEventListener("signalingstatechange", () => {
+        console.log(`Signaling state change: ${this.state.peerConnection.signalingState}`);
+      });
+
+      this.state.peerConnection.addEventListener("iceconnectionstatechange ", () => {
+        console.log(
+          `ICE connection state change: ${this.state.peerConnection.iceConnectionState}`
+        );
+      });
+    },
+    async receiveUserMedia(roomRef) {
+      if(this.state.displayVid == false) {
+        await this.dispatch("toggleVid")
+      }
+      
+      await router.push(`/direct/${roomRef.callerUID}`)
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      document.querySelector("#localVideo").srcObject = stream;
+      this.state.localStream = stream;
+      this.state.remoteStream = new MediaStream();
+      document.querySelector("#remoteVideo").srcObject = this.state.remoteStream;
+
+      console.log("Stream:", document.querySelector("#localVideo").srcObject);
+      document.querySelector("#cameraBtn").disabled = true;
+      document.querySelector("#joinBtn").disabled = false;
+      //document.querySelector("#createBtn").disabled = false;
+      document.querySelector("#hangupBtn").disabled = false;
+    },
+    async joinRoomByCallerID({dispatch}, form) {
+      const database = usersCollection;
+      const user = this.state.userProfile;
+      const roomId = form.callerID
+
+      const roomRef = videoRooms.doc(`${roomId}`);
+      await dispatch('receiveUserMedia', roomRef)
+      const roomSnapshot = await roomRef.get();
+      console.log("Got room:", roomSnapshot.exists);
+
+      if (roomSnapshot.exists) {
+        console.log(
+          "Create PeerConnection with configuration: ",
+          this.state.configuration
+        );
+        this.state.peerConnection = new RTCPeerConnection(this.state.configuration);
+        dispatch("registerPeerConnectionListeners");
+        this.state.localStream.getTracks().forEach((track) => {
+          this.state.peerConnection.addTrack(track, this.state.localStream);
+        });
+
+        // Code for collecting ICE candidates below
+        const receiverCandidatesCollection = roomRef.collection(
+          "receiverCandidates"
+        );
+        this.state.peerConnection.addEventListener("icecandidate", (event) => {
+          if (!event.candidate) {
+            console.log("Got final candidate!");
+            return;
+          }
+          console.log("Got candidate: ", event.candidate);
+          receiverCandidatesCollection.add(event.candidate.toJSON());
+        });
+        // Code for collecting ICE candidates above
+
+        //Listens for Video/Audio tracks and adds them to the DOM
+        this.state.peerConnection.addEventListener("track", (event) => {
+          console.log("Got remote track:", event.streams[0]);
+          event.streams[0].getTracks().forEach((track) => {
+            console.log("Add a track to the remoteStream:", track);
+            this.state.remoteStream.addTrack(track);
+          });
+        });
+
+        // Code for creating SDP answer below
+        const offer = roomSnapshot.data().offer;
+        console.log("Got offer:", offer);
+        await this.state.peerConnection.setRemoteDescription(
+          new RTCSessionDescription(offer)
+        );
+        const answer = await this.state.peerConnection.createAnswer();
+        console.log("Created answer:", answer);
+        await this.state.peerConnection.setLocalDescription(answer);
+
+        const roomWithAnswer = {
+          answer: {
+            type: answer.type,
+            sdp: answer.sdp,
+          },
+        };
+        await roomRef.update(roomWithAnswer);
+        // Code for creating SDP answer above
+        
+        // Listening for remote ICE candidates below
+        roomRef.collection("callerCandidates").onSnapshot((snapshot) => {
+          snapshot.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              let data = change.doc.data();
+              console.log(
+                `Got new remote ICE candidate: ${JSON.stringify(data)}`
+              );
+              await this.state.peerConnection.addIceCandidate(
+                new RTCIceCandidate(data)
+              );
+            }
+          });
+        });
+        // Listening for remote ICE candidates above
+      }
+    },
+    //
   },
 
   modules: {}

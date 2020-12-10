@@ -32,12 +32,11 @@ export default {
   text-align: center;
   display: grid;
   height: 92vh;
-  resize: horizontal;
   grid-template-columns: auto 1fr 1fr 1fr;
   grid-template-rows: 1.2fr 1.0fr 0.13fr;
   grid-template-areas:
-  "chatNav msgList msgList msgList"
-  "chatNav msgList msgList msgList"
+  "chatNav msgRoot msgRoot msgRoot"
+  "chatNav msgRoot msgRoot msgRoot"
   "chatNav chat-form-container chat-form-container chat-form-container";
   grid-area: chatrooms;
 }

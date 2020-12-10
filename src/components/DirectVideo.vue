@@ -22,17 +22,9 @@
     </div>
     <br />
     <div class="box">
-      <button id="cameraBtn" v-on:click="openUserMedia">Start</button>
-      <button id="createBtn" v-on:click="createRoom">Call</button>
+      <button id="cameraBtn" v-on:click="callOrganizer">Start Call</button>
+      <!-- <button id="createBtn" v-on:click="createRoom">Call</button> -->
       <button id="hangupBtn" v-on:click="hangUp">Hang Up</button>
-    </div>
-    <br />
-    <div id="room-dialog">
-      <h2>Enter ID for room to join:</h2>
-      <div class="text-field">
-        <input type="text" id="room-id" placeholder="Enter room ID here...">
-        <button id="joinBtn" v-on:click="joinRoom">Join Room</button>
-      </div>
     </div>
   </div>
 </template>
@@ -57,13 +49,18 @@ export default {
   name: "DirectVideo",
   data() {
     return {
+      route: {
+        id: this.$route.params.directID,
+        path: this.$route.path,
+      },
       localVideo: null,
       remoteVideo: null,
-
       peerConnection: null,
       localStream: null,
       remoteStream: null,
       roomId: null,
+      callerID: null,
+      receiverID: null,
       configuration: {
         iceServers: [
           {
@@ -75,14 +72,30 @@ export default {
           }
         ]
       },
-        iceCandidatePoolSize: 10,
+        iceCandidatePoolSize: 2,
     };
   },
   methods: {
+    async callOrganizer(){
+      await this.openUserMedia()
+      await this.fetchCallerID()
+      this.createRoom()
+    },
+    async fetchCallerID(){
+      let userIDslice = this.route.path.substr(8)
+      let userDoc = await usersCollection.doc(userIDslice).get()
+      const receiverID = userDoc.data().callerID
+      console.log(`The receiverID field grabbed is: ${receiverID}`)
+      this.receiverID = receiverID
+    },
     async createRoom() {
-      document.querySelector("#createBtn").disabled = true;
+      const user = store.state.currentUser
+      //document.querySelector("#createBtn").disabled = true;
       document.querySelector("#joinBtn").disabled = true;
-      const roomRef = await videoRooms.doc();
+      const roomRef = await videoRooms.doc(`${this.receiverID}`);
+      roomRef.set({
+        callerUID: user.uid,
+      })
 
       console.log(
         "Create PeerConnection with configuration: ",
@@ -163,7 +176,7 @@ export default {
       // Listen for remote ICE candidates above
     },
     async joinRoom() {
-      document.querySelector("#createBtn").disabled = true;
+      //document.querySelector("#createBtn").disabled = true;
       document.querySelector("#joinBtn").disabled = true;
 
           this.roomId = document.querySelector("#room-id").value;
@@ -264,7 +277,7 @@ export default {
       console.log("Stream:", document.querySelector("#localVideo").srcObject);
       document.querySelector("#cameraBtn").disabled = true;
       document.querySelector("#joinBtn").disabled = false;
-      document.querySelector("#createBtn").disabled = false;
+      //document.querySelector("#createBtn").disabled = false;
       document.querySelector("#hangupBtn").disabled = false;
     },
 
@@ -285,7 +298,7 @@ export default {
       document.querySelector("#remoteVideo").srcObject = null;
       document.querySelector("#cameraBtn").disabled = false;
       document.querySelector("#joinBtn").disabled = true;
-      document.querySelector("#createBtn").disabled = true;
+     // document.querySelector("#createBtn").disabled = true;
       document.querySelector("#hangupBtn").disabled = true;
       document.querySelector("#currentRoom").innerText = "";
 
@@ -309,7 +322,6 @@ export default {
 
       //document.location.reload(true);
     },
-
     registerPeerConnectionListeners() {
       this.peerConnection.addEventListener("icegatheringstatechange", () => {
         console.log(
