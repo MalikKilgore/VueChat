@@ -21,6 +21,7 @@ export default createStore({
     peerConnection: null,
     localStream: null,
     remoteStream: null,
+    unsubscribe: null,
     roomId: null,
     configuration: {
       iceServers: [
@@ -71,7 +72,7 @@ export default createStore({
       dispatch('fetchUserProfile', user).then(alert(`Sign-in successful for ${form.email}`))
     },
 
-    async fetchUserProfile({ commit }, user) {
+    async fetchUserProfile({commit}, user) {
       // Fetches the current user profile
       const userProfile = await usersCollection.doc(user.uid).get()
   
@@ -80,6 +81,8 @@ export default createStore({
 
       //Sets active user in state
       commit('setCurrentUser', user)
+
+      this.dispatch('callListener')
       
       // Reroutes to dashboard/home
       router.push('/chatrooms/general')
@@ -277,7 +280,7 @@ export default createStore({
 
       console.log("Stream:", document.querySelector("#localVideo").srcObject);
       document.querySelector("#cameraBtn").disabled = true;
-      document.querySelector("#joinBtn").disabled = false;
+      //document.querySelector("#joinBtn").disabled = false;
       //document.querySelector("#createBtn").disabled = false;
       document.querySelector("#hangupBtn").disabled = false;
     },
@@ -360,6 +363,36 @@ export default createStore({
         });
         // Listening for remote ICE candidates above
       }
+    },
+    async callListener({dispatch}) {
+      const user = this.state.userProfile
+      const currentCallerID = user.callerID
+      console.log(currentCallerID)
+
+      this.state.unsubscribe = videoRooms.onSnapshot(function(snapshot) {
+          snapshot.docChanges().forEach(function(change) {
+            //ADDED
+            if (change.type === "added") {
+              //If it matches this user's callerID
+              if (change.doc.id == currentCallerID){
+                if(confirm(`Someone is calling you!`)){
+                  console.log('Call Accepted')
+                  dispatch('joinRoomByCallerID', {callerID: currentCallerID})
+                } else {
+                  console.log('Call Denied')
+                }
+              }
+            }
+            //MODIFIED 
+            if (change.type === "modified") {
+              console.log('modified room')
+            }
+            //DELETED
+            if (change.type === "removed") {
+              console.log('removed room')
+            }
+          });
+        });
     },
     //
   },

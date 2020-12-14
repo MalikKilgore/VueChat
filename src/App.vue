@@ -18,45 +18,6 @@ export default {
   components: {
     SiteNav,
   },
-  methods: {
-    //Edited to listen for rooms with users callerID
-    async callListener() {
-      const user = store.state.userProfile;
-      //const userDoc = await usersCollection.doc(`${user.uid}`).get()
-      const currentCallerID = user.callerID
-      console.log(currentCallerID)
-
-      this.unsubscribe = videoRooms.onSnapshot(function(snapshot) {
-          snapshot.docChanges().forEach(function(change) {
-            //ADDED
-            if (change.type === "added") {
-              //If it matches this user's callerID
-              if (change.doc.id == currentCallerID){
-                if(confirm(`Someone is calling you!`)){
-                  console.log('Call Accepted')
-                   store.dispatch('joinRoomByCallerID', {
-                     callerID: currentCallerID})
-                } else {
-                  console.log('Call Denied')
-                }
-              }
-            }
-            //MODIFIED 
-            if (change.type === "modified") {
-              console.log('modified room')
-            }
-            //DELETED
-            if (change.type === "removed") {
-              console.log('removed room')
-            }
-          });
-        });
-    },
-
-  },
-  mounted(){
-    this.callListener()
-  },
 }
 </script>
 

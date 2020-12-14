@@ -91,7 +91,7 @@ export default {
     async createRoom() {
       const user = store.state.currentUser
       //document.querySelector("#createBtn").disabled = true;
-      document.querySelector("#joinBtn").disabled = true;
+      //document.querySelector("#joinBtn").disabled = true;
       const roomRef = await videoRooms.doc(`${this.receiverID}`);
       roomRef.set({
         callerUID: user.uid,
@@ -276,7 +276,7 @@ export default {
 
       console.log("Stream:", document.querySelector("#localVideo").srcObject);
       document.querySelector("#cameraBtn").disabled = true;
-      document.querySelector("#joinBtn").disabled = false;
+      //document.querySelector("#joinBtn").disabled = false;
       //document.querySelector("#createBtn").disabled = false;
       document.querySelector("#hangupBtn").disabled = false;
     },
@@ -297,7 +297,7 @@ export default {
       document.querySelector("#localVideo").srcObject = null;
       document.querySelector("#remoteVideo").srcObject = null;
       document.querySelector("#cameraBtn").disabled = false;
-      document.querySelector("#joinBtn").disabled = true;
+      //document.querySelector("#joinBtn").disabled = true;
      // document.querySelector("#createBtn").disabled = true;
       document.querySelector("#hangupBtn").disabled = true;
       document.querySelector("#currentRoom").innerText = "";
