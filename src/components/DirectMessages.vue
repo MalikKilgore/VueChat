@@ -1,7 +1,12 @@
-<template>  
+<template>
+<div id="dmRoot">
+  <DirectVideo v-if="displayVid == true" />
     <div id="dmList">
-      <DirectVideo v-show="displayVid" />
+      
     </div>
+    <br> 
+</div>
+
     <br>
       <div id="chat-form-container">
         <form id="chat-form" novalidate @submit.prevent>
@@ -339,11 +344,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#dmRoot {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-template-areas:
+  "videoRoot"
+  "dmList";
+  grid-area: dmRoot;
+}
+
 #dmList {
   background-color: #23272A;
   padding: 30px;
   overflow-y: scroll;
   grid-area: dmList;
+  height: auto;
+  max-height: stretch;
+  min-width: fit-content;
+  max-width: stretch;
+  width: auto;
+  resize: horizontal vertical; 
 }
 
 #chat-form-container {

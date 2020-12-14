@@ -22,12 +22,12 @@ export default {
 #direct {
   text-align: center;
   display: grid;
-  height: 91vh;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  height: 92vh;
+  grid-template-columns: auto 1fr 1fr 1fr;
   grid-template-rows: 1.2fr 1.0fr 0.13fr;
   grid-template-areas:
-  "directNav dmList dmList dmList"
-  "directNav dmList dmList dmList"
+  "directNav dmRoot dmRoot dmRoot"
+  "directNav dmRoot dmRoot dmRoot"
   "directNav chat-form-container chat-form-container chat-form-container";
   grid-area: direct;
 }

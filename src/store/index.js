@@ -264,11 +264,10 @@ export default createStore({
       });
     },
     async receiveUserMedia(roomRef) {
-      if(this.state.displayVid == false) {
-        await this.dispatch("toggleVid")
-      }
-      
       await router.push(`/direct/${roomRef.callerUID}`)
+      if(this.state.displayVid == false){
+        await dispatch('toggleVid')
+      }
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -280,8 +279,6 @@ export default createStore({
 
       console.log("Stream:", document.querySelector("#localVideo").srcObject);
       document.querySelector("#cameraBtn").disabled = true;
-      //document.querySelector("#joinBtn").disabled = false;
-      //document.querySelector("#createBtn").disabled = false;
       document.querySelector("#hangupBtn").disabled = false;
     },
     async joinRoomByCallerID({dispatch}, form) {
@@ -394,7 +391,8 @@ export default createStore({
           });
         });
     },
-    //
+    //VIDEO CALL FUNCTIONS
+    
   },
 
   modules: {}

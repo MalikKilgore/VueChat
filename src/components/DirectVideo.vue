@@ -1,8 +1,5 @@
 <template>
   <div class="videoRoot">
-    <div>
-      <span id="currentRoom"></span>
-    </div>
     <div class="videoCall">
       <video
         id="localVideo"
@@ -135,9 +132,6 @@ export default {
       await roomRef.set(roomWithOffer);
       this.roomId = roomRef.id;
       console.log(`New room created with SDP offer. Room ID: ${roomRef.id}`);
-      document.querySelector(
-        "#currentRoom"
-      ).innerText = `Current room is ${roomRef.id} - You are the caller!`;
       // Code for creating a room above
 
       //Listens for and adds remote tracks
@@ -181,9 +175,6 @@ export default {
 
           this.roomId = document.querySelector("#room-id").value;
           console.log("Join room: ", this.roomId);
-          document.querySelector(
-            "#currentRoom"
-          ).innerText = `Current room is ${this.roomId} - You are the receiver!`;
           await this.joinRoomById(this.roomId);
         
         { once: true }
@@ -276,8 +267,6 @@ export default {
 
       console.log("Stream:", document.querySelector("#localVideo").srcObject);
       document.querySelector("#cameraBtn").disabled = true;
-      //document.querySelector("#joinBtn").disabled = false;
-      //document.querySelector("#createBtn").disabled = false;
       document.querySelector("#hangupBtn").disabled = false;
     },
 
@@ -297,10 +286,7 @@ export default {
       document.querySelector("#localVideo").srcObject = null;
       document.querySelector("#remoteVideo").srcObject = null;
       document.querySelector("#cameraBtn").disabled = false;
-      //document.querySelector("#joinBtn").disabled = true;
-     // document.querySelector("#createBtn").disabled = true;
       document.querySelector("#hangupBtn").disabled = true;
-      document.querySelector("#currentRoom").innerText = "";
 
       // Delete room on hangup
       if (this.roomId) {
@@ -344,30 +330,35 @@ export default {
       });
     },
   },
-  computed: {
-
-  },
 };
 </script>
 <style scoped lang="scss">
 .videoRoot {
   display: flex;
-  align-items: flex-start;
-  background-color: rgb(77, 77, 77);
-  height: 70%;
-  width: 105%;
+  flex-direction: column;
   justify-content: center;
-  padding: 0;
+  align-items: center;
+  background-color: #0f1a2a;
+  min-width: fit-content;
+  max-width: stretch;
+  width: auto;
+  resize: horizontal;
+  border-radius: 5px;
   margin: 0;
-  overflow-y: auto;
-  position: relative;
-  left: -2rem;
-  top: -2rem;
-  z-index: 20;
+  padding: 0;
+  overflow: auto;
+  position: static;
+  grid-area: videoRoot;
 }
 
 video {
-  background: rgb(97, 97, 97);
+  background: #18243a;
+  border-radius: 5px;
+  margin: 1rem;
+}
+
+h2 {
+  color: #ffffff;
 }
 
 label {
@@ -375,6 +366,7 @@ label {
   font-weight: bold;
   text-align: center;
 }
+
 button {
   padding: 5px 15px;
   margin-top: 1rem;

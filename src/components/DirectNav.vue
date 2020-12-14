@@ -1,10 +1,12 @@
 <template>
   <div id="directNav">
-    <img
+    <!--
+      <img
       src="../assets/images/arrow-right-duotone.svg"
       class="expandNav"
       v-on:click="expand"
-    />
+      /> 
+    -->
     <ul class="directNavList">
 
     </ul>
@@ -40,8 +42,8 @@ export default {
   methods: {
     //Changes navbar opened/closed state.
     expand() {
-      let chatNav = document.getElementById("chatNav");
-      chatNav.classList.toggle("nav-closed");
+      let directNav = document.getElementById("directNav");
+      directNav.classList.toggle("nav-closed");
     },
     renderList() {
       const database = usersCollection;
@@ -53,33 +55,49 @@ export default {
           snapshot.docChanges().forEach(function(change) {
             //ADDED USERS
             if (change.type === "added") {
-              let userLink = document.createElement("a");
-              userLink.setAttribute('user-id', change.doc.id)
-              userLink.setAttribute('href', `/direct/${change.doc.id}`)
-              userLink.addEventListener('click', function(e){
+              let listItem = document.createElement('li')
+              listItem.classList = 'listItem'
+              listItem.style.transition = "all 200ms ease-in"
+              listItem.style.listStyle = 'none'
+              listItem.style.padding = '1rem 1.5rem'
+              listItem.style.borderLeft = '6px solid transparent'
+              listItem.style.cursor = 'pointer'
+              listItem.addEventListener('mouseover', function(e){
+                listItem.style.backgroundColor = 'grey'
+              })
+              listItem.addEventListener('mouseleave', function(e){
+                listItem.style.backgroundColor = ''
+              })
+ 
+              let paragraph = document.createElement('p')
+              paragraph.innerText = change.doc.data().name
+
+              let anchor = document.createElement("a");
+              anchor.setAttribute('user-id', change.doc.id)
+              anchor.setAttribute('href', `/direct/${change.doc.id}`)
+              anchor.addEventListener('click', function(e){
                   e.preventDefault()
                   router.push(`/direct/${change.doc.id}`)
               })
-              userLink.style.fontSize = '2rem'
-              userLink.style.fontWeight = '500'
-              userLink.style.maxHeight = '50px'
-              userLink.style.color = 'black'
-              userLink.style.backgroundColor = 'grey'
-              userLink.style.verticalAlign = 'middle'
-              userLink.style.textDecoration = 'none'
-              userLink.addEventListener('mouseover', function(e){
-                userLink.style.color = '#dbdbdb'
+              anchor.style.fontSize = '2rem'
+              anchor.style.fontWeight = '500'
+              anchor.style.maxHeight = '50px'
+              anchor.style.color = 'black'
+              anchor.style.verticalAlign = 'middle'
+              anchor.style.textDecoration = 'none'
+              anchor.addEventListener('mouseover', function(e){
+                anchor.style.color = '#dbdbdb'
               })
-              userLink.addEventListener('mouseleave', function(e){
-                userLink.style.color = '#18243a'
+              anchor.addEventListener('mouseleave', function(e){
+                anchor.style.color = '#18243a'
               })
- 
-              userLink.innerText = change.doc.data().name
                 //Hides user database if it matches logged in user.
                 if(change.doc.data().uid == user.uid){
                     return
                 } else if (change.doc.data().uid != user.uid){
-                    directNavList.appendChild(userLink)
+                    anchor.appendChild(paragraph)
+                    listItem.appendChild(anchor)
+                    directNavList.appendChild(listItem)
                 }
             }
             //MODIFIED USERS
@@ -132,7 +150,6 @@ export default {
   overflow-y: scroll;
   padding: 20px;
   grid-area: directNav;
-
   .expandNav {
     width: 2.4rem;
     height: 2.4rem;
