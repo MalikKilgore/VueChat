@@ -345,12 +345,6 @@ export default {
 
 <style scoped lang="scss">
 #dmRoot {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(auto-fill, 1fr);
-  grid-template-areas:
-  "videoRoot"
-  "dmList";
   grid-area: dmRoot;
 }
 
@@ -359,12 +353,8 @@ export default {
   padding: 30px;
   overflow-y: scroll;
   grid-area: dmList;
-  height: auto;
-  max-height: stretch;
-  min-width: fit-content;
-  max-width: stretch;
-  width: auto;
-  resize: horizontal vertical; 
+  height: 100%;
+  width: 100%;
 }
 
 #chat-form-container {

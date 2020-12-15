@@ -372,7 +372,7 @@ export default createStore({
             if (change.type === "added") {
               //If it matches this user's callerID
               if (change.doc.id == currentCallerID){
-                if(confirm(`Someone is calling you!`)){
+                if(confirm(`Someone is calling you! Click Ok to accept, or click Cancel to ignore.`)){
                   console.log('Call Accepted')
                   dispatch('joinRoomByCallerID', {callerID: currentCallerID})
                 } else {

@@ -367,12 +367,6 @@ export default {
 
 <style scoped lang="scss">
 #msgRoot {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(auto-fill, 1fr);
-  grid-template-areas:
-  "videoRoot"
-  "msgList";
   grid-area: msgRoot;
 }
 
@@ -381,11 +375,8 @@ export default {
   padding: 30px;
   overflow-y: scroll;
   grid-area: msgList;
-  height: auto;
-  max-height: stretch;
-  min-width: fit-content;
-  max-width: stretch;
-  width: auto;
+  height: 100%;
+  width: 100%;
   resize: horizontal vertical; 
 }
 

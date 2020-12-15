@@ -353,13 +353,13 @@ export default {
   background-color: #0f1a2a;
   min-width: fit-content;
   max-width: stretch;
-  width: auto;
+  width: 80%;
   resize: horizontal;
   border-radius: 5px;
   margin: 0;
   padding: 0;
   overflow: auto;
-  position: static;
+  position: absolute;
   grid-area: videoRoot;
 }
 

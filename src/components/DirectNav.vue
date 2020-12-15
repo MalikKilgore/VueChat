@@ -63,7 +63,7 @@ export default {
               listItem.style.borderLeft = '6px solid transparent'
               listItem.style.cursor = 'pointer'
               listItem.addEventListener('mouseover', function(e){
-                listItem.style.backgroundColor = 'grey'
+                listItem.style.backgroundColor = '#18243a'
               })
               listItem.addEventListener('mouseleave', function(e){
                 listItem.style.backgroundColor = ''
@@ -178,7 +178,7 @@ export default {
     border-left: 6px solid transparent;
     cursor: pointer;
     &:hover {
-      background-color: grey;
+      background-color: #18243a;
     }
     a {
       display: flex;
@@ -192,10 +192,11 @@ export default {
       vertical-align: middle;
       &.router-link-exact-active {
         color: #dbdbdb;
-        background-color: grey;
+        background-color: #18243a;
       }
       &:hover {
         color: #dbdbdb;
+        background-color: #18243a;
       }
     }
     img {

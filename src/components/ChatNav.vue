@@ -122,7 +122,7 @@ export default {
     border-left: 6px solid transparent;
     cursor: pointer;
     &:hover {
-      background-color: grey;
+      background-color:#18243a;
     }
     a {
       display: flex;
@@ -136,7 +136,7 @@ export default {
       vertical-align: middle;
       &.router-link-exact-active {
         color: #dbdbdb;
-        background-color: grey;
+        background-color:#18243a;
       }
       &:hover {
         color: #dbdbdb;

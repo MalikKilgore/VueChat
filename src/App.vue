@@ -6,12 +6,7 @@
 
 <script>
 import Vue from 'vue'
-import Vuex from 'vuex'
-import router from './router'
-import store from './store'
 import SiteNav from './components/SiteNav'
-import {db, usersCollection, programChat, networkChat, 
-creativeChat, generalChat, bugChat, videoRooms} from './firebase/firebase'
 
 export default {
   name: 'App',
