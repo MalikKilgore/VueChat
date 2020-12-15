@@ -69,7 +69,8 @@ export default createStore({
       const { user } = await auth.signInWithEmailAndPassword(form.email, form.password)
   
       // Fetches the current user profile and updates it in state
-      dispatch('fetchUserProfile', user).then(alert(`Sign-in successful for ${form.email}`))
+      await dispatch('fetchUserProfile', user).then(alert(`Sign-in successful for ${form.email}`))
+      dispatch('callListener')
     },
 
     async fetchUserProfile({commit}, user) {
@@ -82,8 +83,6 @@ export default createStore({
       //Sets active user in state
       commit('setCurrentUser', user)
 
-      this.dispatch('callListener')
-      
       // Reroutes to dashboard/home
       router.push('/chatrooms/general')
     },
@@ -111,7 +110,8 @@ export default createStore({
       })
 
       // Fetches the current user profile and updates it in state
-      dispatch('fetchUserProfile', user).then(alert(`Account created for ${form.email}`))
+      await dispatch('fetchUserProfile', user).then(alert(`Account created for ${form.email}`))
+      dispatch('callListener')
     },
 
     async logout({ commit }) {
@@ -266,7 +266,7 @@ export default createStore({
     async receiveUserMedia(roomRef) {
       await router.push(`/direct/${roomRef.callerUID}`)
       if(this.state.displayVid == false){
-        await dispatch('toggleVid')
+        await this.dispatch('toggleVid')
       }
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,

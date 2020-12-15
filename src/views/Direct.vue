@@ -32,6 +32,10 @@ export default {
   grid-area: direct;
 }
 
+#directNav {
+  grid-area: directNav;
+}
+
 @media only screen and (max-width:680px){
   #direct{
     grid-template-columns: 1fr;

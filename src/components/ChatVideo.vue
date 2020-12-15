@@ -4,14 +4,19 @@
       <span id="currentRoom"></span>
     </div>
     <div class="videoCall">
-      <video
+      <div class="localOptions"> 
+        <video
         id="localVideo"
         width="450"
         height="300"
         playsinline
         autoplay
         muted
-      ></video>
+        ></video>
+        
+      </div>
+
+    <div class="remoteOptions"> 
       <video
         id="remoteVideo"
         width="450"
@@ -19,6 +24,11 @@
         playsinline
         autoplay
       ></video>
+        <br>
+        <input type="range" id="remoteVolume" name="remoteVolume"
+         min="0" max="10" onchange="volume()" v-model="remoteVolume">
+        <label for="remoteVolume">Volume</label>
+    </div>
     </div>
     <br />
     <div class="videoOptions">
@@ -54,6 +64,7 @@ export default {
     return {
       localVideo: null,
       remoteVideo: null,
+      remoteVolume: 0.30,
 
       peerConnection: null,
       localStream: null,
@@ -74,6 +85,10 @@ export default {
     };
   },
   methods: {
+    volume(){
+      const remoteVid = document.getElementById('remoteVideo')
+      remoteVid.volume = this.remoteVolume
+    },
     async createRoom() {
       document.querySelector("#createBtn").disabled = true;
       document.querySelector("#joinBtn").disabled = true;
@@ -348,6 +363,11 @@ export default {
   grid-area: videoRoot;
 }
 
+.videoCall {
+  display: flex;
+  flex-direction: row;
+}
+
 video {
   background: #18243a;
   border-radius: 5px;
@@ -357,6 +377,7 @@ video {
 h2 {
   color: #ffffff;
 }
+
 #room-id {
 	font-size: 20px;
   border-radius: 5px;

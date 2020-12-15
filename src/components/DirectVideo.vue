@@ -1,26 +1,34 @@
 <template>
   <div class="videoRoot">
     <div class="videoCall">
-      <video
-        id="localVideo"
-        width="450"
-        height="300"
-        playsinline
-        autoplay
-        muted
-      ></video>
-      <video
-        id="remoteVideo"
-        width="450"
-        height="300"
-        playsinline
-        autoplay
-      ></video>
+      <div class="localOptions"> 
+        <video
+          id="localVideo"
+          width="450"
+          height="300"
+          playsinline
+          autoplay
+          muted
+        ></video>
+      </div>
+
+      <div class="remoteOptions"> 
+        <video
+          id="remoteVideo"
+          width="450"
+          height="300"
+          playsinline
+          autoplay
+        ></video>
+        <br>
+        <input type="range" id="remoteVolume" name="remoteVolume"
+         min="0" max="10" onchange="volume()" v-model="remoteVolume">
+        <label for="remoteVolume">Volume</label>
+      </div>
     </div>
     <br />
     <div class="box">
       <button id="cameraBtn" v-on:click="callOrganizer">Start Call</button>
-      <!-- <button id="createBtn" v-on:click="createRoom">Call</button> -->
       <button id="hangupBtn" v-on:click="hangUp">Hang Up</button>
     </div>
   </div>
@@ -52,6 +60,7 @@ export default {
       },
       localVideo: null,
       remoteVideo: null,
+      remoteVolume: 0.30,
       peerConnection: null,
       localStream: null,
       remoteStream: null,
@@ -73,6 +82,10 @@ export default {
     };
   },
   methods: {
+    volume(){
+      const remoteVid = document.getElementById('remoteVideo')
+      remoteVid.volume = this.remoteVolume
+    },
     async callOrganizer(){
       await this.openUserMedia()
       await this.fetchCallerID()
@@ -254,7 +267,6 @@ export default {
         // Listening for remote ICE candidates above
       }
     },
-
     async openUserMedia(e) {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -269,7 +281,6 @@ export default {
       document.querySelector("#cameraBtn").disabled = true;
       document.querySelector("#hangupBtn").disabled = false;
     },
-
     async hangUp() {
       const tracks = document.querySelector("#localVideo").srcObject.getTracks();
       tracks.forEach((track) => {
@@ -350,11 +361,15 @@ export default {
   position: static;
   grid-area: videoRoot;
 }
+.videoCall {
+  display: flex;
+  flex-direction: row;
+}
 
 video {
   background: #18243a;
   border-radius: 5px;
-  margin: 1rem;
+  margin: 0.5rem;
 }
 
 h2 {
@@ -362,7 +377,7 @@ h2 {
 }
 
 label {
-  color: #000000;
+  color: #ffffff;
   font-weight: bold;
   text-align: center;
 }
