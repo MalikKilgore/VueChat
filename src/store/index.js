@@ -1,8 +1,15 @@
-import { createStore } from 'vuex'
-import router from '../router/index'
-import { usersCollection, auth, programChat,
-   networkChat, creativeChat, generalChat, bugChat, videoRooms } from '../firebase/firebase.js'
-
+import { createStore } from "vuex";
+import router from "../router/index";
+import {
+  usersCollection,
+  auth,
+  programChat,
+  networkChat,
+  creativeChat,
+  generalChat,
+  bugChat,
+  videoRooms,
+} from "../firebase/firebase.js";
 
 export default createStore({
   state: {
@@ -27,70 +34,81 @@ export default createStore({
       iceServers: [
         {
           urls: [
-            "stun:stun1.l.google.com:19302", 
+            "stun:stun1.l.google.com:19302",
             "stun:stun2.l.google.com:19302",
-            "stun:stun.services.mozilla.com"
-          ]
-        }
-      ]
+            "stun:stun.services.mozilla.com",
+          ],
+        },
+      ],
     },
     iceCandidatePoolSize: 2,
   },
   mutations: {
     setUserProfile(state, val) {
-      state.userProfile = val
+      state.userProfile = val;
     },
     setCurrentRoute(state, val) {
-      state.currentRoute = val
+      state.currentRoute = val;
     },
     setCurrentDatabase(state, val) {
-      state.currentDatabase = val
+      state.currentDatabase = val;
     },
     setCurrentUser(state, val) {
-      state.currentUser = val
+      state.currentUser = val;
     },
-    setDisplayVid(state, val){
-      state.displayVid = val
+    setDisplayVid(state, val) {
+      state.displayVid = val;
     },
   },
   actions: {
     async makeid(length) {
-      var result           = '';
-      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var result = "";
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       var charactersLength = characters.length;
-      for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
       }
       return result;
     },
 
     async login({ dispatch }, form) {
       // Signs the user in
-      const { user } = await auth.signInWithEmailAndPassword(form.email, form.password)
-  
+      const { user } = await auth.signInWithEmailAndPassword(
+        form.email,
+        form.password
+      );
+
       // Fetches the current user profile and updates it in state
-      await dispatch('fetchUserProfile', user).then(alert(`Sign-in successful for ${form.email}`))
-      dispatch('callListener')
+      await dispatch("fetchUserProfile", user).then(
+        alert(`Sign-in successful for ${form.email}`)
+      );
+      dispatch("callListener");
     },
 
-    async fetchUserProfile({commit}, user) {
+    async fetchUserProfile({ commit }, user) {
       // Fetches the current user profile
-      const userProfile = await usersCollection.doc(user.uid).get()
-  
+      const userProfile = await usersCollection.doc(user.uid).get();
+
       // Sets user profile in state
-      commit('setUserProfile', userProfile.data())
+      commit("setUserProfile", userProfile.data());
 
       //Sets active user in state
-      commit('setCurrentUser', user)
+      commit("setCurrentUser", user);
 
       // Reroutes to dashboard/home
-      router.push('/chatrooms/general')
+      router.push("/chatrooms/general");
     },
 
     async createUser({ dispatch }, form) {
       // Registers user account in Firebase
-      const { user } = await auth.createUserWithEmailAndPassword(form.email, form.password)
-    
+      const { user } = await auth.createUserWithEmailAndPassword(
+        form.email,
+        form.password
+      );
+
       // Creates user profile in usersCollections database/firestore
       await usersCollection.doc(user.uid).set({
         name: form.name,
@@ -98,87 +116,93 @@ export default createStore({
         password: form.password,
         edit: false,
         uid: user.uid,
-        callerID: this.makeid(16)
-      })
+        callerID: this.makeid(16),
+      });
 
       //Creates direct message collection for user profile upon account creation.
-      await usersCollection.doc(user.uid).collection('direct').doc('first').set({
-        createdOn: new Date(),
-        sentByUID: 'SYSTEM',
-        sentByEmail: 'SYSTEM',
-        content: `Welcome to the beginning of your chat history with ${form.name}!`
-      })
+      await usersCollection
+        .doc(user.uid)
+        .collection("direct")
+        .doc("first")
+        .set({
+          createdOn: new Date(),
+          sentByUID: "SYSTEM",
+          sentByEmail: "SYSTEM",
+          content: `Welcome to the beginning of your chat history with ${form.name}!`,
+        });
 
       // Fetches the current user profile and updates it in state
-      await dispatch('fetchUserProfile', user).then(alert(`Account created for ${form.email}`))
-      dispatch('callListener')
+      await dispatch("fetchUserProfile", user).then(
+        alert(`Account created for ${form.email}`)
+      );
+      dispatch("callListener");
     },
 
     async logout({ commit }) {
-      await auth.signOut().then(alert(`You've successfully signed out`))
-    
+      await auth.signOut().then(alert(`You've successfully signed out`));
+
       // Clears userProfile and redirect to login page
-      commit('setUserProfile', {})
-      router.push('/join')
+      commit("setUserProfile", {});
+      router.push("/join");
     },
 
     // Grabs and updates the active route/database state
     async activeRoute({ commit }, form) {
-      if (form.id){
-        commit('setCurrentRoute', form.id)
+      if (form.id) {
+        commit("setCurrentRoute", form.id);
       } else if (form.dbPln) {
-        commit('setCurrentDatabase', form.dbPln)
+        commit("setCurrentDatabase", form.dbPln);
       }
     },
 
     // Adds message to the specified database/firestore.
-    async sendMsg({dispatch}, form) {
-      const user = this.state.currentUser
-      const dmChat = form.dbPln
-      const dmID = form.dbStr
-      const personalChat = usersCollection.doc(user.uid).collection('direct')
+    async sendMsg({ dispatch }, form) {
+      const user = this.state.currentUser;
+      const dmChat = form.dbPln;
+      const dmID = form.dbStr;
+      const personalChat = usersCollection.doc(user.uid).collection("direct");
 
-      switch(form.dbStr){
+      switch (form.dbStr) {
         case `programChat`:
           await programChat.doc().set({
             createdOn: new Date(),
             content: form.message,
             sentByUID: user.uid,
             sentByEmail: user.email,
-          })
-          break
+          });
+          break;
         case `networkChat`:
           await networkChat.doc().set({
             createdOn: new Date(),
             content: form.message,
             sentByUID: user.uid,
-            sentByEmail: user.email
-          })
-          break
+            sentByEmail: user.email,
+          });
+          break;
         case `creativeChat`:
           await creativeChat.doc().set({
             createdOn: new Date(),
             content: form.message,
             sentByUID: user.uid,
-            sentByEmail: user.email
-          })
-          break
+            sentByEmail: user.email,
+          });
+          break;
         case `generalChat`:
           await generalChat.doc().set({
             createdOn: new Date(),
             content: form.message,
             sentByUID: user.uid,
-            sentByEmail: user.email
-          })
-          break
+            sentByEmail: user.email,
+          });
+          break;
         case `bugChat`:
           await bugChat.doc().set({
             createdOn: new Date(),
             content: form.message,
             sentByUID: user.uid,
-            sentByEmail: user.email
-          })
-          break
+            sentByEmail: user.email,
+          });
+          break;
         default:
           await dmChat.doc().set({
             createdOn: new Date(),
@@ -186,87 +210,97 @@ export default createStore({
             sentByUID: user.uid,
             sentByEmail: user.email,
             sentTo: dmID,
-          })
+          });
           await personalChat.doc().set({
             createdOn: new Date(),
             content: form.message,
             sentByUID: user.uid,
             sentByEmail: user.email,
             sentTo: dmID,
-          })
-          break
-        }
-
+          });
+          break;
+      }
     },
     //Deletes message in database/firestore
-    async dltMsg({dispatch}, id){
-      const user = this.state.currentUser
-      const database = this.state.currentDatabase
-      const doc = await database.doc(id).get()
+    async dltMsg({ dispatch }, id) {
+      const user = this.state.currentUser;
+      const database = this.state.currentDatabase;
+      const doc = await database.doc(id).get();
 
-      if(doc.data().sentByUID != user.uid){
-        console.log('You cannot delete this message')
+      if (doc.data().sentByUID != user.uid) {
+        console.log("You cannot delete this message");
       } else {
-        database.doc(id).delete()
+        database.doc(id).delete();
       }
     },
     //Edits message content in database/firestore
-    async editMsg({dispatch}, form){
-      const user = this.state.currentUser
-      const database = this.state.currentDatabase
-      const doc = await database.doc(form.id).get()
+    async editMsg({ dispatch }, form) {
+      const user = this.state.currentUser;
+      const database = this.state.currentDatabase;
+      const doc = await database.doc(form.id).get();
 
-      if(doc.data().sentByUID != user.uid){
-        console.log('You cannot edit this message')
+      if (doc.data().sentByUID != user.uid) {
+        console.log("You cannot edit this message");
       } else {
         database.doc(form.id).set({
           createdOn: doc.data().createdOn,
           editedOn: new Date(),
           content: form.content,
           sentByUID: doc.data().sentByUID,
-          sentByEmail: doc.data().sentByEmail
-        })
+          sentByEmail: doc.data().sentByEmail,
+        });
       }
     },
 
     //VIDEO CALL FUNCTIONS
-    async toggleVid({commit}){
-      const val = this.state.displayVid
-      switch(val){
+    async toggleVid({ commit }) {
+      const val = this.state.displayVid;
+      switch (val) {
         case true:
-          commit('setDisplayVid', false)
-          break
+          commit("setDisplayVid", false);
+          break;
         case false:
-          commit('setDisplayVid', true)
-          break
+          commit("setDisplayVid", true);
+          break;
       }
     },
     async registerPeerConnectionListeners() {
-      console.log('registerPeerConnectionListeners() FUNCTION JUST FIRED')
-      this.state.peerConnection.addEventListener("icegatheringstatechange", () => {
-        console.log(
-          `ICE gathering state changed: ${this.state.peerConnection.iceGatheringState}`
-        );
-      });
-      this.state.peerConnection.addEventListener("connectionstatechange", () => {
-        console.log(
-          `Connection state change: ${this.state.peerConnection.connectionState}`
-        );
-      });
+      console.log("registerPeerConnectionListeners() FUNCTION JUST FIRED");
+      this.state.peerConnection.addEventListener(
+        "icegatheringstatechange",
+        () => {
+          console.log(
+            `ICE gathering state changed: ${this.state.peerConnection.iceGatheringState}`
+          );
+        }
+      );
+      this.state.peerConnection.addEventListener(
+        "connectionstatechange",
+        () => {
+          console.log(
+            `Connection state change: ${this.state.peerConnection.connectionState}`
+          );
+        }
+      );
       this.state.peerConnection.addEventListener("signalingstatechange", () => {
-        console.log(`Signaling state change: ${this.state.peerConnection.signalingState}`);
+        console.log(
+          `Signaling state change: ${this.state.peerConnection.signalingState}`
+        );
       });
 
-      this.state.peerConnection.addEventListener("iceconnectionstatechange ", () => {
-        console.log(
-          `ICE connection state change: ${this.state.peerConnection.iceConnectionState}`
-        );
-      });
+      this.state.peerConnection.addEventListener(
+        "iceconnectionstatechange ",
+        () => {
+          console.log(
+            `ICE connection state change: ${this.state.peerConnection.iceConnectionState}`
+          );
+        }
+      );
     },
     async receiveUserMedia(roomRef) {
-      await router.push(`/direct/${roomRef.callerUID}`)
-      if(this.state.displayVid == false){
-        await this.dispatch('toggleVid')
+      await router.push(`/direct/${roomRef.callerUID}`);
+      if (this.state.displayVid == false) {
+        await this.dispatch("toggleVid");
       }
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -275,19 +309,21 @@ export default createStore({
       document.querySelector("#localVideo").srcObject = stream;
       this.state.localStream = stream;
       this.state.remoteStream = new MediaStream();
-      document.querySelector("#remoteVideo").srcObject = this.state.remoteStream;
+      document.querySelector(
+        "#remoteVideo"
+      ).srcObject = this.state.remoteStream;
 
       console.log("Stream:", document.querySelector("#localVideo").srcObject);
       document.querySelector("#cameraBtn").disabled = true;
       document.querySelector("#hangupBtn").disabled = false;
     },
-    async joinRoomByCallerID({dispatch}, form) {
+    async joinRoomByCallerID({ dispatch }, form) {
       const database = usersCollection;
       const user = this.state.userProfile;
-      const roomId = form.callerID
+      const roomId = form.callerID;
 
       const roomRef = videoRooms.doc(`${roomId}`);
-      await dispatch('receiveUserMedia', roomRef)
+      await dispatch("receiveUserMedia", roomRef);
       const roomSnapshot = await roomRef.get();
       console.log("Got room:", roomSnapshot.exists);
 
@@ -296,7 +332,9 @@ export default createStore({
           "Create PeerConnection with configuration: ",
           this.state.configuration
         );
-        this.state.peerConnection = new RTCPeerConnection(this.state.configuration);
+        this.state.peerConnection = new RTCPeerConnection(
+          this.state.configuration
+        );
         dispatch("registerPeerConnectionListeners");
         this.state.localStream.getTracks().forEach((track) => {
           this.state.peerConnection.addTrack(track, this.state.localStream);
@@ -343,7 +381,7 @@ export default createStore({
         };
         await roomRef.update(roomWithAnswer);
         // Code for creating SDP answer above
-        
+
         // Listening for remote ICE candidates below
         roomRef.collection("callerCandidates").onSnapshot((snapshot) => {
           snapshot.docChanges().forEach(async (change) => {
@@ -361,39 +399,42 @@ export default createStore({
         // Listening for remote ICE candidates above
       }
     },
-    async callListener({dispatch}) {
-      const user = this.state.userProfile
-      const currentCallerID = user.callerID
-      console.log(currentCallerID)
+    async callListener({ dispatch }) {
+      const user = this.state.userProfile;
+      const currentCallerID = user.callerID;
+      console.log(currentCallerID);
 
       this.state.unsubscribe = videoRooms.onSnapshot(function(snapshot) {
-          snapshot.docChanges().forEach(function(change) {
-            //ADDED
-            if (change.type === "added") {
-              //If it matches this user's callerID
-              if (change.doc.id == currentCallerID){
-                if(confirm(`Someone is calling you! Click Ok to accept, or click Cancel to ignore.`)){
-                  console.log('Call Accepted')
-                  dispatch('joinRoomByCallerID', {callerID: currentCallerID})
-                } else {
-                  console.log('Call Denied')
-                }
+        snapshot.docChanges().forEach(function(change) {
+          //ADDED
+          if (change.type === "added") {
+            //If it matches this user's callerID
+            if (change.doc.id == currentCallerID) {
+              if (
+                confirm(
+                  `Someone is calling you! Click Ok to accept, or click Cancel to ignore.`
+                )
+              ) {
+                console.log("Call Accepted");
+                dispatch("joinRoomByCallerID", { callerID: currentCallerID });
+              } else {
+                console.log("Call Denied");
               }
             }
-            //MODIFIED 
-            if (change.type === "modified") {
-              console.log('modified room')
-            }
-            //DELETED
-            if (change.type === "removed") {
-              console.log('removed room')
-            }
-          });
+          }
+          //MODIFIED
+          if (change.type === "modified") {
+            console.log("modified room");
+          }
+          //DELETED
+          if (change.type === "removed") {
+            console.log("removed room");
+          }
         });
+      });
     },
     //VIDEO CALL FUNCTIONS
-    
   },
 
-  modules: {}
-})
+  modules: {},
+});

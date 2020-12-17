@@ -5,8 +5,8 @@
     </div>
     <div id="homeTxt">
       <h1>Welcome to VueChat</h1>
-      <p>VueChat is a chat application that runs entirely in your browser. It lets you send,edit, and delete messages in separate chatrooms. 
-        It was built primarily using Vue.js, Firebase, and SCSS. For more information on the technical aspects and challenges, there is a video below.
+      <p>VueChat is a video/text messaging web app that runs in the browser. It features direct messaging, direct video calls, public chatrooms, and public group calls.
+        It was built primarily using Vue.js, VueX, Vue Router, WebRTC, JavaScript, HTML, SCSS, and Firebase.
       </p>
       <h1>Getting Started</h1>
       <ul>
@@ -16,8 +16,11 @@
         <li><b>You do not need to use a real e-mail on account creation.</b> For now, VueChat does not verify e-mail accounts entered, 
       since this is just to display a working demo of the project.</li>
           <br>
-        <li>After login, you can navigate to Chatrooms, join any chatroom you want, and start sending, editing, or deleting your messages.</li>
+        <li>After login, you can navigate to "Chatrooms" or "Direct", click on any chatroom or username
+           you want, and start sending, editing, or deleting your messages.</li>
           <br>
+        <li>To start a call with someone directly, you can click the video call button in their private
+           messaging window, and a P2P connection will be initiated.</li>
       </ul>
       <router-link to="/join">Login/Register</router-link> <br> <br>
       <!-- <embed src="https://www.youtube.com/embed/M-R5B_HT-lQ" width="840" height="473" title="VueChat Demonstration"> -->

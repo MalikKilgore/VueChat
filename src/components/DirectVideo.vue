@@ -1,7 +1,7 @@
 <template>
   <div class="videoRoot">
     <div class="videoCall">
-      <div class="localOptions"> 
+      <div class="localOptions">
         <video
           id="localVideo"
           width="450"
@@ -12,7 +12,7 @@
         ></video>
       </div>
 
-      <div class="remoteOptions"> 
+      <div class="remoteOptions">
         <video
           id="remoteVideo"
           width="450"
@@ -20,9 +20,16 @@
           playsinline
           autoplay
         ></video>
-        <br>
-        <input type="range" id="remoteVolume" name="remoteVolume"
-         min="0" max="10" onchange="volume()" v-model="remoteVolume">
+        <br />
+        <input
+          type="range"
+          id="remoteVolume"
+          name="remoteVolume"
+          min="0"
+          max="10"
+          onchange="volume()"
+          v-model="remoteVolume"
+        />
         <label for="remoteVolume">Volume</label>
       </div>
     </div>
@@ -60,7 +67,7 @@ export default {
       },
       localVideo: null,
       remoteVideo: null,
-      remoteVolume: 0.30,
+      remoteVolume: 0.3,
       peerConnection: null,
       localStream: null,
       remoteStream: null,
@@ -71,41 +78,39 @@ export default {
         iceServers: [
           {
             urls: [
-              "stun:stun1.l.google.com:19302", 
+              "stun:stun1.l.google.com:19302",
               "stun:stun2.l.google.com:19302",
-              "stun:stun.services.mozilla.com"
-            ]
-          }
-        ]
+              "stun:stun.services.mozilla.com",
+            ],
+          },
+        ],
       },
-        iceCandidatePoolSize: 2,
+      iceCandidatePoolSize: 2,
     };
   },
   methods: {
-    volume(){
-      const remoteVid = document.getElementById('remoteVideo')
-      remoteVid.volume = this.remoteVolume
+    volume() {
+      const remoteVid = document.getElementById("remoteVideo");
+      remoteVid.volume = this.remoteVolume;
     },
-    async callOrganizer(){
-      await this.openUserMedia()
-      await this.fetchCallerID()
-      this.createRoom()
+    async callOrganizer() {
+      await this.openUserMedia();
+      await this.fetchCallerID();
+      this.createRoom();
     },
-    async fetchCallerID(){
-      let userIDslice = this.route.path.substr(8)
-      let userDoc = await usersCollection.doc(userIDslice).get()
-      const receiverID = userDoc.data().callerID
-      console.log(`The receiverID field grabbed is: ${receiverID}`)
-      this.receiverID = receiverID
+    async fetchCallerID() {
+      let userIDslice = this.route.path.substr(8);
+      let userDoc = await usersCollection.doc(userIDslice).get();
+      const receiverID = userDoc.data().callerID;
+      console.log(`The receiverID field grabbed is: ${receiverID}`);
+      this.receiverID = receiverID;
     },
     async createRoom() {
-      const user = store.state.currentUser
-      //document.querySelector("#createBtn").disabled = true;
-      //document.querySelector("#joinBtn").disabled = true;
+      const user = store.state.currentUser;
       const roomRef = await videoRooms.doc(`${this.receiverID}`);
       roomRef.set({
         callerUID: user.uid,
-      })
+      });
 
       console.log(
         "Create PeerConnection with configuration: ",
@@ -159,7 +164,11 @@ export default {
       // Listening for remote session description below
       roomRef.onSnapshot(async (snapshot) => {
         const data = snapshot.data();
-        if (!this.peerConnection.currentRemoteDescription && data && data.answer) {
+        if (
+          !this.peerConnection.currentRemoteDescription &&
+          data &&
+          data.answer
+        ) {
           console.log("Got remote description: ", data.answer);
           const rtcSessionDescription = new RTCSessionDescription(data.answer);
           await this.peerConnection.setRemoteDescription(rtcSessionDescription);
@@ -183,14 +192,15 @@ export default {
       // Listen for remote ICE candidates above
     },
     async joinRoom() {
-      //document.querySelector("#createBtn").disabled = true;
       document.querySelector("#joinBtn").disabled = true;
 
-          this.roomId = document.querySelector("#room-id").value;
-          console.log("Join room: ", this.roomId);
-          await this.joinRoomById(this.roomId);
-        
-        { once: true }
+      this.roomId = document.querySelector("#room-id").value;
+      console.log("Join room: ", this.roomId);
+      await this.joinRoomById(this.roomId);
+
+      {
+        once: true;
+      }
     },
     async joinRoomById(roomId) {
       const roomRef = videoRooms.doc(`${this.roomId}`);
@@ -249,7 +259,7 @@ export default {
         };
         await roomRef.update(roomWithAnswer);
         // Code for creating SDP answer above
-        
+
         // Listening for remote ICE candidates below
         roomRef.collection("callerCandidates").onSnapshot((snapshot) => {
           snapshot.docChanges().forEach(async (change) => {
@@ -282,7 +292,9 @@ export default {
       document.querySelector("#hangupBtn").disabled = false;
     },
     async hangUp() {
-      const tracks = document.querySelector("#localVideo").srcObject.getTracks();
+      const tracks = document
+        .querySelector("#localVideo")
+        .srcObject.getTracks();
       tracks.forEach((track) => {
         track.stop();
       });
@@ -331,7 +343,9 @@ export default {
         );
       });
       this.peerConnection.addEventListener("signalingstatechange", () => {
-        console.log(`Signaling state change: ${this.peerConnection.signalingState}`);
+        console.log(
+          `Signaling state change: ${this.peerConnection.signalingState}`
+        );
       });
 
       this.peerConnection.addEventListener("iceconnectionstatechange ", () => {

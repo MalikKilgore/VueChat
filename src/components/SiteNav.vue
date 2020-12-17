@@ -1,42 +1,46 @@
 <template>
-    <div id="siteNav">
-        <router-link to="/">
-        <img src="../assets/images/newspaper-duotone.svg"/>
-        Home</router-link> 
-        <router-link to="/chatrooms"> 
-        <img src="../assets/images/chat-teardrop-dots-duotone.svg"/>
-        Chatrooms </router-link>
-        <router-link to="/direct"> 
-        <img src="../assets/images/users-duotone.svg"/>
-        Direct </router-link>
-        <button class="btn" v-on:click="logout">
-          <img src="../assets/images/sign-out-duotone.svg"/>
-          Logout</button>
-    </div>
-  <router-view :key="$route.fullPath"/>
+  <div id="siteNav">
+    <router-link to="/">
+      <img src="../assets/images/newspaper-duotone.svg" />
+      Home</router-link
+    >
+    <router-link to="/chatrooms">
+      <img src="../assets/images/chat-teardrop-dots-duotone.svg" />
+      Chatrooms
+    </router-link>
+    <router-link to="/direct">
+      <img src="../assets/images/users-duotone.svg" />
+      Direct
+    </router-link>
+    <button class="btn" v-on:click="logout">
+      <img src="../assets/images/sign-out-duotone.svg" />
+      Logout
+    </button>
+  </div>
+  <router-view :key="$route.fullPath" />
 </template>
 
 <script>
-import Vue from 'vue'
-import router from '../router'
-import Vuex from 'vuex'
-import {db, usersCollection} from '../firebase/firebase.js'
+import Vue from "vue";
+import router from "../router";
+import Vuex from "vuex";
+import { db, usersCollection } from "../firebase/firebase.js";
 
 export default {
-  name: 'SiteNav',
+  name: "SiteNav",
   methods: {
     //Log user out of application
     logout() {
-        this.$store.dispatch('logout')
+      this.$store.dispatch("logout");
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">
 #siteNav {
   padding: 30px;
-  background-color: #7289DA;
+  background-color: #7289da;
   text-align: center;
   grid-area: siteNav;
 
@@ -57,8 +61,8 @@ export default {
     }
   }
   img {
-      width: 2.5rem;
-      height: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
   button img {
     width: 2rem;
@@ -67,19 +71,17 @@ export default {
 }
 
 .btn {
-	padding: 5px 15px;
-	background: #ffffff;
-	color: #2c3e50;
-	border: 0;
-	border-radius: 5px;
+  padding: 5px 15px;
+  background: #ffffff;
+  color: #2c3e50;
+  border: 0;
+  border-radius: 5px;
   font-size: 2rem;
   position: absolute;
   right: 1rem;
-  
+
   &:hover {
     background: #a4a7c3;
   }
 }
-
-
 </style>
