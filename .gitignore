@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 src/assets/images
+dist/
+.firebase/
 
 # local env files
 .env.local
