@@ -4,26 +4,29 @@
 
     </div>
     <div id="homeTxt">
-      <h1>Welcome to VueChat</h1>
+      <h1>Getting Started with VueChat</h1>
+      <button v-on:click="guestLogin">Login as Guest</button>
       <p>VueChat is a video/text messaging web app that runs in the browser. It features direct messaging, direct video calls, public chatrooms, and public group calls.
         It was built primarily using Vue.js, VueX, Vue Router, WebRTC, JavaScript, HTML, SCSS, and Firebase.
       </p>
-      <h1>Getting Started</h1>
-      <ul>
-        <li>To use this application, you can register an account using any e-mail/username combination you want. Or you can use the provided Demo credentials below.<br>
-        <i>email: "me@home.com" | password: "Password1234"</i></li>
-          <br>
-        <li><b>You do not need to use a real e-mail on account creation.</b> For now, VueChat does not verify e-mail accounts entered, 
-      since this is just to display a working demo of the project.</li>
-          <br>
+      <img src="../assets/images/VueChatFull.gif"/>
+      <br> 
+      <router-link to="/join">Login/Create Account</router-link> 
+      <br>
+      <h1>How To Use</h1>
+      <ul id="howToUse">
         <li>After login, you can navigate to "Chatrooms" or "Direct", click on any chatroom or username
            you want, and start sending, editing, or deleting your messages.</li>
           <br>
-        <li>To start a call with someone directly, you can click the video call button in their private
-           messaging window, and a P2P connection will be initiated.</li>
+        <li>To start a call with someone directly, you can click the video chat button in their private
+           messaging window. Then click "Start Call" and you're on your way. The user receiving the call will receive a prompt to Accept or Deny the call.</li>
+           <br>
+        <li>You can Send, edit, and delete all of your own messages. To edit or delete a message, it's as simple as hitting the respective button
+          Edited and deleted messages will automatically update for everyone.
+        </li>
+        <br>
+        <img src="../assets/images/VueChatMsg2.gif"/>
       </ul>
-      <router-link to="/join">Login/Register</router-link> <br> <br>
-      <!-- <embed src="https://www.youtube.com/embed/M-R5B_HT-lQ" width="840" height="473" title="VueChat Demonstration"> -->
     </div>
     <div>
 
@@ -38,6 +41,22 @@ import Vue from 'vue'
 
 export default {
   name: 'Home',
+  methods: {
+    login() {
+      //Sends information to VueX store.
+      this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password
+      })
+    },
+    guestLogin(){
+      //Sends information to VueX store.
+      this.$store.dispatch('login', {
+        email: 'me@home.com',
+        password: 'Password1234'
+      })
+    },
+  }
 }
 </script>
 
@@ -69,6 +88,19 @@ export default {
       color: #c9ccf0;
     }
   }
+  button {
+    font-weight: bold;
+    font-size: 40px;
+    background-color: #18243a;
+    color: #ffffff;
+    text-decoration: none;
+    vertical-align: middle;
+    padding: 7px;
+    border-radius: 5px;
+    &:hover {
+      color: #c9ccf0;
+    }
+  }
 }
 
 #homeTxt {
@@ -92,11 +124,16 @@ export default {
     max-height: 800px;
     text-decoration: none;
   }
-  li {
-    font-size: 20px;
-    color: #ffffff;
-    text-decoration: none;
+  #howToUse{
+    list-style: none;
+
+    li {
+      font-size: 20px;
+      color: #ffffff;
+      text-decoration: none;
+    }
   }
+
 }
 
 #filler {

@@ -23,6 +23,10 @@
         <button class="btn" v-on:click="login">
           Login
         </button>
+        <br>
+        <button class="btn" v-on:click="guestLogin">
+          Login as Guest
+        </button>
       </div>
     </form>
   </div>
@@ -49,7 +53,14 @@ export default {
         email: this.email,
         password: this.password
       })
-    }
+    },
+    guestLogin(){
+      //Sends information to VueX store.
+      this.$store.dispatch('login', {
+        email: 'me@home.com',
+        password: 'Password1234'
+      })
+    },
   }
 }
 </script>

@@ -45,14 +45,17 @@ export default {
   grid-area: chatNav;
 }
 
-@media only screen and (max-width:680px){
+@media only screen and (max-width:480px){
   #chatrooms{
+    text-align: center;
+    display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 0.3fr 2.2fr 0.2fr;
+    grid-template-rows: 0.3fr 0.6fr 0.1fr;
     grid-template-areas:   
     "chatNav"
-    "msgList"
+    "msgRoot"
     "chat-form-container";
+    grid-area: chatrooms;
   }
 }
 </style>

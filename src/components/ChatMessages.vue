@@ -17,8 +17,8 @@
             autocomplete="off"
             required
           />
-          <button class="btn" v-on:click="toggleVid">Create Video <br> Chatroom</button>
           <button class="btn" v-on:click="sendMsg">Send</button>
+          <button class="btn" v-on:click="toggleVid">Video Chatroom</button>
         </form>
       </div> 
     
@@ -407,6 +407,17 @@ export default {
   font-size: 17px;
   &:hover {
     background: #a4a7c3;
+  }
+}
+
+@media only screen and (max-width:480px){
+  #msgList{
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.3fr 0.6fr 0.1fr;
+    grid-template-areas:   
+    "chatNav"
+    "msgRoot"
+    "chat-form-container";
   }
 }
 </style>

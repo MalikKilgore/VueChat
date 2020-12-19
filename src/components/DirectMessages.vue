@@ -19,8 +19,8 @@
             autocomplete="off"
             required
           />
-          <button class="btn" v-on:click="toggleVid">Video Chat</button>
           <button class="btn" v-on:click="sendMsg">Send</button>
+          <button class="btn" v-on:click="toggleVid">Video Chat</button>
         </form>
       </div>    
 </template>
